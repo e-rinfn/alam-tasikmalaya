@@ -1,0 +1,129 @@
+/* Custom green background */
+.bg-green {
+    background-color: #117554; /* Hijau Bootstrap */
+    padding: 1.3rem;
+}
+
+/* White text for navbar links */
+.navbar .nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+    color: #d4edda; /* Warna hijau terang saat hover */
+    text-decoration: underline;
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* Responsive hamburger menu button */
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* Menghilangkan border dan outline pada tombol hamburger */
+.navbar-toggler:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Menempatkan menu di kanan pada tampilan mobile */
+.navbar-nav {
+    margin-left: auto;
+}
+
+/* Menambahkan background dan rounded corners di setiap link */
+a.nav-link.text-white {
+    margin-left: 3rem;
+    padding: 12px;
+    margin-right: 10px;
+    border-radius: 8px; /* Membulatkan sudut */
+    transition: background-color 0.3s ease; /* Menambahkan efek transisi pada perubahan warna latar belakang */
+    text-decoration: none !important; /* Menghilangkan garis bawah dengan !important */
+}
+
+/* Menghilangkan garis bawah saat link dalam keadaan aktif atau fokus */
+a.nav-link.text-white:focus,
+a.nav-link.text-white:active {
+    text-decoration: none !important; /* Menghilangkan garis bawah saat fokus atau aktif dengan !important */
+}
+
+ /* Styling untuk gambar utama */
+ .main-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling untuk deskripsi */
+.description {
+    margin-top: 15px;
+    text-align: justify;
+}
+
+/* Styling untuk card gambar */
+.image-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Agar konten di dalam card tetap rapi */
+    margin-bottom: 15px;
+}
+
+.image-card img {
+    width: 100%;
+    height: auto;
+    display: block; /* Menghindari celah di bawah gambar */
+}
+
+.image-card .card-body {
+    padding: 10px;
+    text-align: center;
+}
+
+.image-card .card-body h6 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+/* Efek hover pada card */
+.image-card:hover {
+    transform: translateY(-5px); /* Efek sedikit naik */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Tambahkan bayangan */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Styling untuk footer */
+footer {
+    background-color: #5a6268; /* Warna hijau sesuai tema */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 10px;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+

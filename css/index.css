@@ -1,0 +1,159 @@
+ /* Custom green background */
+.bg-green {
+    background-color: #117554; /* Hijau Bootstrap */
+    padding: 1.3rem;
+}
+
+/* White text for navbar links */
+.navbar .nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+    color: #d4edda; /* Warna hijau terang saat hover */
+    text-decoration: underline;
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* Responsive hamburger menu button */
+.navbar-toggler {
+    border: none;
+}
+
+/* Mengubah warna navbar-toggler-icon menjadi putih */
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* Menghilangkan border dan outline pada tombol hamburger */
+.navbar-toggler:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Menempatkan menu di kanan pada tampilan mobile */
+.navbar-nav {
+    margin-left: auto;
+}
+
+/* Menambahkan background dan rounded corners di setiap link */
+a.nav-link.text-white {
+    margin-left: 3rem;
+    padding: 12px;
+    margin-right: 10px;
+    border-radius: 8px; /* Membulatkan sudut */
+    transition: background-color 0.3s ease; /* Menambahkan efek transisi pada perubahan warna latar belakang */
+    text-decoration: none !important; /* Menghilangkan garis bawah dengan !important */
+}
+
+/* Menghilangkan garis bawah saat link dalam keadaan aktif atau fokus */
+a.nav-link.text-white:focus,
+a.nav-link.text-white:active {
+    text-decoration: none !important; /* Menghilangkan garis bawah saat fokus atau aktif dengan !important */
+}
+
+
+/* Styling untuk search bar */
+.search-bar {
+    display: flex;
+    justify-content: center; /* Menengahkan isi search bar */
+    align-items: center; /* Pusatkan secara vertikal */
+    
+    position: sticky;
+    top: 0; /* Menempel di atas */
+
+    width: 100%; /* Lebar search bar */
+    z-index: 999; /* Tetap berada di atas elemen lain */
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.3); /* Putih dengan transparansi 70% */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Efek bayangan agar terlihat */
+}
+
+
+/* Styling untuk input search */
+.search-bar input {
+    width: 100%;
+    max-width: 300px; /* Lebar awal input */
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 2px solid #5a6268;
+    transition: all 0.3s ease-in-out; /* Efek transisi */
+}
+
+/* Efek saat input fokus atau sedang diketik */
+.search-bar input:focus {
+    max-width: 600px; /* Lebar saat fokus */
+    border-color: #28a745; /* Warna border berubah saat fokus */
+    outline: none;
+}
+
+
+/* Styling untuk card */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Efek angkat card saat hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Menambahkan bayangan saat hover */
+}
+
+/* Styling untuk gambar card */
+.card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    height: 200px; /* Menentukan tinggi gambar */
+    object-fit: cover; /* Agar gambar tetap proporsional */
+}
+
+/* Styling untuk card body */
+.card-body {
+    padding: 15px;
+}
+
+/* Styling untuk judul dan teks */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #6c757d;
+    text-align: justify;
+}
+
+/* Styling untuk card footer */
+.card-footer {
+    display: flex;
+    justify-content: flex-end; /* Menempatkan tombol di sebelah kanan */
+    padding: 10px 15px;
+    background-color: #f8f9fa; /* Warna latar belakang footer */
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/* Styling untuk tombol */
+.card-footer {
+    background-color: #4379F2; /* Warna hijau */
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 8px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.card-footer .btn:hover {
+    background-color: #5a6268; /* Warna hijau lebih gelap saat hover */
+}

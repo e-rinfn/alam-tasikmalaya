@@ -1,0 +1,295 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#panorama-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+#panorama {
+    width: 100%;
+    height: 100%;
+    border-radius: 0; /* Hilangkan border-radius untuk fullscreen */
+    box-shadow: none; /* Hilangkan bayangan */
+    background-color: #000; /* Warna latar belakang hitam */
+}
+
+#menu-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.8); /* Latar belakang semi-transparan */
+    border-radius: 3px;
+    padding: 10px;
+    z-index: 1000; /* Pastikan menu ada di atas panorama */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#judul-overlay {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.8); /* Latar belakang semi-transparan */
+    border-radius: 3px;
+    padding: 10px;
+    z-index: 1000; /* Pastikan menu ada di atas panorama */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#copyright-overlay {
+    position: absolute;
+    font-weight:600;
+    left: 10px;
+    bottom: 2px;
+    text-align: center;
+    border-radius: 8px;
+    z-index: 1000; /* Pastikan overlay ada di atas panorama */
+}
+
+.pnlm-controls-container {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Atur jarak dari sisi kanan */
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column; /* Pastikan tombol disusun secara vertikal */
+    gap: 10px; /* Beri jarak antar tombol */
+}
+
+.pnlm-controls-container button {
+    width: 40px; /* Atur ukuran tombol */
+    height: 40px;
+    background-color: #007bff; /* Warna tombol */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.pnlm-controls-container button:hover {
+    background-color: #0056b3; /* Warna tombol saat di-hover */
+}
+
+.hamburger-menu {
+    position: relative;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+#hamburgerButton {
+    background-color: #6EC207;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    outline: none;
+
+}
+
+#menuItems {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 250px;
+    z-index: 1000;
+}
+
+/* Container styling */
+.menu {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    min-width: 250px;
+    margin-top: 10px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none; /* Prevent interaction when hidden */
+    z-index: 1000;
+}
+
+/* Show menu */
+.menu:not(.hidden) {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+/* Menu item */
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+/* Hover effect */
+.menu-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}
+
+/* Image styling */
+.menu-image {
+    width: 100px;
+    height: 50px;
+    margin-right: 12px;
+    border-radius: 5px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pnlm-controls-container {
+    display: none !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    .menu {
+        min-width: 100%;
+    }
+
+    .menu-item {
+        padding: 10px;
+    }
+
+    .menu-image {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Animasi berkedip */
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Terapkan animasi ke hotspot */
+.pnlm-hotspot-base {
+    background-color: #007bff;
+    transform-style: preserve-3d;
+    will-change: transform;
+    animation: blink 1.2s infinite; /* Animasi berkedip */
+}
+
+/* Hover efek tambahan untuk memberi tahu pengguna bahwa bisa diklik */
+.pnlm-hotspot-base:hover {
+    transform: scale(1.5); /* Membesarkan sedikit saat dihover */
+    animation: none; /* Hentikan animasi kedip saat hover */
+}
+
+/* Styling untuk tombol utama */
+.btn {
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn.bg-warning {
+    color: #000;
+}
+
+.btn.bg-warning:hover {
+    background-color: #ffc107;
+    color: #333;
+    transform: scale(1.05); /* Efek zoom saat hover */
+}
+
+/* Styling untuk tombol hamburger menu */
+.hamburger-menu button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.hamburger-menu button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+/* Styling dropdown menu */
+.menu {
+    top: 100%;
+    left: -50%;
+    margin-top: 10px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 10px;
+    width: 100%;
+}
+
+.menu.hidden {
+    display: none;
+}
+
+.menu a {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.2s;
+}
+
+.menu a:last-child {
+    border-bottom: none;
+}
+
+.menu a:hover {
+    background-color: #f1f1f1;
+}
+
+.menu img {
+    width: 80px;
+    height: 60px;
+    border-radius: 5px;
+    margin-right: 10px;
+}

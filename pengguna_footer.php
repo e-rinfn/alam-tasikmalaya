@@ -1,7 +1,7 @@
 <style>
     /* Styling untuk footer */
 footer {
-    background-color: #5a6268; /* Warna hijau sesuai tema */
+    background: linear-gradient(135deg, #16C47F, #001A6E );
     color: white;
     text-align: center;
     padding: 20px 0;

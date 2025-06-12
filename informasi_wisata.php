@@ -18,10 +18,15 @@ while ($scene = $scenes->fetch_assoc()) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alam Tasikmalaya 360</title>
+    <title>History Daerah</title>
+    <link rel="icon" type="image/png" href="img/Logo-Putih.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -29,81 +34,88 @@ while ($scene = $scenes->fetch_assoc()) {
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/informasi-wisata.css">
 </head>
-<body>
 
-<?php include 'pengguna_header.php'; ?>
+<body style="font-family: 'Poppins', sans-serif;">
 
-<div class="container mt-3" style="min-height: 100vh;">
-    <div class="row">
-        <!-- Bagian kiri: Gambar utama dan deskripsi -->
-        <div class="col-md-8 mb-5">
-            <h3>Wisata <?= htmlspecialchars($row['name']) ?></h3>
-            <hr>
-            <!-- <div class="d-flex justify-content-center"> -->
+    <?php include 'pengguna_header.php'; ?>
+
+    <div class="container mt-3" style="min-height: 100vh; ">
+        <div class="row">
+            <!-- Bagian kiri: Gambar utama dan deskripsi -->
+            <div class="col-md-8 mb-2 p-3">
+                <a href="index.php" class="btn btn-primary mb-3"><i class="bi bi-arrow-left"></i> Kembali</a>
+                <h3>Wisata <?= htmlspecialchars($row['name']) ?></h3>
+
+                <hr>
+                <!-- <div class="d-flex justify-content-center"> -->
                 <img src="<?= htmlspecialchars($row['image_url']) ?>" class="main-image" alt="<?= htmlspecialchars($row['name']) ?>">
-            <!-- </div> -->
-            <div class="description">
-                <p><?= $row['description'] ?></p>
+                <!-- </div> -->
+
+                <div class="description">
+                    <p><?= $row['description'] ?></p>
+                </div>
+
+
+
+                <h4>Link Tautan :</h4>
+                <div class="d-flex justify-content-center">
+                    <a href="https://www.google.com/maps?q=<?= urlencode($row['location']) ?>"
+                        target="_blank" class="btn btn-success m-3 mb-3">
+                        <i class="bi bi-geo-alt"></i> Lihat Google Maps
+                    </a>
+                    <button id="shareBtn" class="btn btn-primary m-3 mb-3">Bagikan <i class="bi bi-share"></i></button>
+                </div>
             </div>
-            <h4>Link Tautan :</h4>
-            <div class="d-flex justify-content-center">
-                <a href="https://www.google.com/maps/search/?q=<?= urlencode($row['location']) ?>" 
-                class="btn btn-warning m-3 mb-3" 
-                target="_blank">
-                <i class="bi bi-geo-alt"></i> - Lihat di Google Maps 
-                </a>
-                <button id="shareBtn" class="btn btn-primary m-3 mb-3">Bagikan <i class="bi bi-share"></i></button>
+
+            <!-- Bagian Virtual Tour 360 Derajat -->
+            <div class="col-md-4 vertical-images p-3">
+                <h3 class="text-center">Virtual Tour 360</h3>
+                <hr>
+                <div class="" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px; background: linear-gradient(135deg, #16C47F , #001A6E);">
+                    <?php if (!empty($sceneList)): ?>
+                        <?php foreach ($sceneList as $scene): ?>
+                            <div class="card image-card mb-3" onclick="window.location.href='pengguna/view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>';" style="cursor: pointer; border: 1px solid grey">
+                                <img src="admin/<?= htmlspecialchars($scene['panorama']) ?>" alt="<?= htmlspecialchars($scene['name']) ?>" class="card-img-top">
+                                <div class="card-body">
+                                    <h6 style="display: none;"><?= htmlspecialchars($scene['name']) ?></h6>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="card text-center text-muted">
+                            <i class="bi bi-exclamation-circle"></i> Tidak ada scene tersedia.
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
-
-        <!-- Bagian Virtual Tour 360 Derajat -->
-<div class="col-md-4 vertical-images">
-    <h3 class="text-center">Virtual Tour 360</h3>
-    <hr>
-    <div class="bg-secondary" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px;">
-        <?php if (!empty($sceneList)): ?>
-            <?php foreach ($sceneList as $scene): ?>
-                <div class="card image-card mb-3" onclick="window.location.href='view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>';" style="cursor: pointer;">
-                    <img src="admin/<?= htmlspecialchars($scene['panorama']) ?>" alt="<?= htmlspecialchars($scene['name']) ?>" class="card-img-top">
-                    <div class="card-body">
-                        <h6><?= htmlspecialchars($scene['name']) ?></h6>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <div class="card text-center text-muted">
-                <i class="bi bi-exclamation-circle"></i> Tidak ada scene tersedia.
-            </div>
-        <?php endif; ?>
     </div>
-</div>
-    </div>
-</div>
 
-<!-- Bootstrap JS (for the hamburger menu) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS (for the hamburger menu) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- JavaScript untuk berbagi link -->
-<script>
-document.getElementById("shareBtn").addEventListener("click", function() {
-    const currentURL = window.location.href; // Mendapatkan URL halaman saat ini
-    const shareText = `Lihat lokasi ini di Virtual Tour: ${currentURL}`;
-    
-    if (navigator.share) {
-        // Gunakan Web Share API jika didukung
-        navigator.share({
-            title: document.title,
-            text: shareText,
-            url: currentURL
-        }).catch(err => console.log("Gagal berbagi:", err));
-    } else {
-        // Fallback: Salin URL ke clipboard
-        navigator.clipboard.writeText(currentURL);
-        alert("Link telah disalin ke clipboard!");
-    }
-});
-</script>
+    <!-- JavaScript untuk berbagi link -->
+    <script>
+        document.getElementById("shareBtn").addEventListener("click", function() {
+            const currentURL = window.location.href; // Mendapatkan URL halaman saat ini
+            const shareText = `Lihat lokasi ini di Virtual Tour: ${currentURL}`;
 
-<?php include 'pengguna_footer.php'; ?>
+            if (navigator.share) {
+                // Gunakan Web Share API jika didukung
+                navigator.share({
+                    title: document.title,
+                    text: shareText,
+                    url: currentURL
+                }).catch(err => console.log("Gagal berbagi:", err));
+            } else {
+                // Fallback: Salin URL ke clipboard
+                navigator.clipboard.writeText(currentURL);
+                alert("Link telah disalin ke clipboard!");
+            }
+        });
+    </script>
+
+    <?php include 'pengguna_footer.php'; ?>
 </body>
+
 </html>

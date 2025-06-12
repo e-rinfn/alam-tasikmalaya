@@ -1,7 +1,7 @@
 <style>
     /* Styling untuk footer */
 footer {
-    background-color: #5a6268; /* Warna hijau sesuai tema */
+    background: linear-gradient(100deg, #16C47F, #001A6E );
     color: white;
     text-align: center;
     padding: 20px 0;
@@ -23,6 +23,6 @@ footer a:hover {
 </style>
 
 <!-- Footer -->
-<footer style="flex-shrink: 0;">
+<footer style="flex-shrink: 0;" class="bg-success">
     <p>&copy; 2025 Erin Fajrin Nugraha - Alam Tasikmalaya 360.</p>
 </footer>

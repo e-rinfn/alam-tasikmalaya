@@ -73,6 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Hotspot - <?= htmlspecialchars($scene['name']) ?></title>
+    <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
+
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -134,9 +136,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <hr>
     <div class="row">
         <!-- Form Tambah Hotspot -->
-        <div class="col-md-5">
+        <div class="col-md-5 p-2 mb-3 rounded">
             <h4 class="text-center">Tambah Hotspot</h4>
-
+			<hr>
             <form method="POST">
                 <div class="mb-3" hidden>
                     <label class="form-label">Scene</label>
@@ -165,9 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php } ?>
                     </select>
 
-                    <label class="form-label mt-3">Target Yaw (Sudut Pandang Pada Scene Tujuan)</label>
-                    <input type="number" name="targetYaw" step="0.01" class="form-control">
-                </div>
+                   </div>
 
                 <div class="mt-3">
                     <label class="form-label">Label Hotspot (Maju, Informasi, dll)</label>
@@ -190,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <textarea class="form-control" id="description" name="description" style="height: 200px;" ></textarea>
                 </div>
 
-                <script>
+                <!-- <script>
                     ClassicEditor
                         .create(document.querySelector('#description'), {
                             toolbar: [
@@ -201,7 +201,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         .catch(error => {
                             console.error(error);
                         });
+                </script> -->
+
+                <script>
+                    class MyUploadAdapter {
+                        constructor(loader) {
+                            this.loader = loader;
+                        }
+                        
+                        upload() {
+                            return this.loader.file
+                                .then(file => new Promise((resolve, reject) => {
+                                    const reader = new FileReader();
+                                    reader.readAsDataURL(file);
+                                    reader.onload = () => {
+                                        const img = new Image();
+                                        img.src = reader.result;
+                                        img.onload = () => {
+                                            // Resize image
+                                            const canvas = document.createElement('canvas');
+                                            const ctx = canvas.getContext('2d');
+
+                                            const maxWidth = 350; // Atur ukuran maksimum
+                                            const scale = maxWidth / img.width;
+                                            canvas.width = maxWidth;
+                                            canvas.height = img.height * scale;
+
+                                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                                            canvas.toBlob(blob => {
+                                                const formData = new FormData();
+                                                formData.append('file', blob, file.name);
+
+                                                fetch('upload.php', { method: 'POST', body: formData })
+                                                    .then(response => response.json())
+                                                    .then(result => {
+                                                        if (result.url) {
+                                                            resolve({ default: result.url });
+                                                        } else {
+                                                            reject(result.error || "Upload failed.");
+                                                        }
+                                                    })
+                                                    .catch(() => reject("Network error."));
+                                            }, file.type);
+                                        };
+                                    };
+                                }));
+                        }
+
+                        
+                        abort() {}
+                    }
+
+                    function MyCustomUploadAdapterPlugin(editor) {
+                        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                            return new MyUploadAdapter(loader);
+                        };
+                    }
+
+                    ClassicEditor
+                        .create(document.querySelector('#description'), {
+                            extraPlugins: [MyCustomUploadAdapterPlugin],
+                            toolbar: [
+                                'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 
+                                'blockQuote', 'insertImage', 'undo', 'redo'
+                            ]
+                        })
+                        .catch(error => console.error(error));
                 </script>
+
                 <hr>
                 <div class="d-flex justify-content-around">
                     <a href="scenes.php?wisata_id=<?= $wisata_id ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
@@ -226,14 +293,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Panorama Viewer dan Kontrol -->
         <div class="col-md-7">
             <h4 class="text-center mb-4">Cari Titik Koordinat</h4>
+            <hr>
             <div id="panorama-container">
                 <div id="panorama"></div>
                 <div class="crosshair vertical" style="left: 50%; top: 0;"></div>
                 <div class="crosshair horizontal" style="top: 50%; left: 0;"></div>
             </div>
-            <div class="text-center mb-3 mt-3">
+           
+            <div class="text-center mt-3" >
                 <button id="setPointer" class="btn btn-primary mb-3"><i class="bi bi-crosshair"></i> - Set Pointer</button>
-                <div class="text-muted d-flex justify-content-around">
+                <div class="text-muted d-flex justify-content-around rounded mb-3 p-2 mt-3" >
                     <p>Pitch: <span id="display-pitch">0</span></p>
                     
                     <p>Yaw: <span id="display-yaw">0</span></p>
@@ -249,10 +318,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <thead class="table-secondary">
                     <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Label Hotspot</th>
-                        <th class="text-center">Koordinat</th>
+                        <th class="text-center w-10">Label Hotspot</th>
+                        <th class="text-center w-10">Koordinat</th>
                         <th class="text-center">Tipe</th>
-                        <th class="text-center w-2">Hotspot Informasi</th>
+                        <th class="text-center w-50">Hotspot Informasi</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -331,7 +400,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
     let viewer;
-    let currentMarker = null;
+    // let currentMarker = null;
 
     // Initialize viewer with default panorama
     function initializeViewer(panorama) {

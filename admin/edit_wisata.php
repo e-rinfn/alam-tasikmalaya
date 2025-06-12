@@ -20,9 +20,10 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 $id = $_GET['id'];
 
 // Ambil data wisata untuk ditampilkan di form
-$query = "SELECT * FROM wisata WHERE id = ? AND user_id = ?";
+// $query = "SELECT * FROM wisata WHERE id = ? AND user_id = ?";
+$query = "SELECT * FROM wisata WHERE id = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("ii", $id, $user_id);
+$stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -107,6 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Wisata</title>
+    <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
     <!-- Bootstrap CSS -->
@@ -138,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-<div class="container mt-3 p-3" style="min-height: 80vh;">
+<div class="container mt-4 p-3 mb-3 rounded">
 <h3>Edit Wisata - <?= htmlspecialchars($wisata['name']) ?></h3>
 <hr>
     <form action="" method="POST" enctype="multipart/form-data">

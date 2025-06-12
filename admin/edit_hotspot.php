@@ -59,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Hotspot</title>
+	<link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -84,7 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php include 'admin_header.php'; ?>
 
-<div class="container mt-4">
+
+<div class="container mt-4 p-3 mb-3 rounded">
     <h2>Edit Hotspot</h2>
     
     <form method="POST">
@@ -123,17 +125,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                ClassicEditor
-                    .create(document.querySelector("#description"), {
-                        toolbar: [
-                            'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'
-                        ]
-                    })
-                    .catch(error => {
-                        console.error("Error initializing CKEditor:", error);
-                    });
-            });
+            class MyUploadAdapter {
+                constructor(loader) {
+                    this.loader = loader;
+                }
+                
+                upload() {
+                    return this.loader.file
+                        .then(file => new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => {
+                                const img = new Image();
+                                img.src = reader.result;
+                                img.onload = () => {
+                                    // Resize image
+                                    const canvas = document.createElement('canvas');
+                                    const ctx = canvas.getContext('2d');
+
+                                    const maxWidth = 350; // Atur ukuran maksimum
+                                    const scale = maxWidth / img.width;
+                                    canvas.width = maxWidth;
+                                    canvas.height = img.height * scale;
+
+                                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                                    canvas.toBlob(blob => {
+                                        const formData = new FormData();
+                                        formData.append('file', blob, file.name);
+
+                                        fetch('upload.php', { method: 'POST', body: formData })
+                                            .then(response => response.json())
+                                            .then(result => {
+                                                if (result.url) {
+                                                    resolve({ default: result.url });
+                                                } else {
+                                                    reject(result.error || "Upload failed.");
+                                                }
+                                            })
+                                            .catch(() => reject("Network error."));
+                                    }, file.type);
+                                };
+                            };
+                        }));
+                }
+
+                
+                abort() {}
+            }
+
+            function MyCustomUploadAdapterPlugin(editor) {
+                editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                    return new MyUploadAdapter(loader);
+                };
+            }
+
+            ClassicEditor
+                .create(document.querySelector('#description'), {
+                    extraPlugins: [MyCustomUploadAdapterPlugin],
+                    toolbar: [
+                        'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 
+                        'blockQuote', 'insertImage', 'undo', 'redo'
+                    ]
+                })
+                .catch(error => console.error(error));
         </script>
         <hr>
         <a href="hotspots.php?scene_id=<?= $scene_id ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>

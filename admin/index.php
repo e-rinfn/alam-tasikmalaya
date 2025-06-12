@@ -11,6 +11,14 @@ if (!isset($_SESSION['user_id'])) {
 // Ambil user_id dari session
 $user_id = $_SESSION['user_id'];
 
+// Ambil role user dari session
+$role = $_SESSION['role'];
+
+// Cek apakah user memiliki role yang diperbolehkan (admin atau user)
+if ($role !== 'admin' && $role !== 'user') {
+    echo "<script>alert('Anda tidak memiliki izin untuk mengakses halaman ini!'); window.location.href='no_access.php';</script>";
+    exit;
+}
 
 // Ambil data wisata, scene, dan hotspot
 $wisata = $conn->query("SELECT * FROM wisata");
@@ -23,6 +31,8 @@ $wisata = $conn->query("SELECT * FROM wisata");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alam Tasikmalaya 360</title>
+    <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
+
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -40,21 +50,32 @@ $wisata = $conn->query("SELECT * FROM wisata");
 <body>
 
 <?php include 'admin_header.php'; ?>
-<!-- Form Pencarian -->
-<div class="search-bar">
+
+<!-- Dropdown Kategori Wisata -->
+<div class="search-bar d-flex flex-wrap gap-2 align-items-center justify-content-center">
     <input type="text" class="search-input" id="searchBar" placeholder="Cari Objek Wisata..." oninput="filterCards()">
+
+    <select class="form-select w-auto" id="kategoriFilter" onchange="filterCards()">
+        <option value="">Semua Kategori</option>
+        <?php
+        $kategori = $conn->query("SELECT DISTINCT kategori FROM wisata");
+        while ($kat = $kategori->fetch_assoc()) {
+            echo '<option value="' . htmlspecialchars($kat['kategori']) . '">' . htmlspecialchars($kat['kategori']) . '</option>';
+        }
+        ?>
+    </select>
 </div>
 
 <!-- Cards Section -->
 <div class="container" style="min-height: 100vh;">
 
     <br>
-    <div class="row row-cols-1 row-cols-md-3 g-4 bg-secondary p-3 border rounded-3">
+    <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border rounded-3"  style="background: linear-gradient(100deg, #001A6E, #16C47F );">
 
         <!-- Card Tambah Wisata -->
         <div class="col mt-0 p-2">
             <a href="add_wisata.php">
-            <div class="card h-100 shadow-sm border-0 text-center d-flex align-items-center justify-content-center" 
+            <div class="card h-100 shadow-sm border-0 text-center d-flex align-items-center justify-content-center;"
                 data-name="<?= htmlspecialchars($row['name']) ?>"
                 style="cursor: pointer;">
                 <div class="card-body" style="margin-top: 13rem; margin-bottom: 10rem;">
@@ -68,7 +89,10 @@ $wisata = $conn->query("SELECT * FROM wisata");
         <!-- Card Daftar Wisata -->
         <?php while ($row = $wisata->fetch_assoc()) { ?>
         <div class="col mt-0 p-2">
-            <div class="card h-100 shadow-sm border-0" data-name="<?= htmlspecialchars($row['name']) ?>">
+            <div class="card h-100 shadow-sm border-0" 
+                data-name="<?= htmlspecialchars($row['name']) ?>" 
+                data-kategori="<?= htmlspecialchars($row['kategori']) ?>">
+            
                 <img src="<?= '../' . htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 200px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
@@ -81,6 +105,9 @@ $wisata = $conn->query("SELECT * FROM wisata");
                         echo strlen($caption) > $max_length ? substr($caption, 0, $max_length) . '....' : $caption;
                         ?>
                     </p>
+                </div>
+                <div class="text-center m-2">
+                    Kategori : <span class="badge text-bg-primary"><?= htmlspecialchars($row['kategori']) ?></span>
                 </div>
                 <hr>
                 <div class="card-footer bg-white border-0 d-flex justify-content-around flex-wrap">
@@ -212,6 +239,29 @@ $wisata = $conn->query("SELECT * FROM wisata");
         });
     }
 </script>
+
+<script>
+function filterCards() {
+    var searchValue = document.getElementById('searchBar').value.toLowerCase();
+    var selectedKategori = document.getElementById('kategoriFilter').value.toLowerCase();
+    var cards = document.querySelectorAll('.card');
+
+    cards.forEach(function (card) {
+        var cardTitle = card.getAttribute('data-name')?.toLowerCase() || '';
+        var cardKategori = card.getAttribute('data-kategori')?.toLowerCase() || '';
+
+        var cocokJudul = cardTitle.includes(searchValue);
+        var cocokKategori = selectedKategori === '' || cardKategori === selectedKategori;
+
+        if (cocokJudul && cocokKategori) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+</script>
+
 
 <?php include 'admin_footer.php'; ?>
 </body>

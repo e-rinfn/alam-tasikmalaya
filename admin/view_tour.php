@@ -40,7 +40,7 @@ while ($hotspot = $hotspots->fetch_assoc()) {
     $sceneData[$sceneId]['hotSpots'][] = [
         "pitch" => floatval($hotspot['pitch']),
         "yaw" => floatval($hotspot['yaw']),
-        "type" => $hotspot['type'], // Bisa "info" atau "scene"
+        "type" => $hotspot['type'],
         "text" => $hotspot['text'],
         "sceneId" => $hotspot['target_scene_id'],
         "clickHandlerFunc" => "showModal",
@@ -49,6 +49,10 @@ while ($hotspot = $hotspots->fetch_assoc()) {
             "content" => $hotspot['description']
         ]
     ];
+    
+    if ($hotspot['type'] === "scene" && isset($hotspot['target_scene_id'])) {
+        $sceneData[$hotspot['target_scene_id']]['yaw'] = floatval($hotspot['targetYaw']); // Atur yaw di scene tujuan
+    }
 }
 
 // Ambil scene_id dari URL
@@ -61,6 +65,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Tour - <?= htmlspecialchars($wisata['name']) ?></title>
+	<link rel="icon" type="image/png" href="../img/Logo-Putih.png">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -79,50 +84,11 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
     <!-- Link CSS Custom -->
     <link rel="stylesheet" href="../css/tour.css">
 
-    <style>
-        #panorama {
-            width: 100%;
-            height: 100vh;
-        }
-    </style>
-
 <style>
-    .hamburger-menu {
-        position: relative;
-        display: inline-block;
-    }
-
-    .menu {
-        position: absolute;
-        background-color: white;
-        border: 1px solid #ccc;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        display: none;
-    }
-
-    .menu.hidden {
-        display: none;
-    }
-
-    .menu-item {
-        display: flex;
-        align-items: center;
-        padding: 8px;
-        text-decoration: none;
-        color: #333;
-    }
-
-    .menu-item:hover {
-        background-color: #f1f1f1;
-    }
-
-    .menu-image {
-        width: 50px;
-        height: 50px;
-        margin-right: 10px;
-        object-fit: cover;
-    }
+	#panorama {
+        width: 100%;
+    	height: 100vh;
+	}
 
     .modal-header {
         position: sticky;
@@ -130,6 +96,23 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
         z-index: 1055; /* Pastikan lebih tinggi dari konten */
         background-color: #6c757d; /* Sesuaikan warna latar agar tetap konsisten */
     }
+
+    .hidden {
+        display: none;
+    }
+
+ 	div.pnlm-tooltip span{
+        visibility: visible !important;
+        background-color: #0056b3;
+    	border: 1px solid;
+    }
+
+	.modal-body img {
+    	max-width: 100%;
+    	height: auto;
+    	display: block; /* Menghindari margin bawaan */
+    	margin: 0 auto; /* Pusatkan gambar */
+	}
 </style>
 
 </head>
@@ -145,11 +128,11 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
     <div class="d-flex justify-content-between align-items-center">
      
 <!-- Tambahkan tombol untuk menampilkan modal -->
-<div id="menu-overlay" class="p-2">
-    <h5 class="text-center">Menu</h5>
+<div id="menu-overlay" class="p-2 border" style="background: rgba(0, 0, 0, 0.500);" >
+    <h5 class="text-center text-white">ADMIN MENU</h5>
     <a href="scenes.php?wisata_id=<?= $wisata_id ?>" class="btn btn-warning"><i class="bi bi-signpost-2"></i> - Scenes</a>
-    <a href="hotspots.php?scene_id=<?= $scene_id ?>" class="btn btn-success"><i class="bi bi-gear"></i> - Hotspot</a>
-    <button class="btn btn-primary" id="openSceneModal">
+    <a href="hotspots.php?scene_id=<?= $scene_id ?>" class="btn btn-primary"><i class="bi bi-gear"></i> - Hotspots</a>
+    <button class="btn btn-success" id="openSceneModal">
     <i class="bi bi-card-image"></i> - Pilih Lokasi
     </button>
 </div>
@@ -159,7 +142,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Sticky Header -->
-            <div class="modal-header bg-secondary text-white">
+            <div class="modal-header text-white" style="background: linear-gradient(100deg, #001A6E, #16C47F );">
                 <h5 class="modal-title" id="sceneModalLabel"><i class="bi bi-card-image"></i> - Pilih Lokasi Scene</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -170,11 +153,13 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
                     <?php if (!empty($sceneList)): ?>
                         <?php foreach ($sceneList as $scene): ?>
                             <li class="card">
-                                <a href="#" onclick="selectScene('<?= $scene['id'] ?>')" class="text-decoration-none flex-grow-1 fw-bold text-center">
+                                <a href="#" onclick="selectScene('<?= $scene['id'] ?>')" class="text-decoration-none flex-grow-1 fw-bold text-center p-2">
                                     <div class="d-flex justify-content-center">
-                                        <img src="<?= ''. htmlspecialchars($scene['panorama']) ?>" width="200" class="rounded shadow text-center">
+                                        <img src="<?= htmlspecialchars($scene['panorama']) ?>" width="200" class="rounded shadow text-center">
                                     </div>
-                                    <?= htmlspecialchars($scene['name']) ?>
+                                   <div class="hidden mb-2 text-center text-mute" style="color: black">
+                        				<?= htmlspecialchars($scene['name']) ?>
+                        			</div>
                                 </a>
                             </li>
                         <?php endforeach; ?>
@@ -220,33 +205,17 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
     }
 </script>
 
-    <div id="judul-overlay">
-        <h5><?= htmlspecialchars($wisata['name']) ?></h5>
+    <div id="judul-overlay" class="border" style="background: rgba(0, 0, 0, 0.500);">
+        <h5 class="text-white" ><?= 'Wisata ' . htmlspecialchars($wisata['name']) ?></h5>
     </div>
 </div>
 
-<script>
-    // Fungsi untuk berpindah ke scene yang dipilih
-    function selectScene(sceneId) {
-        if (viewer) {
-            viewer.loadScene(sceneId); // Pindah ke scene yang dipilih
-        } else {
-            console.error("Pannellum viewer tidak ditemukan.");
-        }
-    }
-
-    // Fungsi untuk menampilkan/sembunyikan menu dropdown
-    function toggleMenu() {
-        const menuItems = document.getElementById('menuItems');
-        menuItems.classList.toggle('hidden');
-    }
-</script>
 
 <!-- Modal Bootstrap -->
 <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-secondary text-white">
+            <div class="modal-header text-white" style="background: linear-gradient(100deg, #001A6E, #16C47F );">
                 <h5 class="modal-title" id="modalTitle">Informasi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

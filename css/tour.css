@@ -31,7 +31,9 @@ html, body {
     position: absolute;
     top: 10px;
     left: 10px;
-    background: rgba(255, 255, 255, 0.8); /* Latar belakang semi-transparan */
+
+    background: rgba(0, 0, 0, 0.250);
+    /*background: rgba(255, 255, 255, 0.8); /* Latar belakang semi-transparan */
     border-radius: 3px;
     padding: 10px;
     z-index: 1000; /* Pastikan menu ada di atas panorama */
@@ -42,7 +44,7 @@ html, body {
     position: absolute;
     bottom: 10px;
     right: 20px;
-    background: rgba(255, 255, 255, 0.8); /* Latar belakang semi-transparan */
+    background: rgba(0, 0, 0, 0.250);
     border-radius: 3px;
     padding: 10px;
     z-index: 1000; /* Pastikan menu ada di atas panorama */
@@ -91,18 +93,6 @@ html, body {
     position: relative;
     border-radius: 8px;
     display: inline-block;
-}
-
-#hamburgerButton {
-    background-color: #6EC207;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    outline: none;
-
 }
 
 #menuItems {
@@ -172,6 +162,13 @@ html, body {
     display: none !important;
 }
 
+
+div.pnlm-tooltip span{
+    visibility: visible !important;
+    background-color: #0056b3;
+	border: 1px solid;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 600px) {
     .menu {
@@ -214,6 +211,8 @@ html, body {
     transform: scale(1.5); /* Membesarkan sedikit saat dihover */
     animation: none; /* Hentikan animasi kedip saat hover */
 }
+
+
 
 /* Styling untuk tombol utama */
 .btn {

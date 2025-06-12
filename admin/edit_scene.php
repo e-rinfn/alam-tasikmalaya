@@ -9,6 +9,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 $id = $_GET['id'];
+$errors = []; // Array untuk menyimpan pesan kesalahan
 
 // Ambil data scene berdasarkan ID
 $query = "SELECT * FROM scenes WHERE id = ?";
@@ -24,27 +25,38 @@ if ($result->num_rows == 0) {
 
 $scene = $result->fetch_assoc();
 $stmt->close();
-
-// Inisialisasi wisata_id dari data scene
 $wisata_id = $scene['wisata_id'];
+$name = $scene['name']; // Inisialisasi default
 
 // Jika form dikirim
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['name'];
-    $wisata_id = $_POST['wisata_id']; // Ambil wisata_id dari form
-    $panorama = $scene['panorama']; // Default gambar lama
+    $name = trim($_POST['name']) ?? '';
+    $wisata_id = $_POST['wisata_id'];
+    $panorama = $scene['panorama']; // Gunakan gambar lama jika tidak diubah
 
-    // Proses Upload Gambar
+    // Validasi input nama scene
+    if (empty($name)) {
+        $errors[] = "Nama Scene wajib diisi!";
+    }
+
+    // Proses Upload Gambar jika ada
     if (isset($_FILES['panorama']) && $_FILES['panorama']['error'] == 0) {
         $target_dir = "../img/panorama360/";
         $file_name = time() . "_" . basename($_FILES["panorama"]["name"]);
         $target_file = $target_dir . $file_name;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        // Validasi Gambar
-        if (getimagesize($_FILES["panorama"]["tmp_name"]) && $_FILES["panorama"]["size"] <= 5000000 && in_array($imageFileType, ["jpg", "jpeg", "png"])) {
+        if (!getimagesize($_FILES["panorama"]["tmp_name"])) {
+            $errors[] = "File yang diunggah bukan gambar!";
+        } elseif ($_FILES["panorama"]["size"] > 6000000) {
+            $errors[] = "Ukuran gambar maksimal 5MB!";
+        } elseif (!in_array($imageFileType, ["jpg", "jpeg", "png"])) {
+            $errors[] = "Format gambar hanya JPG, JPEG, dan PNG!";
+        } else {
             if (move_uploaded_file($_FILES["panorama"]["tmp_name"], $target_file)) {
-                $panorama = $target_file; // Simpan path gambar yang baru
+                $panorama = $target_file;
+            } else {
+                $errors[] = "Gagal mengunggah gambar!";
             }
         }
     }
@@ -55,8 +67,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $check_wisata->execute();
     $check_wisata->store_result();
 
-    if ($check_wisata->num_rows > 0) {
-        // Update Scene di Database
+    if ($check_wisata->num_rows == 0) {
+        $errors[] = "Wisata ID tidak valid!";
+    }
+
+    $check_wisata->close();
+
+    // Jika tidak ada error, update data di database
+    if (empty($errors)) {
         $query = "UPDATE scenes SET name = ?, wisata_id = ?, panorama = ? WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("sisi", $name, $wisata_id, $panorama, $id);
@@ -65,15 +83,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: scenes.php?wisata_id=$wisata_id");
             exit;
         } else {
-            echo "<script>alert('Gagal memperbarui scene!');</script>";
+            $errors[] = "Gagal memperbarui scene!";
         }
 
         $stmt->close();
-    } else {
-        echo "<script>alert('Wisata ID tidak valid!');</script>";
     }
-
-    $check_wisata->close();
 }
 ?>
 
@@ -83,6 +97,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Scene</title>
+    <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -92,32 +108,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/index.css">
 
-    <!-- CK Editor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-
-    <!-- Bootstrap JS & Popper.js (Wajib untuk Dropdown) -->
+    <!-- Bootstrap JS & Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 </head>
 <body>
 
 <?php include 'admin_header.php'; ?>
 
 <?php
-    // Ambil nama wisata berdasarkan wisata_id
-    $wisata_query = $conn->prepare("SELECT name FROM wisata WHERE id = ?");
-    $wisata_query->bind_param("i", $scene['wisata_id']);
-    $wisata_query->execute();
-    $wisata_query->bind_result($wisata_name);
-    $wisata_query->fetch();
-    $wisata_query->close();
+// Ambil nama wisata berdasarkan wisata_id
+$wisata_query = $conn->prepare("SELECT name FROM wisata WHERE id = ?");
+$wisata_query->bind_param("i", $scene['wisata_id']);
+$wisata_query->execute();
+$wisata_query->bind_result($wisata_name);
+$wisata_query->fetch();
+$wisata_query->close();
 ?>
 
-<div class="container mt-3" style="min-height: 80vh;">
+<!-- Modal Error -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="errorModalLabel">Terjadi Kesalahan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <?php foreach ($errors as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4 p-3 mb-3 rounded">
     <h3>Edit Scene Wisata - <?= htmlspecialchars($wisata_name) ?></h3>
     <hr>
     <form action="" method="POST" enctype="multipart/form-data">
@@ -125,16 +156,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="d-flex justify-content-around">
             <div class="mb-3 p-3 w-50">
                 <label for="name" class="form-label">Nama Scene</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($scene['name']) ?>" required>
+                <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
                 <hr>
                 <label for="wisata_name" class="form-label">Wisata</label>
-                <input type="text" class="form-control" id="wisata_name" name="wisata_name" value="<?= htmlspecialchars($wisata_name) ?>" readonly>
+                <input type="text" class="form-control" id="wisata_name" value="<?= htmlspecialchars($wisata_name) ?>" readonly>
                 <input type="hidden" name="wisata_id" value="<?= htmlspecialchars($scene['wisata_id']) ?>">
             </div>
-        
-
             <div class="mb-3 p-3">
-                <label for="panorama" class="form-label">Gambar Panorama (Opsional)</label>
+                <label for="panorama" class="form-label">Gambar Panorama 360</label>
                 <input type="file" class="form-control" id="panorama" name="panorama">
                 <small class="form-text text-muted">Hanya JPG, JPEG, PNG. Maksimal 5MB.</small>
                 <?php if (!empty($scene['panorama'])): ?>
@@ -146,9 +175,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <hr>
         <a href="scenes.php?wisata_id=<?= $wisata_id ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
-        <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> - Simpan Perubahan Scene</button>
-        <br>
+        <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan Perubahan</button>
     </form>
 </div>
+
+<?php if (!empty($errors)) : ?>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        errorModal.show();
+    });
+</script>
+<?php endif; ?>
+
 </body>
 </html>

@@ -27,120 +27,16 @@ try {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View History Daerah</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
-
-        .detail-row {
-            margin-bottom: 15px;
-        }
-
-        .label {
-            font-weight: bold;
-            color: #2c3e50;
-            display: inline-block;
-            width: 120px;
-        }
-
-        .value {
-            display: inline-block;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 8px 15px;
-            background: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-
-        .back-link:hover {
-            background: #2980b9;
-        }
-
-        .toggle-header {
-            background-color: #f0f0f0;
-            padding: 10px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            margin-bottom: 5px;
-        }
-
-        .toggle-content {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-top: none;
-            background-color: #fafafa;
-        }
-
-        .deskripsi-section {
-            margin-bottom: 1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .toggle-header {
-            background-color: #f0f0f0;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .toggle-content {
-            padding: 10px;
-        }
-
-        .deskripsi-container img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- <div class="container"> -->
-    <h1>View History Daerah</h1>
-
-    <div class="detail-row">
-        <span class="label">Judul:</span>
-        <span class="value"><?= htmlspecialchars($record['judul']) ?></span>
-    </div>
-    <div class="detail-row">
-        <span class="label">Nama Daerah:</span>
-        <span class="value"><?= htmlspecialchars($record['name']) ?></span>
-    </div>
-
-    <style>
+        /* Style untuk gambar dari CKEditor */
         .deskripsi-container img {
             max-width: 100%;
             height: auto;
@@ -164,44 +60,95 @@ try {
             margin-left: 1em;
         }
 
-        /* Clear float after image section (optional) */
+        /* Clear float after image section */
         .deskripsi-section::after {
             content: "";
             display: block;
             clear: both;
         }
+
+        /* Style untuk toggle section */
+        .toggle-header {
+            cursor: pointer;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.125);
+        }
+
+        .toggle-content {
+            padding: 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-top: none;
+        }
     </style>
+</head>
 
-
-
-    <?php
-    function formatDeskripsiToggle($deskripsi)
-    {
-        // Jangan ubah HTML menjadi teks biasa
-        // Jika sebelumnya sudah disimpan dalam bentuk HTML asli dari CKEditor, maka cukup langsung proses
-        preg_match_all('/\[(\d{4})\](.*?)(?=(\[\d{4}\])|$)/s', $deskripsi, $matches, PREG_SET_ORDER);
-
-        $output = '<div class="deskripsi-container">';
-        foreach ($matches as $index => $match) {
-            $tahun = $match[1];
-            $konten = trim($match[2]); // Tidak pakai nl2br agar HTML <img> tetap utuh
-            $output .= "
-        <div class='deskripsi-section'>
-            <div class='toggle-header' onclick='toggleDeskripsi($index)'>
-                <strong>Tahun $tahun</strong>
+<body>
+    <div class="container mt-4 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h1 class="h4 mb-0">View History Daerah</h1>
             </div>
-            <div class='toggle-content' id='content-$index' style='display: none;'>
-                $konten
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-2 fw-bold">Judul:</div>
+                    <div class="col-md-10"><?= htmlspecialchars($record['judul']) ?></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-2 fw-bold">Nama Daerah:</div>
+                    <div class="col-md-10"><?= htmlspecialchars($record['name']) ?></div>
+                </div>
+
+                <?php
+                function formatDeskripsiToggle($deskripsi)
+                {
+                    preg_match_all('/\[(\d{4})\](.*?)(?=(\[\d{4}\])|$)/s', $deskripsi, $matches, PREG_SET_ORDER);
+
+                    $output = '<div class="deskripsi-container">';
+                    foreach ($matches as $index => $match) {
+                        $tahun = $match[1];
+                        $konten = trim($match[2]);
+                        $output .= "
+                        <div class='deskripsi-section mb-3'>
+                            <div class='toggle-header rounded' onclick='toggleDeskripsi($index)'>
+                                <strong>Tahun $tahun</strong>
+                            </div>
+                            <div class='toggle-content rounded-bottom' id='content-$index' style='display: none;'>
+                                $konten
+                            </div>
+                        </div>
+                        ";
+                    }
+                    $output .= '</div>';
+                    return $output;
+                }
+                ?>
+
+                <div class="mb-3">
+                    <h2 class="h5 mb-3">Deskripsi</h2>
+                    <?= formatDeskripsiToggle($record['deskripsi']) ?>
+                </div>
+
+                <a href="index.php" class="btn btn-primary mt-3">Kembali</a>
             </div>
         </div>
-        ";
-        }
-        $output .= '</div>';
-        return $output;
-    }
-    ?>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        function toggleDeskripsi(index) {
+            const content = document.getElementById('content-' + index);
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
+        }
+
+        // Make images clickable to open in new tab
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll(".deskripsi-container img").forEach(img => {
                 const src = img.getAttribute("src");
@@ -215,42 +162,6 @@ try {
             });
         });
     </script>
-
-
-    <div class="deskripsi">
-        <?= formatDeskripsiToggle($record['deskripsi']) ?>
-    </div>
-
-
-    <!-- <div class="detail-row">
-        <span class="label">Created At:</span>
-        <span class="value"><?= htmlspecialchars($record['created_at']) ?></span>
-    </div>
-
-    <div class="detail-row">
-        <span class="label">Left Position:</span>
-        <span class="value"><?= htmlspecialchars($record['left_position'] ?? 'N/A') ?></span>
-    </div>
-
-    <div class="detail-row">
-        <span class="label">Top Position:</span>
-        <span class="value"><?= htmlspecialchars($record['top_position'] ?? 'N/A') ?></span>
-    </div> -->
-
-    <a href="index.php" class="back-link">Kembali Ke Beranda</a>
-    <!-- </div> -->
-
-    <script>
-        function toggleDeskripsi(index) {
-            const content = document.getElementById('content-' + index);
-            if (content.style.display === 'none') {
-                content.style.display = 'block';
-            } else {
-                content.style.display = 'none';
-            }
-        }
-    </script>
-
 </body>
 
 </html>

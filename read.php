@@ -57,7 +57,7 @@ try {
                             <td><?= htmlspecialchars($record['left_position']) ?></td>
                             <td><?= htmlspecialchars($record['top_position']) ?></td>
                             <td>
-                                <a href="view.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-primary mb-1">View</a>
+                                <a href="view-admin.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-primary mb-1">View</a>
                                 <a href="update.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-warning mb-1">Edit</a>
                                 <a href="delete.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-danger mb-1" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
                             </td>

@@ -237,7 +237,7 @@ try {
         <span class="value"><?= htmlspecialchars($record['top_position'] ?? 'N/A') ?></span>
     </div> -->
 
-    <a href="index.php" class="back-link">Kembali Ke Beranda</a>
+    <a href="read.php" class="back-link">Kembali Ke List</a>
     <!-- </div> -->
 
     <script>

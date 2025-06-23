@@ -9,7 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'text_peta' => $_POST['teks-peta'] ?? '', // Perbaikan nama field
         'deskripsi' => $_POST['deskripsi'] ?? '',
         'left_position' => $_POST['left_position'] ?? null,
-        'top_position' => $_POST['top_position'] ?? null
+        'top_position' => $_POST['top_position'] ?? null,
+        'longitude' => $_POST['longitude'] ?? null,
+        'latitude' => $_POST['latitude'] ?? null
     ];
 
     // Validasi dasar
@@ -19,9 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $sql = "INSERT INTO history_daerah 
-                (wisata_id, judul, text_peta, deskripsi, left_position, top_position, created_at) 
+                (wisata_id, judul, text_peta, deskripsi, left_position, top_position, longitude, latitude, created_at) 
                 VALUES 
-                (:wisata_id, :judul, :text_peta, :deskripsi, :left_position, :top_position, NOW())";
+                (:wisata_id, :judul, :text_peta, :deskripsi, :left_position, :top_position, :longitude, :latitude, NOW())";
         $stmt = $pdo->prepare($sql);
         $stmt->execute($data);
 
@@ -196,6 +198,18 @@ try {
             <div class="form-group">
                 <label for="top_position">Top Position:</label>
                 <input type="text" id="top_position" name="top_position" maxlength="10">
+            </div>
+
+            <div class="form-group">
+                <label for="longitude">Longitude:</label>
+                <input type="text" id="longitude" name="longitude" maxlength="20"
+                    placeholder="Contoh: 110.123456">
+            </div>
+
+            <div class="form-group">
+                <label for="latitude">Latitude:</label>
+                <input type="text" id="latitude" name="latitude" maxlength="20"
+                    placeholder="Contoh: -7.123456">
             </div>
 
             <button type="submit" class="btn">Simpan</button>

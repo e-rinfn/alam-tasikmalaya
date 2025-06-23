@@ -31,12 +31,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'text_peta' => $_POST['teks-peta'] ?? '',
         'deskripsi' => $_POST['deskripsi'] ?? '',
         'left_position' => $_POST['left_position'] ?? null,
-        'top_position' => $_POST['top_position'] ?? null
+        'top_position' => $_POST['top_position'] ?? null,
+        'longitude' => $_POST['longitude'] ?? null, // Tambahan
+        'latitude' => $_POST['latitude'] ?? null    // Tambahan
     ];
 
     // Validasi dasar
     if (empty($data['wisata_id']) || empty($data['judul'])) {
         die("Wisata dan Judul wajib diisi.");
+    }
+
+    // Validasi format longitude dan latitude
+    if (!empty($data['longitude']) && !is_numeric($data['longitude'])) {
+        die("Longitude harus berupa angka.");
+    }
+
+    if (!empty($data['latitude']) && !is_numeric($data['latitude'])) {
+        die("Latitude harus berupa angka.");
     }
 
     try {
@@ -46,7 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     text_peta = :text_peta, 
                     deskripsi = :deskripsi, 
                     left_position = :left_position, 
-                    top_position = :top_position
+                    top_position = :top_position,
+                    longitude = :longitude,
+                    latitude = :latitude
                 WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->execute($data);
@@ -225,6 +238,20 @@ try {
                 <label for="top_position">Top Position:</label>
                 <input type="text" id="top_position" name="top_position" maxlength="10"
                     value="<?= htmlspecialchars($history['top_position']) ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="longitude">Longitude:</label>
+                <input type="text" id="longitude" name="longitude" maxlength="20"
+                    value="<?= htmlspecialchars($history['longitude']) ?>"
+                    placeholder="Contoh: 110.123456">
+            </div>
+
+            <div class="form-group">
+                <label for="latitude">Latitude:</label>
+                <input type="text" id="latitude" name="latitude" maxlength="20"
+                    value="<?= htmlspecialchars($history['latitude']) ?>"
+                    placeholder="Contoh: -7.123456">
             </div>
 
             <button type="submit" class="btn">Simpan Perubahan</button>

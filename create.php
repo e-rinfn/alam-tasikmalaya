@@ -8,8 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'judul' => $_POST['judul'] ?? '',
         'text_peta' => $_POST['teks-peta'] ?? '', // Perbaikan nama field
         'deskripsi' => $_POST['deskripsi'] ?? '',
-        'left_position' => $_POST['left_position'] ?? null,
-        'top_position' => $_POST['top_position'] ?? null,
+
+
         'longitude' => $_POST['longitude'] ?? null,
         'latitude' => $_POST['latitude'] ?? null
     ];
@@ -21,9 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $sql = "INSERT INTO history_daerah 
-                (wisata_id, judul, text_peta, deskripsi, left_position, top_position, longitude, latitude, created_at) 
+                (wisata_id, judul, text_peta, deskripsi, longitude, latitude, created_at) 
                 VALUES 
-                (:wisata_id, :judul, :text_peta, :deskripsi, :left_position, :top_position, :longitude, :latitude, NOW())";
+                (:wisata_id, :judul, :text_peta, :deskripsi, :longitude, :latitude, NOW())";
         $stmt = $pdo->prepare($sql);
         $stmt->execute($data);
 
@@ -188,16 +188,6 @@ try {
             <div class="form-group">
                 <label for="deskripsi">Deskripsi History: (tambahkan tahun didalam kurung ini []. contoh [2025] kemudian diikuti text deskripsi tahun tersebut)</label>
                 <textarea id="deskripsi" name="deskripsi"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="left_position">Left Position:</label>
-                <input type="text" id="left_position" name="left_position" maxlength="10">
-            </div>
-
-            <div class="form-group">
-                <label for="top_position">Top Position:</label>
-                <input type="text" id="top_position" name="top_position" maxlength="10">
             </div>
 
             <div class="form-group">

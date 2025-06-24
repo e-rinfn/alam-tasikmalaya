@@ -30,8 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'judul' => $_POST['judul'] ?? '',
         'text_peta' => $_POST['teks-peta'] ?? '',
         'deskripsi' => $_POST['deskripsi'] ?? '',
-        'left_position' => $_POST['left_position'] ?? null,
-        'top_position' => $_POST['top_position'] ?? null,
         'longitude' => $_POST['longitude'] ?? null, // Tambahan
         'latitude' => $_POST['latitude'] ?? null    // Tambahan
     ];
@@ -56,8 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     judul = :judul, 
                     text_peta = :text_peta, 
                     deskripsi = :deskripsi, 
-                    left_position = :left_position, 
-                    top_position = :top_position,
                     longitude = :longitude,
                     latitude = :latitude
                 WHERE id = :id";
@@ -226,18 +222,6 @@ try {
             <div class="form-group">
                 <label for="deskripsi">Deskripsi History: (tambahkan tahun didalam kurung ini []. contoh [2025] kemudian diikuti text deskripsi tahun tersebut)</label>
                 <textarea id="deskripsi" name="deskripsi"><?= htmlspecialchars($history['deskripsi']) ?></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="left_position">Left Position:</label>
-                <input type="text" id="left_position" name="left_position" maxlength="10"
-                    value="<?= htmlspecialchars($history['left_position']) ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="top_position">Top Position:</label>
-                <input type="text" id="top_position" name="top_position" maxlength="10"
-                    value="<?= htmlspecialchars($history['top_position']) ?>">
             </div>
 
             <div class="form-group">

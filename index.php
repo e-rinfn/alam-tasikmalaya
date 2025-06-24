@@ -13,7 +13,7 @@ if (!$wisata) {
 }
 
 // Fetch pointer data with error handling
-$pointerQuery = $conn->query("SELECT * FROM history_daerah");
+$pointerQuery = $conn->query("SELECT h.*, w.id AS wisata_id FROM history_daerah h JOIN wisata w ON h.wisata_id = w.id");
 if (!$pointerQuery) {
     die("Error fetching pointer data: " . $conn->error);
 }
@@ -160,7 +160,7 @@ if ($pointerQuery->num_rows > 0) {
                             <div class="modal-image-content">
                                 ' . htmlspecialchars_decode($m['text_peta']) . '
                             </div>
-                            <a href="view.php?id=' . $m['id'] . '" class="btn btn-primary mt-3">Lihat Detail</a>
+                            <a href="view.php?id=' . $m['id'] . '&wisata_id=' . $m['wisata_id'] . '" class="btn btn-primary mt-3">Lihat Detail</a>
                         </div>
                     </div>
                 </div>

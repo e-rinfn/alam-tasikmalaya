@@ -2,7 +2,7 @@
 require_once 'db.php';
 
 try {
-    $sql = "SELECT * FROM history_daerah";
+    $sql = "SELECT h.*, w.id AS wisata_id FROM history_daerah h JOIN wisata w ON h.wisata_id = w.id";
     $stmt = $pdo->query($sql);
     $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -41,8 +41,8 @@ try {
                         <th>Judul</th>
                         <th>Deskripsi</th>
                         <!-- <th>Created At</th> -->
-                        <th>Left Position</th>
-                        <th>Top Position</th>
+                        <th>Longitude</th>
+                        <th>Latitude</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -54,10 +54,10 @@ try {
                             <td><?= htmlspecialchars($record['judul']) ?></td>
                             <td><?= htmlspecialchars(substr($record['deskripsi'], 0, 50)) ?>...</td>
                             <!-- <td><?= htmlspecialchars($record['created_at']) ?></td> -->
-                            <td><?= htmlspecialchars($record['left_position']) ?></td>
-                            <td><?= htmlspecialchars($record['top_position']) ?></td>
+                            <td><?= htmlspecialchars($record['longitude']) ?></td>
+                            <td><?= htmlspecialchars($record['latitude']) ?></td>
                             <td>
-                                <a href="view-admin.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-primary mb-1">View</a>
+                                <a href="view-admin.php?id=<?= $record['id'] . '&wisata_id=' . $record['wisata_id'] ?>" class="btn btn-sm btn-primary mb-1">View</a>
                                 <a href="update.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-warning mb-1">Edit</a>
                                 <a href="delete.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-danger mb-1" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
                             </td>

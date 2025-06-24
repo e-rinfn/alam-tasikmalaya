@@ -1,9 +1,24 @@
 <?php
 require_once 'db.php';
+include 'config.php';
 
 if (!isset($_GET['id'])) {
     header("Location: read.php");
     exit();
+}
+
+// Ambil wisata_id dari parameter URL atau sesuaikan dengan kebutuhan
+$wisata_id = isset($_GET['wisata_id']) ? intval($_GET['wisata_id']) : 0;
+
+// Ambil data wisata berdasarkan wisata_id
+$wisata = $conn->query("SELECT * FROM wisata WHERE id = $wisata_id");
+$row = $wisata->fetch_assoc();
+
+// Ambil data scene berdasarkan wisata_id
+$scenes = $conn->query("SELECT * FROM scenes WHERE wisata_id = $wisata_id");
+$sceneList = [];
+while ($scene = $scenes->fetch_assoc()) {
+    $sceneList[] = $scene;
 }
 
 $id = $_GET['id'];
@@ -131,6 +146,27 @@ try {
                 </div>
 
                 <a href="index.php" class="btn btn-primary mt-3">Kembali</a>
+            </div>
+        </div>
+        <!-- Bagian Virtual Tour 360 Derajat -->
+        <div class="col-md-4 vertical-images p-3">
+            <h3 class="text-center">Virtual Tour 360</h3>
+            <hr>
+            <div class="" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px; background: linear-gradient(135deg, #16C47F , #001A6E);">
+                <?php if (!empty($sceneList)): ?>
+                    <?php foreach ($sceneList as $scene): ?>
+                        <div class="card image-card mb-3" onclick="window.location.href='pengguna/view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>';" style="cursor: pointer; border: 1px solid grey">
+                            <img src="admin/<?= htmlspecialchars($scene['panorama']) ?>" alt="<?= htmlspecialchars($scene['name']) ?>" class="card-img-top">
+                            <div class="card-body">
+                                <h6 style="display: none;"><?= htmlspecialchars($scene['name']) ?></h6>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="card text-center text-muted">
+                        <i class="bi bi-exclamation-circle"></i> Tidak ada scene tersedia.
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

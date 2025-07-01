@@ -148,26 +148,34 @@ if ($pointerQuery->num_rows > 0) {
     <?php
     if (!empty($pointerData)) {
         foreach ($pointerData as $m) {
+            // Tambahkan class img-fluid untuk gambar agar responsive
+            $text_peta = preg_replace(
+                '/<img(?![^>]*class=["\'][^"\']*img-fluid[^"\']*["\'])/i',
+                '<img class="img-fluid"',
+                $m['text_peta']
+            );
+
             echo '
-            <div class="modal fade" id="modalTitik' . $m['id'] . '" tabindex="-1" aria-labelledby="modalLabel' . $m['id'] . '" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel' . $m['id'] . '">' . htmlspecialchars($m['judul']) . '</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        <div class="modal fade" id="modalTitik' . $m['id'] . '" tabindex="-1" aria-labelledby="modalLabel' . $m['id'] . '" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel' . $m['id'] . '">' . htmlspecialchars($m['judul']) . '</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div class="modal-body text-start" style="text-align: justify;">
+                        <div class="modal-image-content">
+                            ' . htmlspecialchars_decode($text_peta) . '
                         </div>
-                        <div class="modal-body text-center">
-                            <div class="modal-image-content">
-                                ' . htmlspecialchars_decode($m['text_peta']) . '
-                            </div>
-                            <a href="view.php?id=' . $m['id'] . '&wisata_id=' . $m['wisata_id'] . '" class="btn btn-primary mt-3">Lihat Detail</a>
-                        </div>
+                        <a href="view.php?id=' . $m['id'] . '&wisata_id=' . $m['wisata_id'] . '" class="btn btn-primary mt-3">Lihat Detail</a>
                     </div>
                 </div>
-            </div>';
+            </div>
+        </div>';
         }
     }
     ?>
+
 
     <!-- Cards Section -->
     <div class="container" style="min-height: 100vh;">

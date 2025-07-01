@@ -116,6 +116,20 @@ try {
                 </div>
 
                 <?php
+                // Tambahkan class "img-fluid" ke semua tag <img> jika belum ada
+                $text_peta = preg_replace(
+                    '/<img(?![^>]*class=["\'][^"\']*img-fluid[^"\']*["\'])/i',
+                    '<img class="img-fluid"',
+                    $record['text_peta']
+                );
+                ?>
+
+                <div class="row mb-3">
+                    <div class="col-md-2 fw-bold">Deskripsi</div>
+                    <div class="col-md-10" style="text-align: justify;"><?= htmlspecialchars_decode($text_peta) ?></div>
+                </div>
+
+                <?php
                 function formatDeskripsiToggle($deskripsi)
                 {
                     preg_match_all('/\[(\d{4})\](.*?)(?=(\[\d{4}\])|$)/s', $deskripsi, $matches, PREG_SET_ORDER);
@@ -129,7 +143,7 @@ try {
                             <div class='toggle-header rounded' onclick='toggleDeskripsi($index)'>
                                 <strong>Tahun $tahun</strong>
                             </div>
-                            <div class='toggle-content rounded-bottom' id='content-$index' style='display: none;'>
+                            <div class='toggle-content rounded-bottom' id='content-$index' style='display: none; text-align: justify;'>
                                 $konten
                             </div>
                         </div>
@@ -141,7 +155,7 @@ try {
                 ?>
 
                 <div class="mb-3">
-                    <h2 class="h5 mb-3">Deskripsi</h2>
+                    <h2 class="h5 mb-3">Sejarah Daerah</h2>
                     <?= formatDeskripsiToggle($record['deskripsi']) ?>
                 </div>
 
@@ -158,7 +172,7 @@ try {
                         <div class="card image-card mb-3" onclick="window.location.href='pengguna/view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>';" style="cursor: pointer; border: 1px solid grey">
                             <img src="admin/<?= htmlspecialchars($scene['panorama']) ?>" alt="<?= htmlspecialchars($scene['name']) ?>" class="card-img-top">
                             <div class="card-body">
-                                <h6 style="display: none;"><?= htmlspecialchars($scene['name']) ?></h6>
+                                <h6 class="text-center"><?= htmlspecialchars($scene['name']) ?></h6>
                             </div>
                         </div>
                     <?php endforeach; ?>

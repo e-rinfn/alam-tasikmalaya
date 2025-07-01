@@ -1,10 +1,10 @@
 <?php
 session_start();
-include '../config.php';
+include 'config.php';
 
 // Pastikan admin sudah login
 if (!isset($_SESSION['user_id'])) {
-    echo "<script>alert('Anda harus login terlebih dahulu!'); window.location.href='../login.php';</script>";
+    echo "<script>alert('Anda harus login terlebih dahulu!'); window.location.href='login.php';</script>";
     exit;
 }
 
@@ -46,7 +46,7 @@ if ($pointerQuery->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alam Tasikmalaya 360</title>
-    <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
+    <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -58,7 +58,7 @@ if ($pointerQuery->num_rows > 0) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="css/index.css">
 
     <!-- Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -114,7 +114,7 @@ if ($pointerQuery->num_rows > 0) {
                         <div class="modal-image-content">
                             ' . htmlspecialchars_decode($text_peta) . '
                         </div>
-                        <a href="../view.php?id=' . $m['id'] . '&wisata_id=' . $m['wisata_id'] . '" class="btn btn-primary mt-3">Lihat Detail</a>
+                        <a href="view.php?id=' . $m['id'] . '&wisata_id=' . $m['wisata_id'] . '" class="btn btn-primary mt-3">Lihat Detail</a>
                     </div>
                 </div>
             </div>
@@ -151,7 +151,7 @@ if ($pointerQuery->num_rows > 0) {
                         data-name="<?= htmlspecialchars($row['name']) ?>"
                         data-kategori="<?= htmlspecialchars($row['kategori']) ?>">
 
-                        <img src="<?= '../' . htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 200px; object-fit: cover;">
+                        <img src="<?= '' . htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 200px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
                             <hr>

@@ -3,7 +3,7 @@
     <div class="container">
         <!-- Logo -->
 
-        <a class="navbar-brand text-white" href="index.php"><img src="img/Logo-Putih.png" style="width: 50px;" alt=""> Alam Tasikmalaya 360</a>
+        <a class="navbar-brand text-white" href="index_admin.php"><img src="img/Logo-Putih.png" style="width: 50px;" alt=""> Alam Tasikmalaya 360</a>
 
         <!-- Menu Navbar -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">

@@ -65,6 +65,21 @@ if ($pointerQuery->num_rows > 0) {
 
 </head>
 
+<style>
+    .modal-image-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+        .modal-image-content img {
+            max-width: 400px;
+        }
+    }
+</style>
+
 <body>
 
     <?php include 'admin_header.php'; ?>

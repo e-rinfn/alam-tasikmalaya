@@ -1,5 +1,12 @@
 <?php
 require_once 'db.php';
+session_start();
+
+// Cek apakah user memiliki hak akses admin
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: no_access.php");
+    exit;
+}
 
 // Insert new record
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

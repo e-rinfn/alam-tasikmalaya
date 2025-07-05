@@ -1,5 +1,12 @@
 <?php
 require_once 'db.php';
+session_start();
+
+// Cek apakah user memiliki hak akses admin
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: no_access.php");
+    exit;
+}
 
 try {
     $sql = "SELECT h.*, w.id AS wisata_id, w.name AS wisata_nama FROM history_daerah h JOIN wisata w ON h.wisata_id = w.id";

@@ -8,6 +8,14 @@ if (!$id) {
     die("ID tidak valid.");
 }
 
+session_start();
+
+// Cek apakah user memiliki hak akses admin
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: no_access.php");
+    exit;
+}
+
 // Query untuk mengambil data yang akan diedit
 try {
     $sql = "SELECT * FROM history_daerah WHERE id = ?";

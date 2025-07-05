@@ -7,6 +7,12 @@ if (!isset($_GET['id'])) {
     exit();
 }
 
+// Cek apakah user memiliki hak akses admin
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: no_access.php");
+    exit;
+}
+
 // Ambil wisata_id dari parameter URL atau sesuaikan dengan kebutuhan
 $wisata_id = isset($_GET['wisata_id']) ? intval($_GET['wisata_id']) : 0;
 

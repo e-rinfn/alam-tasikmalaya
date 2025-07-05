@@ -107,12 +107,12 @@ try {
             </div>
             <div class="card-body">
                 <div class="row mb-3">
-                    <div class="col-md-2 fw-bold">Judul:</div>
-                    <div class="col-md-10"><?= htmlspecialchars($record['judul']) ?></div>
+                    <div class="col-md-4 fw-bold">Judul:</div>
+                    <div class="col-md-8"><?= htmlspecialchars($record['judul']) ?></div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-2 fw-bold">Nama Daerah:</div>
-                    <div class="col-md-10"><?= htmlspecialchars($record['name']) ?></div>
+                    <div class="col-md-4 fw-bold">Nama Daerah:</div>
+                    <div class="col-md-8"><?= htmlspecialchars($record['name']) ?></div>
                 </div>
 
                 <?php
@@ -125,14 +125,18 @@ try {
                 ?>
 
                 <div class="row mb-3">
-                    <div class="col-md-2 fw-bold">Deskripsi</div>
-                    <div class="col-md-10" style="text-align: justify;"><?= htmlspecialchars_decode($text_peta) ?></div>
+                    <div class="col-md-12" style="text-align: justify;"><?= htmlspecialchars_decode($text_peta) ?></div>
                 </div>
 
                 <?php
                 function formatDeskripsiToggle($deskripsi)
                 {
-                    preg_match_all('/\[(\d{4})\](.*?)(?=(\[\d{4}\])|$)/s', $deskripsi, $matches, PREG_SET_ORDER);
+                    // Gunakan regex untuk memecah deskripsi berdasarkan tahun
+                    // preg_match_all('/\[(\d{4})\](.*?)(?=(\[\d{4}\])|$)/s', $deskripsi, $matches, PREG_SET_ORDER);
+
+                    // Atau jika formatnya adalah [1 Januari 2020] atau [31 Desember 2020]
+                    preg_match_all('/\[(\d{1,2}\s+\p{L}+\s+\d{4})\](.*?)(?=\[\d{1,2}\s+\p{L}+\s+\d{4}\]|\z)/su', $deskripsi, $matches, PREG_SET_ORDER);
+
 
                     $output = '<div class="deskripsi-container">';
                     foreach ($matches as $index => $match) {
@@ -141,7 +145,7 @@ try {
                         $output .= "
                         <div class='deskripsi-section mb-3'>
                             <div class='toggle-header rounded' onclick='toggleDeskripsi($index)'>
-                                <strong>Tahun $tahun</strong>
+                                <strong>$tahun</strong>
                             </div>
                             <div class='toggle-content rounded-bottom' id='content-$index' style='display: none; text-align: justify;'>
                                 $konten
@@ -163,7 +167,7 @@ try {
             </div>
         </div>
         <!-- Bagian Virtual Tour 360 Derajat -->
-        <div class="col-md-4 vertical-images p-3">
+        <div class="col-md-12 vertical-images p-3">
             <h3 class="text-center">Virtual Tour 360</h3>
             <hr>
             <div class="" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px; background: linear-gradient(135deg, #16C47F , #001A6E);">

@@ -92,7 +92,8 @@ if ($pointerQuery->num_rows > 0) {
 
     <!-- Map Section -->
     <div class="container-fluid mt-3">
-        <div id="leafletMap" style="width: 100%; height: 400px;"></div>
+        <h5 class="text-center fw-bold mb-2">Peta Lokasi Daerah</h5>
+        <div id="leafletMap" class="border rounded" style="height: 400px;"></div>
     </div>
 
     <!-- Dynamic Modals from Database -->
@@ -118,7 +119,7 @@ if ($pointerQuery->num_rows > 0) {
                         <div class="modal-image-content">
                             ' . htmlspecialchars_decode($text_peta) . '
                         </div>
-                        <a href="view.php?id=' . $m['id'] . '&wisata_id=' . $m['wisata_id'] . '" class="btn btn-primary mt-3">Lihat Detail</a>
+                        <a href="view.php?id=' . $m['id'] . '&wisata_id=' . $m['wisata_id'] . '" class="btn btn-success mt-3">Lihat Detail</a>
                     </div>
                 </div>
             </div>
@@ -129,7 +130,7 @@ if ($pointerQuery->num_rows > 0) {
 
 
     <!-- Cards Section -->
-    <div class="container-fluid mt-3" style="min-height: 100vh;">
+    <div class="container mt-3" style="min-height: 100vh;">
         <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border bg-secondary mt-2">
             <?php while ($row = $wisata->fetch_assoc()) { ?>
                 <div class="col mt-0 p-2">
@@ -147,15 +148,15 @@ if ($pointerQuery->num_rows > 0) {
                             </p>
                         </div>
                         <hr>
-                        <div class="row m-3 text-end">
-                            <div class="col-md-2 p-3">
+                        <div class="d-flex  me-3 ms-3 text-center">
+                            <div class="col-md-6 p-3">
                                 <a href="https://www.google.com/maps?q=<?= urlencode($row['location']) ?>" target="_blank" class="btn btn-warning text-dark">
-                                    <i class="bi bi-geo-alt"></i>
+                                    <i class="bi bi-geo-alt"></i> Map
                                 </a>
                             </div>
-                            <div class="col-md-10 p-3">
+                            <div class="col-md-6 p-3">
                                 <a href="informasi_wisata.php?wisata_id=<?= $row['id'] ?>" class="btn text-white bg-success">
-                                    <i class="bi bi-eye"></i> Lihat Selengkapnya
+                                    <i class="bi bi-eye"></i> Detail
                                 </a>
                             </div>
                         </div>
@@ -192,7 +193,7 @@ if ($pointerQuery->num_rows > 0) {
                         <button class="btn btn-sm btn-primary mt-2" 
                                 onclick="document.getElementById('modalTitik${pointer.id}').style.display='block'; 
                                          new bootstrap.Modal(document.getElementById('modalTitik${pointer.id}')).show();">
-                            Lihat Detail
+                            Detail
                         </button>
                     `);
 

@@ -47,9 +47,17 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View History Daerah</title>
+    <title>History Daerah</title>
+    <link rel="icon" type="image/png" href="img/Logo-Putih.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/informasi-wisata.css">
     <style>
         /* Style untuk gambar dari CKEditor */
         .deskripsi-container img {
@@ -99,11 +107,17 @@ try {
     </style>
 </head>
 
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
+
+    <?php include 'pengguna_header.php'; ?>
+
     <div class="container mt-4 mb-4">
         <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h1 class="h4 mb-0">View History Daerah</h1>
+            <div class="card-header d-flex justify-content-between align-items-center m-3">
+                <h3 class="mb-0">History <?= htmlspecialchars($row['name']) ?></h3>
+                <a href="index.php" class="btn btn-outline-secondary">
+                    <span class="small"></span><i class="bi bi-arrow-left me-1"></i> Kembali</span>
+                </a>
             </div>
             <div class="card-body">
                 <div class="row mb-3">
@@ -114,6 +128,9 @@ try {
                     <div class="col-md-4 fw-bold">Nama Daerah:</div>
                     <div class="col-md-8"><?= htmlspecialchars($record['name']) ?></div>
                 </div>
+
+                <h2 class="h5 mb-3">Deskripsi Daerah</h2>
+                <hr>
 
                 <?php
                 // Tambahkan class "img-fluid" ke semua tag <img> jika belum ada
@@ -160,17 +177,19 @@ try {
 
                 <div class="mb-3">
                     <h2 class="h5 mb-3">Sejarah Daerah</h2>
+                    <hr>
+
                     <?= formatDeskripsiToggle($record['deskripsi']) ?>
                 </div>
 
-                <a href="index.php" class="btn btn-primary mt-3">Kembali</a>
+                <!-- <a href="index.php" class="btn btn-primary mt-3">Kembali</a> -->
             </div>
         </div>
         <!-- Bagian Virtual Tour 360 Derajat -->
         <div class="col-md-12 vertical-images p-3">
             <h3 class="text-center">Virtual Tour 360</h3>
             <hr>
-            <div class="" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px; background: linear-gradient(135deg, #16C47F , #001A6E);">
+            <div class="bg-secondary" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px;">
                 <?php if (!empty($sceneList)): ?>
                     <?php foreach ($sceneList as $scene): ?>
                         <div class="card image-card mb-3" onclick="window.location.href='pengguna/view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>';" style="cursor: pointer; border: 1px solid grey">
@@ -216,6 +235,9 @@ try {
             });
         });
     </script>
+
+    <?php include 'pengguna_footer.php'; ?>
+
 </body>
 
 </html>

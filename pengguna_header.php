@@ -1,34 +1,31 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(100deg, #001A6E, #16C47F );">
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand text-white" href="index.php">
-            <img src="img/Logo-Putih.png" style="width: 50px;" alt="">
-            <span class="fs-4 d-none d-md-inline">History Daerah</span>
-            <span class="fs-6 d-inline d-md-none">History Daerah</span>
+        <a class="navbar-brand" href="index.php">
+            <img src="img/Logo-Putih.png" width="50" alt="Logo" class="me-2">
+            <span class="d-none d-sm-inline fs-5">History Daerah</span>
+            <span class="d-inline d-sm-none fs-6">History Daerah</span>
         </a>
 
-        <!-- Tombol Toggler untuk Mobile -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- Mobile Toggle Button -->
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> -->
 
-        <!-- Menu Navbar -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-                <!-- Menu Petunjuk Penggunaan -->
+        <!-- Navbar Menu -->
+        <!-- <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="petunjuk.php">
-                        <i class="bi bi-book"></i> - Petunjuk Penggunaan
+                    <a class="text-white nav-link" href="petunjuk.php">
+                        <i class="bi bi-book me-1"></i>Petunjuk
                     </a>
                 </li>
-                <!-- Menu Tentang -->
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="tentang.php">
-                        <i class="bi bi-info-circle"></i> - Tentang
+                    <a class="text-white nav-link" href="tentang.php">
+                        <i class="bi bi-info-circle me-1"></i>Tentang
                     </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </nav>

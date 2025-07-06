@@ -76,36 +76,6 @@ if ($pointerQuery->num_rows > 0) {
             }
         }
 
-        .pointer {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: red;
-            border: 2px solid white;
-            border-radius: 50%;
-            cursor: pointer;
-            transform: translate(-50%, -50%);
-            transition: transform 0.2s ease;
-            z-index: 100;
-        }
-
-        .pointer:hover {
-            transform: translate(-50%, -50%) scale(1.2);
-            background-color: darkred;
-        }
-
-        .search-bar {
-            margin: 20px 0;
-        }
-
-        .search-input {
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            width: 300px;
-            max-width: 100%;
-        }
-
         .card-img-top {
             transition: transform 0.3s ease;
         }
@@ -120,28 +90,9 @@ if ($pointerQuery->num_rows > 0) {
 
     <?php include 'pengguna_header.php'; ?>
 
-    <!-- Search and Filter Section -->
-    <div class="container">
-        <div class="search-bar d-flex flex-wrap gap-2 align-items-center justify-content-center">
-            <input type="text" class="search-input" id="searchBar" placeholder="Cari Objek Wisata..." oninput="filterCards()">
-
-            <select class="form-select w-auto" id="kategoriFilter" onchange="filterCards()">
-                <option value="">Semua Kategori</option>
-                <?php
-                $kategori = $conn->query("SELECT DISTINCT kategori FROM wisata");
-                while ($kat = $kategori->fetch_assoc()) {
-                    echo '<option value="' . htmlspecialchars($kat['kategori']) . '">' . htmlspecialchars($kat['kategori']) . '</option>';
-                }
-                ?>
-            </select>
-        </div>
-    </div>
-
     <!-- Map Section -->
-    <div class="container">
-        <div class="card mt-4 mb-3 mx-auto" style="max-width: 800px;">
-            <div id="leafletMap" style="height: 500px; border-radius: 5px;"></div>
-        </div>
+    <div class="container-fluid mt-3">
+        <div id="leafletMap" style="width: 100%; height: 400px;"></div>
     </div>
 
     <!-- Dynamic Modals from Database -->
@@ -178,8 +129,8 @@ if ($pointerQuery->num_rows > 0) {
 
 
     <!-- Cards Section -->
-    <div class="container" style="min-height: 100vh;">
-        <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border rounded-3" style="background: linear-gradient(135deg, #16C47F, #001A6E);">
+    <div class="container-fluid mt-3" style="min-height: 100vh;">
+        <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border bg-secondary mt-2">
             <?php while ($row = $wisata->fetch_assoc()) { ?>
                 <div class="col mt-0 p-2">
                     <div class="card h-100 shadow-sm" style="border: 1px solid grey" data-name="<?= htmlspecialchars($row['name']) ?>" data-kategori="<?= htmlspecialchars($row['kategori']) ?>">
@@ -194,9 +145,6 @@ if ($pointerQuery->num_rows > 0) {
                                 echo strlen($caption) > $max_length ? substr($caption, 0, $max_length) . '....' : $caption;
                                 ?>
                             </p>
-                        </div>
-                        <div class="text-center m-2">
-                            Kategori : <span class="badge text-bg-primary"><?= htmlspecialchars($row['kategori']) ?></span>
                         </div>
                         <hr>
                         <div class="row m-3 text-end">

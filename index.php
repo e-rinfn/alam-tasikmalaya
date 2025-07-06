@@ -111,9 +111,9 @@ if ($pointerQuery->num_rows > 0) {
         <div class="modal fade" id="modalTitik' . $m['id'] . '" tabindex="-1" aria-labelledby="modalLabel' . $m['id'] . '" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel' . $m['id'] . '">' . htmlspecialchars($m['judul']) . '</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title text-white" id="modalLabel' . $m['id'] . '">' . htmlspecialchars($m['judul']) . '</h5>
+                        <button type="button " class="btn-close text-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>
                     <div class="modal-body text-start" style="text-align: justify;">
                         <div class="modal-image-content">

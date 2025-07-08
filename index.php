@@ -130,7 +130,7 @@ if ($pointerQuery->num_rows > 0) {
 
 
     <!-- Cards Section -->
-    <div class="container mt-3" style="min-height: 100vh;">
+    <div class="container-fluid mt-3" style="min-height: 100vh;">
         <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border bg-secondary mt-2">
             <?php while ($row = $wisata->fetch_assoc()) { ?>
                 <div class="col mt-0 p-2">

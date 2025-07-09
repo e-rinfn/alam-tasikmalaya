@@ -45,11 +45,10 @@ if ($pointerQuery->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alam Tasikmalaya 360</title>
+    <title>History Daerah</title>
     <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -62,6 +61,9 @@ if ($pointerQuery->num_rows > 0) {
 
     <!-- Manifest -->
     <link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 </head>
 
@@ -84,26 +86,10 @@ if ($pointerQuery->num_rows > 0) {
 
     <?php include 'admin_header.php'; ?>
 
-    <!-- Dropdown Kategori Wisata -->
-    <div class="search-bar d-flex flex-wrap gap-2 align-items-center justify-content-center">
-        <input type="text" class="search-input" id="searchBar" placeholder="Cari Objek Wisata..." oninput="filterCards()">
-
-        <select class="form-select w-auto" id="kategoriFilter" onchange="filterCards()">
-            <option value="">Semua Kategori</option>
-            <?php
-            $kategori = $conn->query("SELECT DISTINCT kategori FROM wisata");
-            while ($kat = $kategori->fetch_assoc()) {
-                echo '<option value="' . htmlspecialchars($kat['kategori']) . '">' . htmlspecialchars($kat['kategori']) . '</option>';
-            }
-            ?>
-        </select>
-    </div>
-
     <!-- Map Section -->
-    <div class="container">
-        <div class="card mt-4 mb-3 mx-auto" style="max-width: 800px;">
-            <div id="leafletMap" style="height: 500px; border-radius: 5px;"></div>
-        </div>
+    <div class="container-fluid mt-3">
+        <h5 class="text-center fw-bold mb-2">Peta Lokasi Daerah</h5>
+        <div id="leafletMap" class="border rounded" style="height: 400px;"></div>
     </div>
 
     <!-- Dynamic Modals from Database -->
@@ -140,10 +126,8 @@ if ($pointerQuery->num_rows > 0) {
 
 
     <!-- Cards Section -->
-    <div class="container" style="min-height: 100vh;">
-
-        <br>
-        <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border rounded-3" style="background: linear-gradient(100deg, #001A6E, #16C47F );">
+    <div class="container-fluid mt-3" style="min-height: 100vh;">
+        <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border bg-secondary mt-2">
 
             <!-- Card Tambah Wisata -->
             <div class="col mt-0 p-2">
@@ -185,10 +169,10 @@ if ($pointerQuery->num_rows > 0) {
                         <hr>
                         <div class="card-footer bg-white border-0 d-flex justify-content-around flex-wrap">
                             <!-- Tombol Aksi -->
-                            <a href="scenes.php?wisata_id=<?= $row['id'] ?>" class="btn btn-success btn-sm flex-grow-1 text-center">
+                            <a href="admin/scenes.php?wisata_id=<?= $row['id'] ?>" class="btn btn-success btn-sm flex-grow-1 text-center">
                                 <i class="bi bi-signpost-2"></i><br> Kelola Scene
                             </a>
-                            <a href="edit_wisata.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm flex-grow-1 text-center">
+                            <a href="admin/edit_wisata.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm flex-grow-1 text-center">
                                 <i class="bi bi-pencil-square"></i><br> Edit
                             </a>
                             <a href="#" class="btn btn-danger btn-sm flex-grow-1 text-center delete-btn"
@@ -268,7 +252,7 @@ if ($pointerQuery->num_rows > 0) {
                     const wisataName = this.getAttribute("data-name");
 
                     deleteWisataName.textContent = wisataName;
-                    confirmDeleteBtn.href = "hapus_wisata.php?id=" + wisataId;
+                    confirmDeleteBtn.href = "admin/hapus_wisata.php?id=" + wisataId;
 
                     deleteModal.show();
                 });
@@ -371,7 +355,7 @@ if ($pointerQuery->num_rows > 0) {
     </script>
 
 
-    <?php include 'admin_footer.php'; ?>
+    <?php include 'pengguna_footer.php'; ?>
 </body>
 
 </html>

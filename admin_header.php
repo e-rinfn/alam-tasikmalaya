@@ -1,5 +1,5 @@
 <!-- Header -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+<nav class="navbar navbar-expand-lg navbar-light bg-secondary">
     <div class="container">
         <!-- Logo -->
 
@@ -22,12 +22,12 @@
                         <i class="bi bi-person-circle"></i> Administrator
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end mt-3" aria-labelledby="userDropdown">
-                        <!-- <li><a class="dropdown-item" href="akun.php"><i class="bi bi-person"></i> Akun</a></li>
+                        <li><a class="dropdown-item" href="admin/akun.php"><i class="bi bi-person"></i> Akun</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-book"></i> Petunjuk Penggunaan</a></li>
-                        <li><a class="dropdown-item" href="tentang.php"><i class="bi bi-info-circle"></i> Tentang</a></li>
+                        <!-- <li><a class="dropdown-item" href="tentang.php"><i class="bi bi-info-circle"></i> Tentang</a></li> -->
                         <li>
                             <hr class="dropdown-divider">
-                        </li> -->
+                        </li>
                         <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                     </ul>
                 </li>

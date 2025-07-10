@@ -148,7 +148,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <!-- Sticky Header -->
-                        <div class="modal-header text-white" style="background: linear-gradient(100deg, #001A6E, #16C47F );">
+                        <div class="modal-header text-white bg-secondary">
                             <h5 class="modal-title" id="sceneModalLabel"><i class="bi bi-card-image"></i> - Pilih Lokasi Scene</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -163,7 +163,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
                                                 <div class="d-flex justify-content-center">
                                                     <img src="<?= '../admin/' . htmlspecialchars($scene['panorama']) ?>" width="200" class="rounded shadow text-center">
                                                 </div>
-                                                <div class="hidden mb-2 text-center text-mute" style="color: black">
+                                                <div class="mb-2 text-center text-mute" style="color: black">
                                                     <?= htmlspecialchars($scene['name']) ?>
                                                 </div>
                                             </a>

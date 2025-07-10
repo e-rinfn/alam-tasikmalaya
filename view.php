@@ -34,7 +34,7 @@ try {
     $record = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$record) {
-        die("Record not found");
+        die("Data History Daerah tidak ditemukan.");
     }
 } catch (PDOException $e) {
     die("Error fetching record: " . $e->getMessage());

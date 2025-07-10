@@ -42,6 +42,7 @@ $stmt->close();
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,31 +71,32 @@ $stmt->close();
 
 
 </head>
+
 <body>
 
-<?php include 'admin_header.php'; ?>
+    <?php include 'admin_header.php'; ?>
 
-<div class="container mt-3 p-3 mb-3 rounded" style="min-height: 80vh;">
-    
-    <!-- Tampilkan nama wisata yang dipilih -->
-    <h3>Kelola Scene Untuk Wisata - <?= htmlspecialchars($wisata_name) ?></h3>
-    <hr>
-    <!-- Container untuk tombol Tambah Scene dan Kembali -->
-    <div class="button-container">
-        <a href="index.php" class="btn btn-secondary">
-            <i class="bi bi-arrow-left"></i> Kembali
-        </a>
-        <a href="add_scene.php?wisata_id=<?= $wisata_id ?>" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Tambah Scene
-        </a>
-    </div>
+    <div class="container mt-3 p-3 mb-3 rounded" style="min-height: 80vh;">
 
-    <?php
-    // Pastikan koneksi database sudah ada di $conn
-    $wisata_id = $_GET['wisata_id']; // Ambil ID wisata dari parameter URL
+        <!-- Tampilkan nama wisata yang dipilih -->
+        <h3>Kelola Scene Untuk Wisata - <?= htmlspecialchars($wisata_name) ?></h3>
+        <hr>
+        <!-- Container untuk tombol Tambah Scene dan Kembali -->
+        <div class="button-container">
+            <a href="index.php" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Kembali
+            </a>
+            <a href="add_scene.php?wisata_id=<?= $wisata_id ?>" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Tambah Scene
+            </a>
+        </div>
 
-    // Perbaiki query SQL
-    $query = "SELECT scenes.id, scenes.name, scenes.panorama, 
+        <?php
+        // Pastikan koneksi database sudah ada di $conn
+        $wisata_id = $_GET['wisata_id']; // Ambil ID wisata dari parameter URL
+
+        // Perbaiki query SQL
+        $query = "SELECT scenes.id, scenes.name, scenes.panorama, 
                     COUNT(hotspots.id) AS total_hotspot, 
                     GROUP_CONCAT(hotspots.text SEPARATOR ', ') AS hotspot_names
             FROM scenes
@@ -102,117 +104,117 @@ $stmt->close();
             WHERE scenes.wisata_id = ?  -- Filter berdasarkan wisata_id
             GROUP BY scenes.id";
 
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $wisata_id);
-    $stmt->execute();
-    $scenes = $stmt->get_result();
-    ?>
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $wisata_id);
+        $stmt->execute();
+        $scenes = $stmt->get_result();
+        ?>
 
 
 
-    <!-- Tampilkan daftar scene -->
-    <div class="table-responsive mt-3 bg-white">
-    <table class="table table-bordered table-striped table-hover">
-    <thead class="table-secondary">
-        <tr>
-            <th class="text-center">No</th>
-            <th class="text-center w-25">Nama Scene</th>
-            <th class="text-center w-25">Gambar Panorama</th>
-            <th class="text-center w-25">Hotspot Scene</th>
-            <th class="text-center w-25">Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if ($scenes->num_rows > 0): ?>
-            <?php $no = 1; while ($scene = $scenes->fetch_assoc()): ?>
-                <tr>
-                    <td class="text-center align-middle"><?= $no++ ?></td>
-                    <td class="align-middle" ><?= htmlspecialchars($scene['name']) ?></td>
-                    <td class="text-center align-middle">
-                        <img src="<?= htmlspecialchars($scene['panorama']) ?>" class="img-thumbnail" width="500" alt="Panorama">
-                    </td>
-                    <td class="text-center">
-                        <hr>
-                        <b>Total Hotspot: </b>
-                        <?= $scene['total_hotspot'] ?>
-                        <br>
-                        <hr>
-                        <div class="text-start">
-                        <?php if ($scene['hotspot_names']): ?>
-                            <ul class="list-styled"><b>Nama Hotspot: </b>
-                                <?php foreach (explode(',', $scene['hotspot_names']) as $hotspot_name): ?>
-                                    <li><?= htmlspecialchars(trim($hotspot_name)) ?></li>
-                                <?php endforeach; ?>
-                            </u>
-                        <?php else: ?>
-                            -
-                        <?php endif; ?>
-                        </div>
-                    </td>
-                    <td class="text-center align-middle">
-                        <!-- Tombol Lihat Scene -->
-                        <a href="view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>" class="btn btn-primary btn-sm m-1">
-                            <i class="bi bi-eye"></i> Lihat Scene
-                        </a>
-
-                        <!-- Tombol Edit -->
-                        <a href="edit_scene.php?id=<?= $scene['id'] ?>" class="btn btn-warning btn-sm m-1">
-                            <i class="bi bi-pencil"></i> Edit
-                        </a>
-
-                        <!-- Tombol Kelola Hotspot -->
-                        <a href="hotspots.php?scene_id=<?= $scene['id'] ?>" class="btn btn-info btn-sm m-1">
-                            <i class="bi bi-gear"></i> Kelola Hotspot
-                        </a>
-
-                        <!-- Tombol Hapus -->
-                        <a href="#" class="btn btn-danger btn-sm m-1" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-href="hapus_scene.php?id=<?= $scene['id'] ?>">
-                            <i class="bi bi-trash"></i> Hapus
-                        </a>
-                        
-                        <!-- Modal Konfirmasi -->
-                        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Tampilkan daftar scene -->
+        <div class="table-responsive mt-3 bg-white">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-secondary">
+                    <tr>
+                        <th class="text-center">No</th>
+                        <th class="text-center w-25">Nama Scene</th>
+                        <th class="text-center w-25">Gambar Panorama</th>
+                        <th class="text-center w-25">Hotspot Scene</th>
+                        <th class="text-center w-25">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ($scenes->num_rows > 0): ?>
+                        <?php $no = 1;
+                        while ($scene = $scenes->fetch_assoc()): ?>
+                            <tr>
+                                <td class="text-center align-middle"><?= $no++ ?></td>
+                                <td class="align-middle"><?= htmlspecialchars($scene['name']) ?></td>
+                                <td class="text-center align-middle">
+                                    <img src="<?= htmlspecialchars($scene['panorama']) ?>" class="img-thumbnail" width="500" alt="Panorama">
+                                </td>
+                                <td class="text-center">
+                                    <hr>
+                                    <b>Total Hotspot: </b>
+                                    <?= $scene['total_hotspot'] ?>
+                                    <br>
+                                    <hr>
+                                    <div class="text-start">
+                                        <?php if ($scene['hotspot_names']): ?>
+                                            <ul class="list-styled"><b>Nama Hotspot: </b>
+                                                <?php foreach (explode(',', $scene['hotspot_names']) as $hotspot_name): ?>
+                                                    <li><?= htmlspecialchars(trim($hotspot_name)) ?></li>
+                                                <?php endforeach; ?>
+                                                </u>
+                                            <?php else: ?>
+                                                -
+                                            <?php endif; ?>
                                     </div>
-                                    <div class="modal-body text-center">Apakah Anda yakin ingin menghapus scene ini?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Ya, Hapus</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <!-- Tombol Lihat Scene -->
+                                    <a href="view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>" class="btn btn-primary btn-sm m-1">
+                                        <i class="bi bi-eye"></i> Lihat Scene
+                                    </a>
 
-                        <!-- Script untuk Menyesuaikan URL -->
-                        <script>
-                            var confirmDeleteModal = document.getElementById('confirmDeleteModal');
-                            confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
-                                var button = event.relatedTarget; // Tombol yang diklik
-                                var href = button.getAttribute('data-href'); // Ambil URL dari data-href
-                                var confirmButton = document.getElementById('confirmDeleteBtn');
-                                confirmButton.setAttribute('href', href); // Set URL di tombol hapus
-                            });
-                        </script>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="6" class="text-center text-muted">
-                    <i class="bi bi-exclamation-circle"></i> Belum ada scene.
-                </td>
-            </tr>
-        <?php endif; ?>
-    </tbody>
-</table>
+                                    <!-- Tombol Edit -->
+                                    <a href="edit_scene.php?id=<?= $scene['id'] ?>" class="btn btn-warning btn-sm m-1">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+
+                                    <!-- Tombol Kelola Hotspot -->
+                                    <a href="hotspots.php?scene_id=<?= $scene['id'] ?>" class="btn btn-info btn-sm m-1">
+                                        <i class="bi bi-gear"></i> Kelola Hotspot
+                                    </a>
+
+                                    <!-- Tombol Hapus -->
+                                    <a href="#" class="btn btn-danger btn-sm m-1" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-href="hapus_scene.php?id=<?= $scene['id'] ?>">
+                                        <i class="bi bi-trash"></i> Hapus
+                                    </a>
+
+                                    <!-- Modal Konfirmasi -->
+                                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center">Apakah Anda yakin ingin menghapus scene ini?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Ya, Hapus</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Script untuk Menyesuaikan URL -->
+                                    <script>
+                                        var confirmDeleteModal = document.getElementById('confirmDeleteModal');
+                                        confirmDeleteModal.addEventListener('show.bs.modal', function(event) {
+                                            var button = event.relatedTarget; // Tombol yang diklik
+                                            var href = button.getAttribute('data-href'); // Ambil URL dari data-href
+                                            var confirmButton = document.getElementById('confirmDeleteBtn');
+                                            confirmButton.setAttribute('href', href); // Set URL di tombol hapus
+                                        });
+                                    </script>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">
+                                <i class="bi bi-exclamation-circle"></i> Belum ada scene.
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-
-<?php include 'admin_footer.php'; ?>
 </body>
+
 </html>

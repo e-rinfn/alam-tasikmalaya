@@ -139,7 +139,7 @@ if ($pointerQuery->num_rows > 0) {
                         <div class="card-body">
                             <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
                             <hr>
-                            <p class="card-text" style="text-align: justify;">
+                            <p style="text-align: justify;">
                                 <?php
                                 $max_length = 300;
                                 $caption = $row['description'];

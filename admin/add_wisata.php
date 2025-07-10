@@ -52,10 +52,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (!is_dir($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }
-
+            // Buat nama unik untuk gambar
             $new_image_name = uniqid() . '.' . $image_ext;
             if (move_uploaded_file($image_tmp, $upload_dir . $new_image_name)) {
-                $image_url = 'img/thumbnail/' . $new_image_name; // Simpan path gambar relatif
+                $image_url = '../img/thumbnail/' . $new_image_name; // Simpan path gambar relatif
             } else {
                 $errors[] = "Gagal mengunggah gambar!";
             }

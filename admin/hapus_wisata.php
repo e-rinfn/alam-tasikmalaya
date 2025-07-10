@@ -22,11 +22,10 @@ $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
-    header("Location: index.php");
+    header("Location: ../index_admin.php");
 } else {
     echo "<script>alert('Gagal menghapus data!'); window.location.href='index.php';</script>";
 }
 
 $stmt->close();
 $conn->close();
-?>

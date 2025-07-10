@@ -23,9 +23,10 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alam Tasikmalaya 360</title>
-    <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
+    <title>History Daerah</title>
+    <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -34,20 +35,20 @@ try {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="css/index.css">
 
     <!-- Manifest -->
     <link rel="manifest" href="manifest.json">
 
 </head>
 
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
 
     <!-- Header -->
     <?php include 'admin_header.php'; ?>
 
     <div class="container">
-        <h1 class="mb-4">History Daerah Records</h1>
+        <h1 class="mb-4 mt-3">Daftar History Daerah</h1>
 
         <?php if (isset($_GET['success'])): ?>
             <div class="alert alert-success">
@@ -55,19 +56,19 @@ try {
             </div>
         <?php endif; ?>
 
-        <a href="create.php" class="btn btn-success mb-3">Create New Record</a>
+        <a href="create.php" class="btn btn-success mb-3">Tambah History Baru</a>
 
         <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle bg-white">
-                <thead class="table-light">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light text-center">
                     <tr>
-                        <th>No</th>
+                        <th style="width: 40px;">No</th>
                         <th>Wisata</th>
                         <th>Judul</th>
-                        <th>Deskripsi</th>
+                        <th style="width: 200px;">Deskripsi</th>
                         <th>Longitude</th>
                         <th>Latitude</th>
-                        <th>Actions</th>
+                        <th style="width: 180px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,22 +77,32 @@ try {
                             <td><?= $index + 1 ?></td>
                             <td><?= htmlspecialchars($record['wisata_nama']) ?></td>
                             <td><?= htmlspecialchars($record['judul']) ?></td>
-                            <td><?= htmlspecialchars(substr($record['deskripsi'], 0, 50)) ?>...</td>
-                            <td><?= htmlspecialchars($record['longitude']) ?></td>
-                            <td><?= htmlspecialchars($record['latitude']) ?></td>
                             <td>
-                                <a href="view-admin.php?id=<?= $record['id'] . '&wisata_id=' . $record['wisata_id'] ?>" class="btn btn-sm btn-primary mb-1">View</a>
-                                <a href="update.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-warning mb-1">Edit</a>
-                                <a href="delete.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-danger mb-1" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
+                                <span title="<?= htmlspecialchars($record['deskripsi']) ?>">
+                                    <?= htmlspecialchars(mb_strimwidth($record['deskripsi'], 0, 50, '...')) ?>
+                                </span>
+                            </td>
+                            <td class="text-center"><?= htmlspecialchars($record['longitude']) ?></td>
+                            <td class="text-center"><?= htmlspecialchars($record['latitude']) ?></td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a href="view-admin.php?id=<?= $record['id'] ?>&wisata_id=<?= $record['wisata_id'] ?>" class="btn btn-sm btn-primary" title="Lihat"><i class="bi bi-eye"></i></a>
+                                    <a href="update.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-warning" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="delete.php?id=<?= $record['id'] ?>" class="btn btn-sm btn-danger" title="Hapus" onclick="return confirm('Hapus data ini?')"><i class="bi bi-trash"></i></a>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <?php include 'pengguna_footer.php'; ?>
+
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 <?php
-require_once 'db.php';
 session_start();
+require_once 'db.php';
 
 // Cek apakah user memiliki hak akses admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
@@ -59,160 +59,89 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah History Daerah</title>
+    <title>History Daerah</title>
+    <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
     <!-- CK Editor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
 
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #3498db;
-            outline: none;
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
-        }
-
-        .btn {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #2980b9;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #3498db;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        .ck-editor__editable {
-            min-height: 200px;
-            border: 1px solid #ddd !important;
-            border-radius: 4px !important;
-        }
-
-        .error-message {
-            color: #e74c3c;
-            margin-top: 5px;
-            font-size: 14px;
-        }
-    </style>
 </head>
 
-<body>
-    <div class="container">
-        <h1>Tambah History Daerah</h1>
+<body style="font-family: 'Poppins', sans-serif;">
+    <?php include 'admin_header.php'; ?>
 
-        <?php if (isset($wisataError)): ?>
-            <div class="error-message"><?= htmlspecialchars($wisataError) ?></div>
-        <?php endif; ?>
+    <div class="container mt-3">
+        <div class="">
+            <div class="card-body">
+                <h3 class="card-title mb-4">Tambah History Daerah</h3>
 
-        <form method="POST">
-            <div class="form-group">
-                <label for="wisata_id">Wisata:</label>
-                <select id="wisata_id" name="wisata_id" required>
-                    <option value="">-- Pilih Wisata --</option>
-                    <?php foreach ($wisataList as $wisata): ?>
-                        <option value="<?= htmlspecialchars($wisata['id']) ?>">
-                            <?= htmlspecialchars($wisata['name']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <?php if (isset($wisataError)): ?>
+                    <div class="alert alert-danger"><?= htmlspecialchars($wisataError) ?></div>
+                <?php endif; ?>
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="wisata_id" class="form-label">Wisata</label>
+                        <select id="wisata_id" name="wisata_id" class="form-select" required>
+                            <option value="">-- Pilih Wisata --</option>
+                            <?php foreach ($wisataList as $wisata): ?>
+                                <option value="<?= htmlspecialchars($wisata['id']) ?>">
+                                    <?= htmlspecialchars($wisata['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="judul" class="form-label">Judul</label>
+                        <input type="text" id="judul" name="judul" class="form-control" maxlength="150" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="teks-peta" class="form-label">Teks di Modal Peta</label>
+                        <textarea id="teks-peta" name="teks-peta" class="form-control"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="deskripsi" class="form-label">Deskripsi History</label>
+                        <small class="d-block text-muted mb-2">
+                            Tambahkan tahun dalam kurung, contoh: <code>[23 Oktober 2002]</code> diikuti deskripsinya.
+                        </small>
+                        <textarea id="deskripsi" name="deskripsi" class="form-control"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="longitude" class="form-label">Longitude</label>
+                            <input type="text" id="longitude" name="longitude" class="form-control" maxlength="20" placeholder="Contoh: 110.123456">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="latitude" class="form-label">Latitude</label>
+                            <input type="text" id="latitude" name="latitude" class="form-control" maxlength="20" placeholder="Contoh: -7.123456">
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <a href="read.php" class="btn btn-outline-secondary ms-3">Kembali ke Daftar</a>
+                    </div>
+                </form>
             </div>
-
-            <div class="form-group">
-                <label for="judul">Judul:</label>
-                <input type="text" id="judul" name="judul" maxlength="150" required>
-            </div>
-
-            <div class="form-group">
-                <label for="teks-peta">Teks di peta:</label>
-                <textarea id="teks-peta" name="teks-peta"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="deskripsi">Deskripsi History: (tambahkan tahun didalam kurung ini []. contoh [2025] kemudian diikuti text deskripsi tahun tersebut)</label>
-                <textarea id="deskripsi" name="deskripsi"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="longitude">Longitude:</label>
-                <input type="text" id="longitude" name="longitude" maxlength="20"
-                    placeholder="Contoh: 110.123456">
-            </div>
-
-            <div class="form-group">
-                <label for="latitude">Latitude:</label>
-                <input type="text" id="latitude" name="latitude" maxlength="20"
-                    placeholder="Contoh: -7.123456">
-            </div>
-
-            <button type="submit" class="btn">Simpan</button>
-        </form>
-
-        <a href="read.php" class="back-link">Kembali ke Daftar</a>
+        </div>
     </div>
 
     <script>
@@ -316,6 +245,8 @@ try {
             })
             .catch(error => console.error(error));
     </script>
+
+    <?php include 'pengguna_footer.php'; ?>
 </body>
 
 </html>

@@ -104,6 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -111,6 +112,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -134,140 +137,141 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </head>
 
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
 
-<?php include 'admin_header.php'; ?>
-
-
+    <?php include 'admin_header.php'; ?>
 
 
-<div class="container mt-4 p-3 mb-3 rounded">
-<h3>Edit Wisata - <?= htmlspecialchars($wisata['name']) ?></h3>
-<hr>
-    <form action="" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="<?= htmlspecialchars($wisata['id']) ?>">
-        
-        <div class="d-flex justify-content-around">
-            <!-- <div class="mb-3">
+
+
+    <div class="container mt-4 p-3 mb-3 rounded">
+        <h3>Edit Wisata - <?= htmlspecialchars($wisata['name']) ?></h3>
+        <hr>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($wisata['id']) ?>">
+
+            <div class="d-flex justify-content-around">
+                <!-- <div class="mb-3">
                 <label for="location" class="form-label">Lokasi</label>
                 <input type="text" class="form-control" id="location" name="location" value="<?= htmlspecialchars($wisata['location']) ?>" required>
             </div> -->
 
-            <div class="mb-3 p-3 w-50">
-                <label for="name" class="form-label">Nama Wisata</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($wisata['name']) ?>" required>
-<hr>
-            
-                <label for="location" class="form-label mt-5">Lokasi</label>
-                <input type="text" class="form-control" id="location" name="location" 
-                    value="<?= htmlspecialchars($wisata['location']) ?>" required>
+                <div class="mb-3 p-3 w-50">
+                    <label for="name" class="form-label">Nama Wisata</label>
+                    <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($wisata['name']) ?>" required>
+                    <hr>
 
-                <!-- Link ke Google Maps -->
-                <small class="form-text">
-                    <a href="https://www.google.com/maps/search/?q=<?= urlencode($wisata['location']) ?>" 
-                    target="_blank" class="d-block mt-2">
-                        <i class="bi bi-geo-alt"></i> Lihat di Google Maps
-                    </a>
-                </small>
+                    <label for="location" class="form-label mt-5">Lokasi</label>
+                    <input type="text" class="form-control" id="location" name="location"
+                        value="<?= htmlspecialchars($wisata['location']) ?>" required>
+
+                    <!-- Link ke Google Maps -->
+                    <small class="form-text">
+                        <a href="https://www.google.com/maps/search/?q=<?= urlencode($wisata['location']) ?>"
+                            target="_blank" class="d-block mt-2">
+                            <i class="bi bi-geo-alt"></i> Lihat di Google Maps
+                        </a>
+                    </small>
+                </div>
+
+
+                <div class="mb-3 p-3">
+                    <label for="image" class="form-label">Gambar (URL atau Upload)</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                    <small class="form-text text-muted">Maksimal ukuran file 2MB. Jika ingin mengubah gambar, unggah gambar baru.</small>
+                    <?php if (!empty($wisata['image_url'])): ?>
+                        <div class="mt-2 text-center">
+                            <img src="<?= htmlspecialchars('../' . $wisata['image_url']) ?>" alt="Gambar Wisata" class="img-thumbnail" width="300">
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <hr>
+            <div class="mb-3 text-center">
+                <label for="description" class="form-label">Deskripsi Wisata</label>
+                <textarea class="form-control" id="description" name="description" style="height: 200px;" required><?= htmlspecialchars($wisata['description']) ?></textarea>
             </div>
 
+            <script>
+                ClassicEditor
+                    .create(document.querySelector('#description'), {
+                        toolbar: [
+                            'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'
+                        ],
+                        height: '500px' // Atur tinggi editor
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            </script>
 
-            <div class="mb-3 p-3">
-                <label for="image" class="form-label">Gambar (URL atau Upload)</label>
-                <input type="file" class="form-control" id="image" name="image">
-                <small class="form-text text-muted">Maksimal ukuran file 2MB. Jika ingin mengubah gambar, unggah gambar baru.</small>
-                <?php if (!empty($wisata['image_url'])): ?>
-                    <div class="mt-2 text-center">
-                        <img src="<?= htmlspecialchars('../' . $wisata['image_url']) ?>" alt="Gambar Wisata" class="img-thumbnail" width="300">
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-        <hr>
-        <div class="mb-3 text-center">
-            <label for="description" class="form-label">Deskripsi Wisata</label>
-            <textarea class="form-control" id="description" name="description" style="height: 200px;" required><?= htmlspecialchars($wisata['description']) ?></textarea>
-        </div>
 
-        <script>
-            ClassicEditor
-                .create(document.querySelector('#description'), {
-                    toolbar: [
-                        'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'
-                    ],
-                    height: '500px' // Atur tinggi editor
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        </script>
-        
-        
-        <hr>
-        <a href="index.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
-        <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> - Simpan</button>
-    </form>
-    <br>
-</div>
+            <hr>
+            <a href="../index_admin.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+            <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> - Simpan</button>
+        </form>
+        <br>
+    </div>
 
-<!-- Bootstrap Modal untuk Error -->
-<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="errorModalLabel">Terjadi Kesalahan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <ul>
-                    <?php foreach ($errors as $error) : ?>
-                        <li><?= $error; ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+    <!-- Bootstrap Modal untuk Error -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel">Terjadi Kesalahan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <?php foreach ($errors as $error) : ?>
+                            <li><?= $error; ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Bootstrap Modal untuk Sukses -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="successModalLabel">Berhasil</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <?= $success; ?>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="redirectPage()">OK</button>
+    <!-- Bootstrap Modal untuk Sukses -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel">Berhasil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?= $success; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="redirectPage()">OK</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Script untuk Menampilkan Modal -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        <?php if (!empty($errors)) : ?>
-            var errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
-            errorModal.show();
-        <?php endif; ?>
+    <!-- Script untuk Menampilkan Modal -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            <?php if (!empty($errors)) : ?>
+                var errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+                errorModal.show();
+            <?php endif; ?>
 
-        <?php if (!empty($success)) : ?>
-            var successModal = new bootstrap.Modal(document.getElementById("successModal"));
-            successModal.show();
-        <?php endif; ?>
-    });
+            <?php if (!empty($success)) : ?>
+                var successModal = new bootstrap.Modal(document.getElementById("successModal"));
+                successModal.show();
+            <?php endif; ?>
+        });
 
-    function redirectPage() {
-        window.location.href = "edit_wisata.php?id=<?= $id ?>";
-    }
-</script>
+        function redirectPage() {
+            window.location.href = "edit_wisata.php?id=<?= $id ?>";
+        }
+    </script>
 
 </body>
+
 </html>

@@ -1,9 +1,9 @@
 <!-- Header -->
-<nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(100deg, #001A6E, #16C47F );">
+<nav class="navbar navbar-expand-lg navbar-light bg-secondary">
     <div class="container">
         <!-- Logo -->
 
-        <a class="navbar-brand text-white" href="index.php"><img src="../img/Logo-Putih.png" style="width: 50px;" alt=""> Alam Tasikmalaya 360</a>
+        <a class="navbar-brand text-white" href="../index_admin.php"><img src="../img/Logo-Putih.png" style="width: 50px;" alt=""> History Daerah</a>
 
         <!-- Menu Navbar -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -19,7 +19,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white text-decoration-none" href="#" id="userDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i> - ADMINISTRATOR
+                        <i class="bi bi-person-circle"></i> Administrator
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end mt-3" aria-labelledby="userDropdown">
                         <li><a class="dropdown-item" href="akun.php"><i class="bi bi-person"></i> Akun</a></li>

@@ -131,7 +131,7 @@ if ($pointerQuery->num_rows > 0) {
 
             <!-- Card Tambah Wisata -->
             <div class="col mt-0 p-2">
-                <a href="add_wisata.php">
+                <a href="admin/add_wisata.php">
                     <div class="card h-100 shadow-sm border-0 text-center d-flex align-items-center justify-content-center;"
                         data-name="<?= htmlspecialchars($row['name']) ?>"
                         style="cursor: pointer;">

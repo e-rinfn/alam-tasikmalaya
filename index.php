@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+ini_set('memory_limit', '256M'); // Tingkatkan memory limit
 
 // Error handling for database connection
 if ($conn->connect_error) {
@@ -25,6 +26,18 @@ if ($pointerQuery->num_rows > 0) {
         $pointerData[] = $p;
     }
 }
+?>
+
+<?php
+// Konfigurasi paginasi
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$itemsPerPage = 9;
+$offset = ($page - 1) * $itemsPerPage;
+$wisata = $conn->query("SELECT * FROM wisata LIMIT $itemsPerPage OFFSET $offset");
+
+// Hitung total data untuk navigasi paginasi
+$totalItems = $conn->query("SELECT COUNT(*) as total FROM wisata")->fetch_assoc()['total'];
+$totalPages = ceil($totalItems / $itemsPerPage); // Total halaman
 ?>
 
 <!DOCTYPE html>
@@ -165,6 +178,32 @@ if ($pointerQuery->num_rows > 0) {
             <?php } ?>
         </div>
     </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <!-- Tombol Previous -->
+            <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                <a class="page-link" href="?page=<?= $page - 1 ?>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <!-- Nomor Halaman -->
+            <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                </li>
+            <?php endfor; ?>
+
+            <!-- Tombol Next -->
+            <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
+                <a class="page-link" href="?page=<?= $page + 1 ?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

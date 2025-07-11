@@ -1,6 +1,9 @@
 <?php
 session_start();
+ini_set('memory_limit', '256M'); // Tingkatkan memory limit
 include 'config.php';
+
+
 
 // Pastikan admin sudah login
 if (!isset($_SESSION['user_id'])) {
@@ -23,6 +26,7 @@ if ($role !== 'admin' && $role !== 'user') {
 // Ambil data wisata, scene, dan hotspot
 $wisata = $conn->query("SELECT * FROM wisata");
 
+
 // Fetch pointer data with error handling
 $pointerQuery = $conn->query("SELECT h.*, w.id AS wisata_id FROM history_daerah h JOIN wisata w ON h.wisata_id = w.id");
 if (!$pointerQuery) {
@@ -37,6 +41,18 @@ if ($pointerQuery->num_rows > 0) {
     }
 }
 
+?>
+
+<?php
+// Konfigurasi paginasi
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$itemsPerPage = 9;
+$offset = ($page - 1) * $itemsPerPage;
+$wisata = $conn->query("SELECT * FROM wisata LIMIT $itemsPerPage OFFSET $offset");
+
+// Hitung total data untuk navigasi paginasi
+$totalItems = $conn->query("SELECT COUNT(*) as total FROM wisata")->fetch_assoc()['total'];
+$totalPages = ceil($totalItems / $itemsPerPage); // Total halaman
 ?>
 
 <!DOCTYPE html>
@@ -124,7 +140,6 @@ if ($pointerQuery->num_rows > 0) {
     }
     ?>
 
-
     <!-- Cards Section -->
     <div class="container-fluid mt-3" style="min-height: 100vh;">
         <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border bg-secondary mt-2">
@@ -146,21 +161,13 @@ if ($pointerQuery->num_rows > 0) {
             <!-- Card Daftar Wisata -->
             <?php while ($row = $wisata->fetch_assoc()) { ?>
                 <div class="col mt-0 p-2">
-                    <div class="card h-100 shadow-sm border-0"
-                        data-name="<?= htmlspecialchars($row['name']) ?>"
-                        data-kategori="<?= htmlspecialchars($row['kategori']) ?>">
-
-                        <img src="<?= '' . htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 350px; object-fit: cover;">
+                    <div class="card h-100 shadow-sm border-0" data-name="<?= htmlspecialchars($row['name']) ?>">
+                        <img src="<?= htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 350px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
                             <hr>
-                            <!-- Elemen untuk deskripsi -->
                             <p class="card-text">
-                                <?php
-                                $max_length = 300; // Batas karakter
-                                $caption = $row['description'];
-                                echo strlen($caption) > $max_length ? substr($caption, 0, $max_length) . '....' : $caption;
-                                ?>
+                                <?= strlen($row['description']) > 300 ? substr($row['description'], 0, 300) . '...' : $row['description']; ?>
                             </p>
                         </div>
                         <hr>
@@ -217,6 +224,32 @@ if ($pointerQuery->num_rows > 0) {
             </div>
         </div>
     </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <!-- Tombol Previous -->
+            <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                <a class="page-link" href="?page=<?= $page - 1 ?>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <!-- Nomor Halaman -->
+            <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                </li>
+            <?php endfor; ?>
+
+            <!-- Tombol Next -->
+            <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
+                <a class="page-link" href="?page=<?= $page + 1 ?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <!-- Modal Bootstrap -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">

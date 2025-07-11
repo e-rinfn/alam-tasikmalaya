@@ -83,7 +83,7 @@ $stmt->close();
         <hr>
         <!-- Container untuk tombol Tambah Scene dan Kembali -->
         <div class="button-container">
-            <a href="index.php" class="btn btn-secondary">
+            <a href="../index_admin.php" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Kembali
             </a>
             <a href="add_scene.php?wisata_id=<?= $wisata_id ?>" class="btn btn-primary">

@@ -28,10 +28,17 @@ $wisata = $conn->query("SELECT * FROM wisata");
 
 
 // Fetch pointer data with error handling
-$pointerQuery = $conn->query("SELECT h.*, w.id AS wisata_id FROM history_daerah h JOIN wisata w ON h.wisata_id = w.id");
-if (!$pointerQuery) {
-    die("Error fetching pointer data: " . $conn->error);
-}
+// $pointerQuery = $conn->query("SELECT h.*, w.id AS wisata_id FROM history_daerah h JOIN wisata w ON h.wisata_id = w.id");
+// if (!$pointerQuery) {
+//     die("Error fetching pointer data: " . $conn->error);
+// }
+
+$pointerQuery = $conn->query("
+    SELECT h.*, w.id AS wisata_id 
+    FROM history_daerah h 
+    JOIN wisata w ON h.wisata_id = w.id
+    WHERE h.latitude IS NOT NULL AND h.longitude IS NOT NULL
+");
 
 // Store pointer data for later use in JavaScript
 $pointerData = [];

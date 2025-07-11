@@ -150,7 +150,7 @@ if ($pointerQuery->num_rows > 0) {
                         data-name="<?= htmlspecialchars($row['name']) ?>"
                         data-kategori="<?= htmlspecialchars($row['kategori']) ?>">
 
-                        <img src="<?= '' . htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 200px; object-fit: cover;">
+                        <img src="<?= '' . htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 350px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
                             <hr>
@@ -162,9 +162,6 @@ if ($pointerQuery->num_rows > 0) {
                                 echo strlen($caption) > $max_length ? substr($caption, 0, $max_length) . '....' : $caption;
                                 ?>
                             </p>
-                        </div>
-                        <div class="text-center m-2">
-                            Kategori : <span class="badge text-bg-primary"><?= htmlspecialchars($row['kategori']) ?></span>
                         </div>
                         <hr>
                         <div class="card-footer bg-white border-0 d-flex justify-content-around flex-wrap">
@@ -262,7 +259,8 @@ if ($pointerQuery->num_rows > 0) {
 
     <script>
         // Initialize map
-        const map = L.map('leafletMap').setView([-7.3505, 108.2200], 12);
+        // const map = L.map('leafletMap').setView([-7.3505, 108.2200], 12);
+        const map = L.map('leafletMap').setView([-7.4082, 108.3608], 12);
 
         // Add OpenStreetMap layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

@@ -172,7 +172,9 @@ if ($pointerQuery->num_rows > 0) {
 
     <script>
         // Initialize map
-        const map = L.map('leafletMap').setView([-7.3505, 108.2200], 12);
+        // const map = L.map('leafletMap').setView([-7.3505, 108.2200], 12);
+        const map = L.map('leafletMap').setView([-7.4082, 108.3608], 12);
+
 
         // Add OpenStreetMap layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

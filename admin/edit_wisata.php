@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Wisata</title>
+    <title>Admin - Riwayat Bencana</title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -133,6 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Bootstrap JS & Popper.js (Wajib untuk Dropdown) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 
 </head>
@@ -140,9 +141,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body style="font-family: 'Poppins', sans-serif;">
 
     <?php include 'admin_header.php'; ?>
-
-
-
 
     <div class="container mt-4 p-3 mb-3 rounded">
         <h3>Edit Wisata - <?= htmlspecialchars($wisata['name']) ?></h3>
@@ -271,6 +269,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             window.location.href = "edit_wisata.php?id=<?= $id ?>";
         }
     </script>
+    <?php include 'admin_footer.php'; ?>
 
 </body>
 

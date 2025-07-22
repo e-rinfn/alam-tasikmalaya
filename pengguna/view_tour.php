@@ -65,7 +65,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Tour - <?= htmlspecialchars($wisata['name']) ?></title>
+    <title>Riwayat Bencana - <?= htmlspecialchars($wisata['name']) ?></title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
     <!-- Bootstrap CSS -->
@@ -136,7 +136,9 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
             <!-- Tambahkan tombol untuk menampilkan modal -->
             <div id="menu-overlay" class="p-2 border" style="background: rgba(0, 0, 0, 0.500);">
                 <h5 class="text-center text-white">MENU</h5>
-                <a href="../informasi_wisata.php?wisata_id=<?= $wisata_id ?>" class="btn btn-danger btn-sm border"><i class="bi bi-arrow-left"></i></a>
+                <a href="javascript:history.go(-1)" class="btn btn-danger btn-sm border">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
                 <button class="btn btn-success btn-sm border" id="openSceneModal">
                     <i class="bi bi-card-image btn-sm"></i>
                 </button>
@@ -212,7 +214,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
             </script>
 
             <div id="judul-overlay" class="border" style="background: rgba(0, 0, 0, 0.500);">
-                <h5 class="text-white mb-0"><?= 'Wisata ' . htmlspecialchars($wisata['name']) ?> </h5>
+                <h5 class="text-white mb-0"><?= '' . htmlspecialchars($wisata['name']) ?> </h5>
             </div>
         </div>
 

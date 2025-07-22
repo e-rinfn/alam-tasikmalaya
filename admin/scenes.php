@@ -46,7 +46,7 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Scene</title>
+    <title>Admin - Riwayat Bencana</title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
 
@@ -68,25 +68,26 @@ $stmt->close();
     <!-- Bootstrap JS & Popper.js (Wajib untuk Dropdown) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 
 </head>
 
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
 
     <?php include 'admin_header.php'; ?>
 
     <div class="container mt-3 p-3 mb-3 rounded" style="min-height: 80vh;">
 
         <!-- Tampilkan nama wisata yang dipilih -->
-        <h3>Kelola Scene Untuk Wisata - <?= htmlspecialchars($wisata_name) ?></h3>
+        <h3>Kelola Scene Riwayat Bencana - <?= htmlspecialchars($wisata_name) ?></h3>
         <hr>
         <!-- Container untuk tombol Tambah Scene dan Kembali -->
         <div class="button-container">
             <a href="../index_admin.php" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Kembali
             </a>
-            <a href="add_scene.php?wisata_id=<?= $wisata_id ?>" class="btn btn-primary">
+            <a href="add_scene.php?wisata_id=<?= $wisata_id ?>" class="btn btn-success">
                 <i class="bi bi-plus-circle"></i> Tambah Scene
             </a>
         </div>
@@ -153,25 +154,30 @@ $stmt->close();
                                     </div>
                                 </td>
                                 <td class="text-center align-middle">
-                                    <!-- Tombol Lihat Scene -->
-                                    <a href="view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>" class="btn btn-primary btn-sm m-1">
-                                        <i class="bi bi-eye"></i> Lihat Scene
-                                    </a>
 
-                                    <!-- Tombol Edit -->
-                                    <a href="edit_scene.php?id=<?= $scene['id'] ?>" class="btn btn-warning btn-sm m-1">
-                                        <i class="bi bi-pencil"></i> Edit
-                                    </a>
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <a href="view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>" class="btn btn-primary btn-sm w-100">
+                                                <i class="bi bi-eye"></i> Lihat Scene
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="edit_scene.php?id=<?= $scene['id'] ?>" class="btn btn-warning btn-sm w-100">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="hotspots.php?scene_id=<?= $scene['id'] ?>" class="btn btn-info btn-sm w-100">
+                                                <i class="bi bi-gear"></i> Hotspot
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="#" class="btn btn-danger btn-sm w-100" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-href="hapus_scene.php?id=<?= $scene['id'] ?>">
+                                                <i class="bi bi-trash"></i> Hapus
+                                            </a>
+                                        </div>
+                                    </div>
 
-                                    <!-- Tombol Kelola Hotspot -->
-                                    <a href="hotspots.php?scene_id=<?= $scene['id'] ?>" class="btn btn-info btn-sm m-1">
-                                        <i class="bi bi-gear"></i> Kelola Hotspot
-                                    </a>
-
-                                    <!-- Tombol Hapus -->
-                                    <a href="#" class="btn btn-danger btn-sm m-1" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-href="hapus_scene.php?id=<?= $scene['id'] ?>">
-                                        <i class="bi bi-trash"></i> Hapus
-                                    </a>
 
                                     <!-- Modal Konfirmasi -->
                                     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
@@ -215,6 +221,17 @@ $stmt->close();
             </table>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-success text-white py-4 mt-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">&copy; 2025 Riwayat Bencana</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

@@ -1,8 +1,5 @@
 <?php
 session_start();
-$successMessage = isset($_SESSION['message']) ? $_SESSION['message'] : "";
-unset($_SESSION['message']);
-
 include '../config.php';
 
 // Cek apakah user memiliki hak akses admin
@@ -33,14 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: manage_account.php");
         exit;
     } elseif (isset($_POST['update_password'])) {
+        // Update Password
         $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
         $sql = "UPDATE users SET password = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("si", $new_password, $id);
         $stmt->execute();
 
-        $_SESSION['message'] = "Password berhasil diperbarui.";
-        header("Location: edit_account.php?id=$id");
+        header("Location: manage_account.php");
         exit;
     }
 }
@@ -122,20 +119,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'admin_footer.php'; ?>
 
 </body>
-
-<!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<?php if (!empty($successMessage)) : ?>
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil',
-            text: '<?= addslashes($successMessage); ?>',
-            timer: 2500,
-            showConfirmButton: false
-        });
-    </script>
-<?php endif; ?>
 
 </html>

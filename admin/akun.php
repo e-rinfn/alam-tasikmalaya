@@ -25,15 +25,16 @@ unset($_SESSION['message'], $_SESSION['message_type']);
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Akun Admin</title>
+    <title>Admin - Riwayat Bencana</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -47,30 +48,55 @@ unset($_SESSION['message'], $_SESSION['message_type']);
 
 
 </head>
+
 <body class="bg-light">
 
-<?php include 'admin_header.php'; ?>
-<div class="container mt-4 p-3 mb-3 rounded">
-    <h3>Ubah Password - <b><?= htmlspecialchars($admin['name']); ?></b></h3>              
-                <hr>
-
-                <form action="update_password.php" method="post" class="mt-3">
-                    <div class="mb-3">
-                        <label class="form-label">Password Lama</label>
-                        <input type="password" name="old_password" class="form-control" placeholder="Masukkan password lama" required>
+    <?php include 'admin_header.php'; ?>
+    <main class="container mt-4 p-3 mb-3 rounded">
+        <h3>Ubah Password</h3>
+        <hr>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <!-- Card Ubah Password -->
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="bi bi-key me-2"></i>Ubah Password - <b><?= htmlspecialchars($admin['name']); ?></b></h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="update_password.php" method="post">
+                                <div class="mb-3">
+                                    <label class="form-label">Password Lama</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                        <input type="password" name="old_password" class="form-control" placeholder="Masukkan password lama" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Password Baru</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
+                                        <input type="password" name="new_password" class="form-control" placeholder="Masukkan password baru" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Konfirmasi Password Baru</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-shield-check"></i></span>
+                                        <input type="password" name="confirm_password" class="form-control" placeholder="Ulangi password baru" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100">
+                                    <i class="bi bi-arrow-repeat"></i> Ubah Password
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Password Baru</label>
-                        <input type="password" name="new_password" class="form-control" placeholder="Masukkan password baru" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Konfirmasi Password Baru</label>
-                        <input type="password" name="confirm_password" class="form-control" placeholder="Ulangi password baru" required>
-                    </div>
-                    <button type="submit" class="btn btn-success w-100">Ubah Password</button>
-                </form>
-                
-    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <?php include 'admin_footer.php'; ?>
 
     <!-- Modal Notifikasi -->
     <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -99,4 +125,5 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         }
     </script>
 </body>
+
 </html>

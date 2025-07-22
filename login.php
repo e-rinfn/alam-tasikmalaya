@@ -35,9 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login Administrator</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="img/Logo-Putih.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
 </head>
 
-<body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+<body class="d-flex justify-content-center align-items-center vh-100 bg-light" style="font-family: 'Poppins', sans-serif;">
 
     <div class="card shadow p-4" style="width: 400px;">
 
@@ -47,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <h2 class="text-center mb-4">Login Admin</h2>
+        <p class="text-center text-muted mb-4">Virtual Tour Riwayat Bencana</p>
 
         <?php if (isset($error)): ?>
             <div class="alert alert-danger"><?= $error; ?></div>
@@ -63,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan password" required>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <button type="submit" class="btn btn-success w-100">Login</button>
         </form>
     </div>
 

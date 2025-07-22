@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Hotspot - <?= htmlspecialchars($scene['name']) ?></title>
+    <title>Admin - Riwayat Bencana - <?= htmlspecialchars($scene['name']) ?></title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
 
@@ -95,6 +95,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Bootstrap JS & Pannellum JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 
     <style>
         #panorama-container {
@@ -128,13 +130,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </head>
 
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
 
     <?php include 'admin_header.php'; ?>
 
     <!-- Main Content -->
     <div class="container mt-3" style="min-height: 100vh;">
-        <h3>Kelola Hotspot Untuk Scene - <?= htmlspecialchars($scene['name']) ?></h3>
+        <h3>Kelola Hotspot Scene - <?= htmlspecialchars($scene['name']) ?></h3>
         <hr>
         <div class="row">
             <!-- Form Tambah Hotspot -->
@@ -480,7 +482,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </script>
 
-    <?php include '../pengguna_footer.php'; ?>
+    <!-- Footer -->
+    <footer class="bg-success text-white py-4 mt-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">&copy; 2025 Riwayat Bencana</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

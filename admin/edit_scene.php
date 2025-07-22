@@ -93,10 +93,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Scene</title>
+    <title>Admin - Riwayat Bencana</title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
     <!-- Bootstrap CSS -->
@@ -111,82 +112,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Bootstrap JS & Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
-<body>
 
-<?php include 'admin_header.php'; ?>
+<body style="font-family: 'Poppins', sans-serif;">
 
-<?php
-// Ambil nama wisata berdasarkan wisata_id
-$wisata_query = $conn->prepare("SELECT name FROM wisata WHERE id = ?");
-$wisata_query->bind_param("i", $scene['wisata_id']);
-$wisata_query->execute();
-$wisata_query->bind_result($wisata_name);
-$wisata_query->fetch();
-$wisata_query->close();
-?>
+    <?php include 'admin_header.php'; ?>
 
-<!-- Modal Error -->
-<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="errorModalLabel">Terjadi Kesalahan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <ul>
-                    <?php foreach ($errors as $error): ?>
-                        <li><?= htmlspecialchars($error) ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+    <?php
+    // Ambil nama wisata berdasarkan wisata_id
+    $wisata_query = $conn->prepare("SELECT name FROM wisata WHERE id = ?");
+    $wisata_query->bind_param("i", $scene['wisata_id']);
+    $wisata_query->execute();
+    $wisata_query->bind_result($wisata_name);
+    $wisata_query->fetch();
+    $wisata_query->close();
+    ?>
+
+    <!-- Modal Error -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel">Terjadi Kesalahan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <?php foreach ($errors as $error): ?>
+                            <li><?= htmlspecialchars($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container mt-4 p-3 mb-3 rounded">
-    <h3>Edit Scene Wisata - <?= htmlspecialchars($wisata_name) ?></h3>
-    <hr>
-    <form action="" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="<?= htmlspecialchars($scene['id']) ?>">
-        <div class="d-flex justify-content-around">
-            <div class="mb-3 p-3 w-50">
-                <label for="name" class="form-label">Nama Scene</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
-                <hr>
-                <label for="wisata_name" class="form-label">Wisata</label>
-                <input type="text" class="form-control" id="wisata_name" value="<?= htmlspecialchars($wisata_name) ?>" readonly>
-                <input type="hidden" name="wisata_id" value="<?= htmlspecialchars($scene['wisata_id']) ?>">
-            </div>
-            <div class="mb-3 p-3">
-                <label for="panorama" class="form-label">Gambar Panorama 360</label>
-                <input type="file" class="form-control" id="panorama" name="panorama">
-                <small class="form-text text-muted">Hanya JPG, JPEG, PNG. Maksimal 5MB.</small>
-                <?php if (!empty($scene['panorama'])): ?>
-                    <div class="mt-2 text-center">
-                        <img src="<?= htmlspecialchars($scene['panorama']) ?>" alt="Panorama Scene" class="img-thumbnail" width="300">
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
+    <main class="container mt-4 p-3 mb-3 rounded">
+        <h3>Edit Scene Wisata - <?= htmlspecialchars($wisata_name) ?></h3>
         <hr>
-        <a href="scenes.php?wisata_id=<?= $wisata_id ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
-        <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan Perubahan</button>
-    </form>
-</div>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($scene['id']) ?>">
+            <div class="d-flex justify-content-around">
+                <div class="mb-3 p-3 w-50">
+                    <label for="name" class="form-label">Nama Scene</label>
+                    <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
+                    <hr>
+                    <label for="wisata_name" class="form-label">Wisata</label>
+                    <input type="text" class="form-control" id="wisata_name" value="<?= htmlspecialchars($wisata_name) ?>" readonly>
+                    <input type="hidden" name="wisata_id" value="<?= htmlspecialchars($scene['wisata_id']) ?>">
+                </div>
+                <div class="mb-3 p-3">
+                    <label for="panorama" class="form-label">Gambar Panorama 360</label>
+                    <input type="file" class="form-control" id="panorama" name="panorama">
+                    <small class="form-text text-muted">Hanya JPG, JPEG, PNG. Maksimal 5MB.</small>
+                    <?php if (!empty($scene['panorama'])): ?>
+                        <div class="mt-2 text-center">
+                            <img src="<?= htmlspecialchars($scene['panorama']) ?>" alt="Panorama Scene" class="img-thumbnail" width="300">
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <hr>
+            <a href="scenes.php?wisata_id=<?= $wisata_id ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+            <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan Perubahan</button>
+        </form>
+    </main>
 
-<?php if (!empty($errors)) : ?>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-        errorModal.show();
-    });
-</script>
-<?php endif; ?>
+    <?php if (!empty($errors)) : ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                errorModal.show();
+            });
+        </script>
+    <?php endif; ?>
+
+    <?php include 'admin_footer.php'; ?>
 
 </body>
+
 </html>

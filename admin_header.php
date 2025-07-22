@@ -24,27 +24,22 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="admin/akun.php">
-                                <i class="bi bi-person me-2"></i> Akun
+                            <a class="dropdown-item d-flex align-items-center" href="admin/manage_account.php">
+                                <i class="bi bi-person me-2"></i> Pengguna
                             </a>
                         </li>
+
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <i class="bi bi-book me-2"></i> Petunjuk
+                            <a class="dropdown-item d-flex align-items-center" href="admin/akun.php">
+                                <i class="bi bi-person me-2"></i> Password
                             </a>
                         </li>
-                        <!-- Optional
-                <li>
-                    <a class="dropdown-item d-flex align-items-center" href="tentang.php">
-                        <i class="bi bi-info-circle me-2"></i> Tentang
-                    </a>
-                </li>
-                -->
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item d-flex align-items-center text-danger" href="logout.php">
+                            <a class="dropdown-item d-flex align-items-center text-danger" href="admin/logout.php">
                                 <i class="bi bi-box-arrow-right me-2"></i> Logout
                             </a>
                         </li>

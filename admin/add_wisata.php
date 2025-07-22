@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Wisata</title>
+    <title>Admin - Riwayat Bencana</title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -98,9 +98,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
 
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
 
     <?php include 'admin_header.php'; ?>
 
@@ -211,6 +213,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             window.location.href = "../index_admin.php";
         }
     </script>
+
+    <?php include 'admin_footer.php'; ?>
 
 </body>
 

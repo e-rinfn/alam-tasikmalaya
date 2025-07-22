@@ -1,28 +1,24 @@
 <style>
-    /* Styling untuk footer */
-footer {
-    background: linear-gradient(100deg, #16C47F, #001A6E );
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    margin-top: 20px;
-}
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
 
-footer a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-footer a:hover {
-    text-decoration: underline;
-}
+    main {
+        flex: 1;
+    }
 </style>
 
 <!-- Footer -->
-<footer style="flex-shrink: 0;" class="bg-success">
-    <p>&copy; 2025 Erin Fajrin Nugraha - Alam Tasikmalaya 360.</p>
+<footer class="bg-success text-white py-4 mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 text-center">
+                <p class="mb-0">&copy; 2025 Riwayat Bencana</p>
+            </div>
+        </div>
+    </div>
 </footer>

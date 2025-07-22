@@ -22,7 +22,7 @@ if ($role !== 'admin' && $role !== 'user') {
 // Konfigurasi paginasi
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $itemsPerPage = 5; // Jumlah item per halaman
-$offset = $itemsPerPage; // Hitung offset
+$offset = ($page - 1) * $itemsPerPage; // Hitung offset
 
 // Get filter parameters from URL
 $search = isset($_GET['search']) ? $_GET['search'] : '';

@@ -23,7 +23,7 @@ while ($scene = $scenes->fetch_assoc()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History Daerah</title>
+    <title>Riwayat Bencana</title>
     <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -45,8 +45,8 @@ while ($scene = $scenes->fetch_assoc()) {
             <!-- Bagian kiri: Gambar utama dan deskripsi -->
             <div class="col-md-8 mb-2 p-3">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="mb-0">Wisata <?= htmlspecialchars($row['name']) ?></h3>
-                    <a href="index.php" class="btn btn-outline-secondary">
+                    <h3 class="mb-0">Riwayat <?= htmlspecialchars($row['name']) ?></h3>
+                    <a href="index.php" class="btn btn-secondary">
                         <span class="small"></span><i class="bi bi-arrow-left me-1"></i> Kembali</span>
                     </a>
                 </div>
@@ -58,38 +58,41 @@ while ($scene = $scenes->fetch_assoc()) {
                 <div class="description">
                     <p><?= $row['description'] ?></p>
                 </div>
-
-                <h4>Link Tautan :</h4>
-                <div class="d-flex flex-column align-items-center">
+                <hr>
+                <h4>Tautan :</h4>
+                <div class="d-flex flex-column">
                     <!-- History Wisata Button - Now Centered -->
-
-
                     <?php
-                    // First, get the history_daerah id that matches this wisata_id
+                    // Get the history_daerah id
                     $historyQuery = $conn->query("SELECT id FROM history_daerah WHERE wisata_id = $wisata_id LIMIT 1");
                     $historyData = $historyQuery->fetch_assoc();
                     $historyId = $historyData ? $historyData['id'] : 0;
                     ?>
 
-                    <a class="btn btn-info m-3" href="view.php?id=<?= $historyId ?>&wisata_id=<?= $wisata_id ?>"><i class="bi bi-clock-history"></i> History Wisata</a>
 
-                    <div class="d-flex justify-content-center">
+                    <!-- Button Group -->
+                    <div class="btn-group" role="group" aria-label="Wisata Actions">
+                        <a href="view.php?id=<?= $historyId ?>&wisata_id=<?= $wisata_id ?>"
+                            target="_blank" class="btn btn-success">
+                            <i class="bi bi-clock-history"></i> History Wisata
+                        </a>
                         <a href="https://www.google.com/maps?q=<?= urlencode($row['location']) ?>"
-                            target="_blank" class="btn btn-success mx-2">
+                            target="_blank" class="btn btn-warning">
                             <i class="bi bi-geo-alt"></i> Lihat Google Maps
                         </a>
-                        <button id="shareBtn" class="btn btn-primary mx-2">
+                        <button id="shareBtn" class="btn btn-primary">
                             Bagikan <i class="bi bi-share"></i>
                         </button>
                     </div>
                 </div>
+
             </div>
 
             <!-- Bagian Virtual Tour 360 Derajat -->
             <div class="col-md-4 vertical-images p-3">
                 <h3 class="text-center">Virtual Tour 360</h3>
                 <hr>
-                <div class="bg-secondary" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px;">
+                <div class="bg-success" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px;">
                     <?php if (!empty($sceneList)): ?>
                         <?php foreach ($sceneList as $scene): ?>
                             <div class="card image-card mb-3" onclick="window.location.href='pengguna/view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>';" style="cursor: pointer; border: 1px solid grey">
@@ -133,7 +136,16 @@ while ($scene = $scenes->fetch_assoc()) {
         });
     </script>
 
-    <?php include 'pengguna_footer.php'; ?>
+    <!-- Footer -->
+    <footer class="bg-success text-white py-4 mt-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">&copy; 2025 Riwayat Bencana</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

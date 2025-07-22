@@ -74,8 +74,8 @@ try {
         }
 
         .image-style-align-center {
-            display: block;
-            margin: 0 auto;
+            float: center;
+            margin-right: 1em;
         }
 
         .image-style-align-right {
@@ -110,56 +110,52 @@ try {
 <body style="font-family: 'Poppins', sans-serif;">
 
     <?php include 'pengguna_header.php'; ?>
-
-    <div class="container mt-4 mb-4">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center m-3">
-                <h3 class="mb-0">History <?= htmlspecialchars($row['name']) ?></h3>
-                <a href="index.php" class="btn btn-outline-secondary">
-                    <span class="small"></span><i class="bi bi-arrow-left me-1"></i> Kembali</span>
-                </a>
+    <main class="container mt-4">
+        <div class="card-body">
+            <h1 class="mb-0 fs-3">Riwayat <?= htmlspecialchars($row['name']) ?></h1>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Judul:</div>
+                <div class="col-md-6"><?= htmlspecialchars($record['judul']) ?></div>
             </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-4 fw-bold">Judul:</div>
-                    <div class="col-md-8"><?= htmlspecialchars($record['judul']) ?></div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-4 fw-bold">Nama Daerah:</div>
-                    <div class="col-md-8"><?= htmlspecialchars($record['name']) ?></div>
-                </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Nama Daerah:</div>
+                <div class="col-md-6"><?= htmlspecialchars($record['name']) ?></div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <hr>
+                    <h2 class="text-center h5 mb-3">Deskripsi Daerah</h2>
+                    <hr>
 
-                <h2 class="h5 mb-3">Deskripsi Daerah</h2>
-                <hr>
+                    <?php
+                    // Tambahkan class "img-fluid" ke semua tag <img> jika belum ada
+                    $text_peta = preg_replace(
+                        '/<img(?![^>]*class=["\'][^"\']*img-fluid[^"\']*["\'])/i',
+                        '<img class="img-fluid"',
+                        $record['text_peta']
+                    );
+                    ?>
 
-                <?php
-                // Tambahkan class "img-fluid" ke semua tag <img> jika belum ada
-                $text_peta = preg_replace(
-                    '/<img(?![^>]*class=["\'][^"\']*img-fluid[^"\']*["\'])/i',
-                    '<img class="img-fluid"',
-                    $record['text_peta']
-                );
-                ?>
+                    <div class="row mb-3">
+                        <div class="col-md-12" style="text-align: justify;"><?= htmlspecialchars_decode($text_peta) ?></div>
+                    </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-12" style="text-align: justify;"><?= htmlspecialchars_decode($text_peta) ?></div>
-                </div>
+                    <?php
+                    function formatDeskripsiToggle($deskripsi)
+                    {
+                        // Gunakan regex untuk memecah deskripsi berdasarkan tahun
+                        // preg_match_all('/\[(\d{4})\](.*?)(?=(\[\d{4}\])|$)/s', $deskripsi, $matches, PREG_SET_ORDER);
 
-                <?php
-                function formatDeskripsiToggle($deskripsi)
-                {
-                    // Gunakan regex untuk memecah deskripsi berdasarkan tahun
-                    // preg_match_all('/\[(\d{4})\](.*?)(?=(\[\d{4}\])|$)/s', $deskripsi, $matches, PREG_SET_ORDER);
-
-                    // Atau jika formatnya adalah [1 Januari 2020] atau [31 Desember 2020]
-                    preg_match_all('/\[(\d{1,2}\s+\p{L}+\s+\d{4})\](.*?)(?=\[\d{1,2}\s+\p{L}+\s+\d{4}\]|\z)/su', $deskripsi, $matches, PREG_SET_ORDER);
+                        // Atau jika formatnya adalah [1 Januari 2020] atau [31 Desember 2020]
+                        preg_match_all('/\[(\d{1,2}\s+\p{L}+\s+\d{4})\](.*?)(?=\[\d{1,2}\s+\p{L}+\s+\d{4}\]|\z)/su', $deskripsi, $matches, PREG_SET_ORDER);
 
 
-                    $output = '<div class="deskripsi-container">';
-                    foreach ($matches as $index => $match) {
-                        $tahun = $match[1];
-                        $konten = trim($match[2]);
-                        $output .= "
+                        $output = '<div class="deskripsi-container">';
+                        foreach ($matches as $index => $match) {
+                            $tahun = $match[1];
+                            $konten = trim($match[2]);
+                            $output .= "
                         <div class='deskripsi-section mb-3'>
                             <div class='toggle-header rounded' onclick='toggleDeskripsi($index)'>
                                 <strong>$tahun</strong>
@@ -169,27 +165,28 @@ try {
                             </div>
                         </div>
                         ";
+                        }
+                        $output .= '</div>';
+                        return $output;
                     }
-                    $output .= '</div>';
-                    return $output;
-                }
-                ?>
-
-                <div class="mb-3">
-                    <h2 class="h5 mb-3">Sejarah Daerah</h2>
+                    ?>
                     <hr>
+                    <div class="mb-3">
+                        <h2 class="text-center h5 mb-3">Sejarah Daerah</h2>
+                        <hr>
 
-                    <?= formatDeskripsiToggle($record['deskripsi']) ?>
+                        <?= formatDeskripsiToggle($record['deskripsi']) ?>
+                    </div>
+
+                    <!-- <a href="index.php" class="btn btn-primary mt-3">Kembali</a> -->
                 </div>
-
-                <!-- <a href="index.php" class="btn btn-primary mt-3">Kembali</a> -->
             </div>
         </div>
         <!-- Bagian Virtual Tour 360 Derajat -->
         <div class="col-md-12 vertical-images p-3">
             <h3 class="text-center">Virtual Tour 360</h3>
             <hr>
-            <div class="bg-secondary" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px;">
+            <div class="bg-success" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px;">
                 <?php if (!empty($sceneList)): ?>
                     <?php foreach ($sceneList as $scene): ?>
                         <div class="card image-card mb-3" onclick="window.location.href='pengguna/view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>';" style="cursor: pointer; border: 1px solid grey">
@@ -206,8 +203,7 @@ try {
                 <?php endif; ?>
             </div>
         </div>
-    </div>
-
+    </main>
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

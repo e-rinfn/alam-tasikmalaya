@@ -59,7 +59,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History Daerah</title>
+    <title>Admin - Riwayat Bencana</title>
     <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -82,22 +82,25 @@ try {
 </head>
 
 <body style="font-family: 'Poppins', sans-serif;">
+
     <?php include 'admin_header.php'; ?>
 
-    <div class="container mt-3">
-        <div class="">
-            <div class="card-body">
-                <h3 class="card-title mb-4">Tambah History Daerah</h3>
+    <main class="container mt-4">
+        <div class="card-body">
+            <h1 class="mb-0 fs-3">Tambah Riwayat Bencana</h1>
+            <hr>
+            <?php if (isset($wisataError)): ?>
+                <div class="alert alert-danger"><?= htmlspecialchars($wisataError) ?></div>
+            <?php endif; ?>
 
-                <?php if (isset($wisataError)): ?>
-                    <div class="alert alert-danger"><?= htmlspecialchars($wisataError) ?></div>
-                <?php endif; ?>
+            <form method="POST">
 
-                <form method="POST">
-                    <div class="mb-3">
-                        <label for="wisata_id" class="form-label">Wisata</label>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="wisata_id" class="form-label">Nama Daerah</label>
                         <select id="wisata_id" name="wisata_id" class="form-select" required>
-                            <option value="">-- Pilih Wisata --</option>
+                            <option value="">-- Pilih Daerah --</option>
                             <?php foreach ($wisataList as $wisata): ?>
                                 <option value="<?= htmlspecialchars($wisata['id']) ?>">
                                     <?= htmlspecialchars($wisata['name']) ?>
@@ -106,43 +109,85 @@ try {
                         </select>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="judul" class="form-label">Judul</label>
                         <input type="text" id="judul" name="judul" class="form-control" maxlength="150" required>
                     </div>
+                </div>
 
-                    <div class="mb-3">
-                        <label for="teks-peta" class="form-label">Teks di Modal Peta</label>
-                        <textarea id="teks-peta" name="teks-peta" class="form-control"></textarea>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="longitude" class="form-label">Longitude</label>
+                        <input type="text" id="longitude" name="longitude" class="form-control" maxlength="20" placeholder="Contoh: 110.123456">
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="latitude" class="form-label">Latitude</label>
+                        <input type="text" id="latitude" name="latitude" class="form-control" maxlength="20" placeholder="Contoh: -7.123456">
+                    </div>
+                </div>
 
-                    <div class="mb-3">
-                        <label for="deskripsi" class="form-label">Deskripsi History</label>
-                        <small class="d-block text-muted mb-2">
-                            Tambahkan tahun dalam kurung, contoh: <code>[23 Oktober 2002]</code> diikuti deskripsinya.
-                        </small>
-                        <textarea id="deskripsi" name="deskripsi" class="form-control"></textarea>
-                    </div>
+                <div class="mb-3">
+                    <label for="teks-peta" class="form-label">Deskripsi Di Peta</label>
+                    <textarea id="teks-peta" name="teks-peta" class="form-control"></textarea>
+                </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="longitude" class="form-label">Longitude</label>
-                            <input type="text" id="longitude" name="longitude" class="form-control" maxlength="20" placeholder="Contoh: 110.123456">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="latitude" class="form-label">Latitude</label>
-                            <input type="text" id="latitude" name="latitude" class="form-control" maxlength="20" placeholder="Contoh: -7.123456">
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <label for="deskripsi" class="form-label">Deskripsi Riwayat Bencana</label>
+                    <small class="d-block text-muted mb-2">
+                        Tambahkan tahun dalam kurung, contoh: <code>[10 Oktober 2002]</code> diikuti deskripsinya.
+                    </small>
+                    <textarea id="deskripsi" name="deskripsi" class="form-control"></textarea>
+                </div>
 
-                    <div class="d-flex align-items-center">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                        <a href="read.php" class="btn btn-outline-secondary ms-3">Kembali ke Daftar</a>
-                    </div>
-                </form>
-            </div>
+                <div class="d-flex align-items-center">
+                    <button type="button" class="btn btn-success" id="btnSubmit">Simpan</button>
+                    <a href="#" class="btn btn-secondary ms-3" id="btnBack">Kembali ke Daftar</a>
+                </div>
+            </form>
         </div>
-    </div>
+    </main>
+
+    <?php include 'pengguna_footer.php'; ?>
+
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('btnSubmit').addEventListener('click', function(e) {
+            Swal.fire({
+                title: 'Simpan?',
+                text: "Pastikan data sudah benar.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Simpan!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Kirim form secara manual
+                    e.target.closest('form').submit();
+                }
+            });
+        });
+
+        document.getElementById('btnBack').addEventListener('click', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Kembali ke Daftar?',
+                text: "Perubahan yang belum disimpan akan hilang.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#6c757d',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Kembali'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'read.php';
+                }
+            });
+        });
+    </script>
 
     <script>
         class MyUploadAdapter {
@@ -173,7 +218,7 @@ try {
                                     const formData = new FormData();
                                     formData.append('file', blob, file.name);
 
-                                    fetch('aplod.php', {
+                                    fetch('uploads.php', {
                                             method: 'POST',
                                             body: formData
                                         })
@@ -246,7 +291,6 @@ try {
             .catch(error => console.error(error));
     </script>
 
-    <?php include 'pengguna_footer.php'; ?>
 </body>
 
 </html>

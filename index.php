@@ -13,6 +13,56 @@ if (!$wisata) {
     die("Error fetching wisata data: " . $conn->error);
 }
 
+// Konfigurasi paginasi
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$itemsPerPage = 5; // Jumlah item per halaman
+$offset = ($page - 1) * $itemsPerPage; // Hitung offset
+
+// Get filter parameters from URL
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$sortOrder = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
+
+// Base query
+$baseQuery = "SELECT * FROM wisata";
+
+// Add search filter if provided
+if (!empty($search)) {
+    $baseQuery .= " WHERE name LIKE '%" . $conn->real_escape_string($search) . "%'";
+}
+
+// Add sorting
+switch ($sortOrder) {
+    case 'oldest':
+        $baseQuery .= " ORDER BY created_at ASC";
+        break;
+    case 'name_asc':
+        $baseQuery .= " ORDER BY name ASC";
+        break;
+    case 'name_desc':
+        $baseQuery .= " ORDER BY name DESC";
+        break;
+    default: // newest
+        $baseQuery .= " ORDER BY created_at DESC";
+}
+
+// Query dengan paginasi
+$query = $baseQuery . " LIMIT $itemsPerPage OFFSET $offset";
+$wisata = $conn->query($query);
+
+// Untuk total count (tanpa paginasi)
+$totalQuery = str_replace("SELECT *", "SELECT COUNT(*) as total", $baseQuery);
+$totalItems = $conn->query($totalQuery)->fetch_assoc()['total'];
+$totalPages = ceil($totalItems / $itemsPerPage);
+
+// Ambil data pointer
+$pointerQuery = $conn->query("
+    SELECT h.*, w.id AS wisata_id 
+    FROM history_daerah h 
+    JOIN wisata w ON h.wisata_id = w.id
+    WHERE h.latitude IS NOT NULL AND h.longitude IS NOT NULL
+");
+
+
 // Fetch pointer data with error handling
 $pointerQuery = $conn->query("SELECT h.*, w.id AS wisata_id FROM history_daerah h JOIN wisata w ON h.wisata_id = w.id");
 if (!$pointerQuery) {
@@ -20,6 +70,14 @@ if (!$pointerQuery) {
 }
 
 // Store pointer data for later use in JavaScript
+// $pointerData = [];
+// if ($pointerQuery->num_rows > 0) {
+//     while ($p = $pointerQuery->fetch_assoc()) {
+//         $pointerData[] = $p;
+//     }
+// }
+
+// Store pointer data
 $pointerData = [];
 if ($pointerQuery->num_rows > 0) {
     while ($p = $pointerQuery->fetch_assoc()) {
@@ -28,25 +86,13 @@ if ($pointerQuery->num_rows > 0) {
 }
 ?>
 
-<?php
-// Konfigurasi paginasi
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$itemsPerPage = 9;
-$offset = ($page - 1) * $itemsPerPage;
-$wisata = $conn->query("SELECT * FROM wisata LIMIT $itemsPerPage OFFSET $offset");
-
-// Hitung total data untuk navigasi paginasi
-$totalItems = $conn->query("SELECT COUNT(*) as total FROM wisata")->fetch_assoc()['total'];
-$totalPages = ceil($totalItems / $itemsPerPage); // Total halaman
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History Daerah</title>
+    <title>Riwayat Bencana</title>
     <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -97,34 +143,41 @@ $totalPages = ceil($totalItems / $itemsPerPage); // Total halaman
             transform: scale(1.03);
         }
     </style>
+    <style>
+        .pagination .page-link:hover {
+            background-color: #d1e7dd;
+            /* Soft green hover */
+            color: #198754;
+        }
+    </style>
 </head>
 
 <body style="font-family: 'Poppins', sans-serif;">
 
     <?php include 'pengguna_header.php'; ?>
 
-    <!-- Map Section -->
-    <div class="container-fluid mt-3">
-        <h5 class="text-center fw-bold mb-2">Peta Lokasi Daerah</h5>
-        <div id="leafletMap" class="border rounded" style="height: 400px;"></div>
-    </div>
+    <main>
+        <!-- Map Section -->
+        <div class="container-fluid mt-3">
+            <div id="leafletMap" class="border rounded" style="height: 400px;"></div>
+        </div>
 
-    <!-- Dynamic Modals from Database -->
-    <?php
-    if (!empty($pointerData)) {
-        foreach ($pointerData as $m) {
-            // Tambahkan class img-fluid untuk gambar agar responsive
-            $text_peta = preg_replace(
-                '/<img(?![^>]*class=["\'][^"\']*img-fluid[^"\']*["\'])/i',
-                '<img class="img-fluid"',
-                $m['text_peta']
-            );
+        <!-- Dynamic Modals from Database -->
+        <?php
+        if (!empty($pointerData)) {
+            foreach ($pointerData as $m) {
+                // Tambahkan class img-fluid untuk gambar agar responsive
+                $text_peta = preg_replace(
+                    '/<img(?![^>]*class=["\'][^"\']*img-fluid[^"\']*["\'])/i',
+                    '<img class="img-fluid"',
+                    $m['text_peta']
+                );
 
-            echo '
+                echo '
         <div class="modal fade" id="modalTitik' . $m['id'] . '" tabindex="-1" aria-labelledby="modalLabel' . $m['id'] . '" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary">
+                    <div class="modal-header bg-success text-white">
                         <h5 class="modal-title text-white" id="modalLabel' . $m['id'] . '">' . htmlspecialchars($m['judul']) . '</h5>
                         <button type="button " class="btn-close text-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>
@@ -132,78 +185,127 @@ $totalPages = ceil($totalItems / $itemsPerPage); // Total halaman
                         <div class="modal-image-content">
                             ' . htmlspecialchars_decode($text_peta) . '
                         </div>
-                        <a href="view.php?id=' . $m['id'] . '&wisata_id=' . $m['wisata_id'] . '" class="btn btn-success mt-3">Lihat Detail</a>
+                        <a href="view.php?id=' . $m['id'] . '&wisata_id=' . $m['wisata_id'] . '" class="btn btn-success mt-3">Lihat</a>
                     </div>
                 </div>
             </div>
         </div>';
+            }
         }
-    }
-    ?>
+        ?>
 
 
-    <!-- Cards Section -->
-    <div class="container-fluid mt-3" style="min-height: 100vh;">
-        <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border bg-secondary mt-2">
-            <?php while ($row = $wisata->fetch_assoc()) { ?>
-                <div class="col mt-0 p-2">
-                    <div class="card h-100 shadow-sm" style="border: 1px solid grey" data-name="<?= htmlspecialchars($row['name']) ?>" data-kategori="<?= htmlspecialchars($row['kategori']) ?>">
-                        <img src="<?= htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
-                            <hr>
-                            <p style="text-align: justify;">
-                                <?php
-                                $max_length = 300;
-                                $caption = $row['description'];
-                                echo strlen($caption) > $max_length ? substr($caption, 0, $max_length) . '....' : $caption;
-                                ?>
-                            </p>
-                        </div>
-                        <hr>
-                        <div class="d-flex  me-3 ms-3 text-center">
-                            <div class="col-md-6 p-3">
-                                <a href="https://www.google.com/maps?q=<?= urlencode($row['location']) ?>" target="_blank" class="btn btn-warning text-dark">
-                                    <i class="bi bi-geo-alt"></i> Map
-                                </a>
+        <!-- Filter Section -->
+        <form class="container mt-3" onsubmit="event.preventDefault(); applyFilters();">
+            <div class="row">
+                <!-- Input Pencarian -->
+                <div class="col-md-6 mb-3">
+                    <input type="text" id="searchBar" class="form-control" placeholder="Cari riwayat bencana..."
+                        value="<?= htmlspecialchars($search ?? '') ?>" onkeyup="filterCards()">
+                </div>
+
+                <!-- Urutan -->
+                <div class="col-md-2 mb-3">
+                    <select id="sortOrder" class="form-select">
+                        <option value="newest" <?= ($sortOrder ?? '') === 'newest' ? 'selected' : '' ?>>Terbaru</option>
+                        <option value="oldest" <?= ($sortOrder ?? '') === 'oldest' ? 'selected' : '' ?>>Terlama</option>
+                        <option value="name_asc" <?= ($sortOrder ?? '') === 'name_asc' ? 'selected' : '' ?>>Nama (A-Z)</option>
+                        <option value="name_desc" <?= ($sortOrder ?? '') === 'name_desc' ? 'selected' : '' ?>>Nama (Z-A)</option>
+                    </select>
+                </div>
+
+                <!-- Tombol Terapkan -->
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-success w-100" onclick="applyFilters()">Terapkan</button>
+                </div>
+
+                <!-- Tombol Reset -->
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-secondary w-100" onclick="resetFilters()">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Card Tambah Riwayat Bencana Namun Untuk User Di Hide -->
+        <div class="col mt-0 p-2" hidden>
+            <a href="admin/add_wisata.php">
+                <div class="card h-100 shadow-sm border-0 text-center d-flex align-items-center justify-content-center;">
+                    <div class="card-body" style="margin-top: 13rem; margin-bottom: 10rem;">
+                        <i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
+                        <p class="mt-2 text-muted">Tambah Data Riwayat Bencana</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Cards Section -->
+        <div class="container-fluid mt-3" style="min-height: 100vh;">
+            <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border bg-success mt-2">
+                <?php while ($row = $wisata->fetch_assoc()) { ?>
+                    <div class="col mt-0 p-2">
+                        <div class="card h-100 shadow-sm" style="border: 1px solid grey" data-name="<?= htmlspecialchars($row['name']) ?>" data-kategori="<?= htmlspecialchars($row['kategori']) ?>">
+                            <img src="<?= htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 350px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
+                                <hr>
+                                <p style="text-align: justify;">
+                                    <?php
+                                    $max_length = 300;
+                                    $caption = $row['description'];
+                                    echo strlen($caption) > $max_length ? substr($caption, 0, $max_length) . '....' : $caption;
+                                    ?>
+                                </p>
                             </div>
-                            <div class="col-md-6 p-3">
-                                <a href="informasi_wisata.php?wisata_id=<?= $row['id'] ?>" class="btn text-white bg-success">
-                                    <i class="bi bi-eye"></i> Detail
+                            <hr>
+                            <div class="text-end p-3">
+
+                                <a href="https://www.google.com/maps?q=<?= urlencode($row['location']) ?>" target="_blank" class="btn btn-warning text-dark">
+                                    <i class="bi bi-geo-alt"></i> Peta Lokasi
                                 </a>
+
+
+                                <a href="informasi_wisata.php?wisata_id=<?= $row['id'] ?>" class="btn text-white bg-success">
+                                    <i class="bi bi-eye"></i> Lihat
+                                </a>
+
                             </div>
                         </div>
                     </div>
-                </div>
-            <?php } ?>
+                <?php } ?>
+            </div>
         </div>
-    </div>
 
-    <!-- Pagination -->
-    <nav aria-label="Page navigation" class="mt-4">
-        <ul class="pagination justify-content-center">
-            <!-- Tombol Previous -->
-            <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= $page - 1 ?>" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-
-            <!-- Nomor Halaman -->
-            <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <!-- Tombol Previous -->
+                <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                    <a class="page-link text-success border-success" href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>&sort=<?= $sortOrder ?>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
                 </li>
-            <?php endfor; ?>
 
-            <!-- Tombol Next -->
-            <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= $page + 1 ?>" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+                <!-- Nomor Halaman -->
+                <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                    <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                        <a class="page-link <?= ($i == $page) ? 'bg-success border-success text-white' : 'text-success border-success' ?>"
+                            href="?page=<?= $i ?>&search=<?= urlencode($search) ?>&sort=<?= $sortOrder ?>">
+                            <?= $i ?>
+                        </a>
+                    </li>
+                <?php endfor; ?>
+
+                <!-- Tombol Next -->
+                <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
+                    <a class="page-link text-success border-success" href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>&sort=<?= $sortOrder ?>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </main>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -231,10 +333,10 @@ $totalPages = ceil($totalItems / $itemsPerPage); // Total halaman
                     .bindPopup(`
                         <strong>${pointer.judul}</strong>
                         <br>
-                        <button class="btn btn-sm btn-primary mt-2" 
+                        <button class="btn btn-sm btn-success mt-2" 
                                 onclick="document.getElementById('modalTitik${pointer.id}').style.display='block'; 
                                          new bootstrap.Modal(document.getElementById('modalTitik${pointer.id}')).show();">
-                            Detail
+                            Lihat
                         </button>
                     `);
 
@@ -280,6 +382,23 @@ $totalPages = ceil($totalItems / $itemsPerPage); // Total halaman
             });
         });
     </script>
+
+    <script>
+        function applyFilters() {
+            const search = document.getElementById('searchBar').value;
+            const sort = document.getElementById('sortOrder').value;
+
+            const url = `?search=${encodeURIComponent(search)}&sort=${sort}`;
+            window.location.href = url;
+        }
+
+        function resetFilters() {
+            document.getElementById('searchBar').value = '';
+            document.getElementById('sortOrder').value = 'newest';
+            applyFilters();
+        }
+    </script>
+
 
     <?php include 'pengguna_footer.php'; ?>
 </body>

@@ -1,39 +1,57 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
 <!-- Header -->
-<nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+<nav class="navbar navbar-expand-lg navbar-light bg-success" style="font-family: 'Poppins', sans-serif;">
     <div class="container">
         <!-- Logo -->
-
-        <a class="navbar-brand text-white" href="index_admin.php"><img src="img/Logo-Putih.png" style="width: 50px;" alt=""> History Daerah</a>
-
+        <a class="navbar-brand text-white" href="index_admin.php">Riwayat Bencana</a>
         <!-- Menu Navbar -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-                <!-- Link Kelola History -->
+            <ul class="navbar-nav align-items-center gap-2">
+                <!-- Tombol Kelola Riwayat Bencana -->
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="read.php">
-                        <i class="bi bi-house"></i> Kelola History
+                    <a href="read.php" class="btn btn-sm btn-outline-light d-flex align-items-center">
+                        <i class="bi bi-house me-2"></i> Kelola Riwayat
                     </a>
                 </li>
 
-                <!-- Dropdown -->
+                <!-- Dropdown Admin -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white text-decoration-none" href="#" id="userDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i> Administrator
+                    <button class="btn btn-sm btn-outline-light dropdown-toggle d-flex align-items-center" type="button"
+                        id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle me-2"></i> Administrator
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="admin/akun.php">
+                                <i class="bi bi-person me-2"></i> Akun
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="bi bi-book me-2"></i> Petunjuk
+                            </a>
+                        </li>
+                        <!-- Optional
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="tentang.php">
+                        <i class="bi bi-info-circle me-2"></i> Tentang
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end mt-3" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="admin/akun.php"><i class="bi bi-person"></i> Akun</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-book"></i> Petunjuk Penggunaan</a></li>
-                        <!-- <li><a class="dropdown-item" href="tentang.php"><i class="bi bi-info-circle"></i> Tentang</a></li> -->
+                </li>
+                -->
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center text-danger" href="logout.php">
+                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>
         </div>
-
 
     </div>
 </nav>

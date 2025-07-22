@@ -1,17 +1,10 @@
 <?php
-session_start();
 require_once 'db.php';
 include 'config.php';
 
 if (!isset($_GET['id'])) {
     header("Location: read.php");
     exit();
-}
-
-// Cek apakah user memiliki hak akses admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: no_access.php");
-    exit;
 }
 
 // Ambil wisata_id dari parameter URL atau sesuaikan dengan kebutuhan
@@ -28,12 +21,6 @@ while ($scene = $scenes->fetch_assoc()) {
     $sceneList[] = $scene;
 }
 
-
-if (!isset($_GET['id'])) {
-    header("Location: read.php");
-    exit();
-}
-
 $id = $_GET['id'];
 
 try {
@@ -47,7 +34,7 @@ try {
     $record = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$record) {
-        die("Record not found");
+        die("Data Daerah tidak ditemukan.");
     }
 } catch (PDOException $e) {
     die("Error fetching record: " . $e->getMessage());
@@ -55,120 +42,24 @@ try {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>View History Daerah</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Riwayat Bencana</title>
+    <link rel="icon" type="image/png" href="img/Logo-Putih.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/informasi-wisata.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
-
-        .detail-row {
-            margin-bottom: 15px;
-        }
-
-        .label {
-            font-weight: bold;
-            color: #2c3e50;
-            display: inline-block;
-            width: 120px;
-        }
-
-        .value {
-            display: inline-block;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 8px 15px;
-            background: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-
-        .back-link:hover {
-            background: #2980b9;
-        }
-
-        .toggle-header {
-            background-color: #f0f0f0;
-            padding: 10px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            margin-bottom: 5px;
-        }
-
-        .toggle-content {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-top: none;
-            background-color: #fafafa;
-        }
-
-        .deskripsi-section {
-            margin-bottom: 1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .toggle-header {
-            background-color: #f0f0f0;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .toggle-content {
-            padding: 10px;
-        }
-
-        .deskripsi-container img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- <div class="container"> -->
-    <h1>View History Daerah</h1>
-
-    <div class="detail-row">
-        <span class="label">Judul:</span>
-        <span class="value"><?= htmlspecialchars($record['judul']) ?></span>
-    </div>
-    <div class="detail-row">
-        <span class="label">Nama Daerah:</span>
-        <span class="value"><?= htmlspecialchars($record['name']) ?></span>
-    </div>
-
-    <style>
+        /* Style untuk gambar dari CKEditor */
         .deskripsi-container img {
             max-width: 100%;
             height: auto;
@@ -183,8 +74,8 @@ try {
         }
 
         .image-style-align-center {
-            display: block;
-            margin: 0 auto;
+            float: center;
+            margin-right: 1em;
         }
 
         .image-style-align-right {
@@ -192,44 +83,143 @@ try {
             margin-left: 1em;
         }
 
-        /* Clear float after image section (optional) */
+        /* Clear float after image section */
         .deskripsi-section::after {
             content: "";
             display: block;
             clear: both;
         }
+
+        /* Style untuk toggle section */
+        .toggle-header {
+            cursor: pointer;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.125);
+        }
+
+        .toggle-content {
+            padding: 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-top: none;
+        }
     </style>
+</head>
 
+<body style="font-family: 'Poppins', sans-serif;">
 
-
-    <?php
-    function formatDeskripsiToggle($deskripsi)
-    {
-        // Jangan ubah HTML menjadi teks biasa
-        // Jika sebelumnya sudah disimpan dalam bentuk HTML asli dari CKEditor, maka cukup langsung proses
-        preg_match_all('/\[(\d{4})\](.*?)(?=(\[\d{4}\])|$)/s', $deskripsi, $matches, PREG_SET_ORDER);
-
-        $output = '<div class="deskripsi-container">';
-        foreach ($matches as $index => $match) {
-            $tahun = $match[1];
-            $konten = trim($match[2]); // Tidak pakai nl2br agar HTML <img> tetap utuh
-            $output .= "
-        <div class='deskripsi-section'>
-            <div class='toggle-header' onclick='toggleDeskripsi($index)'>
-                <strong>Tahun $tahun</strong>
+    <?php include 'admin_header.php'; ?>
+    <main class="container mt-4">
+        <div class="card-body">
+            <h1 class="mb-0 fs-3">Riwayat <?= htmlspecialchars($row['name']) ?></h1>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-md-4 fw-bold">Judul:</div>
+                <div class="col-md-1">:</div>
+                <div class="col-md-7"><?= htmlspecialchars($record['judul']) ?></div>
             </div>
-            <div class='toggle-content' id='content-$index' style='display: none;'>
-                $konten
+            <div class="row mb-3">
+                <div class="col-md-4 fw-bold">Nama Daerah:</div>
+                <div class="col-md-1">:</div>
+                <div class="col-md-7"><?= htmlspecialchars($record['name']) ?></div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <hr>
+                    <h2 class="text-center h5 mb-3">Deskripsi Daerah</h2>
+                    <hr>
+
+                    <?php
+                    // Tambahkan class "img-fluid" ke semua tag <img> jika belum ada
+                    $text_peta = preg_replace(
+                        '/<img(?![^>]*class=["\'][^"\']*img-fluid[^"\']*["\'])/i',
+                        '<img class="img-fluid"',
+                        $record['text_peta']
+                    );
+                    ?>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12" style="text-align: justify;"><?= htmlspecialchars_decode($text_peta) ?></div>
+                    </div>
+
+                    <?php
+                    function formatDeskripsiToggle($deskripsi)
+                    {
+                        // Gunakan regex untuk memecah deskripsi berdasarkan tahun
+                        // preg_match_all('/\[(\d{4})\](.*?)(?=(\[\d{4}\])|$)/s', $deskripsi, $matches, PREG_SET_ORDER);
+
+                        // Atau jika formatnya adalah [1 Januari 2020] atau [31 Desember 2020]
+                        preg_match_all('/\[(\d{1,2}\s+\p{L}+\s+\d{4})\](.*?)(?=\[\d{1,2}\s+\p{L}+\s+\d{4}\]|\z)/su', $deskripsi, $matches, PREG_SET_ORDER);
+
+
+                        $output = '<div class="deskripsi-container">';
+                        foreach ($matches as $index => $match) {
+                            $tahun = $match[1];
+                            $konten = trim($match[2]);
+                            $output .= "
+                        <div class='deskripsi-section mb-3'>
+                            <div class='toggle-header rounded' onclick='toggleDeskripsi($index)'>
+                                <strong>$tahun</strong>
+                            </div>
+                            <div class='toggle-content rounded-bottom' id='content-$index' style='display: none; text-align: justify;'>
+                                $konten
+                            </div>
+                        </div>
+                        ";
+                        }
+                        $output .= '</div>';
+                        return $output;
+                    }
+                    ?>
+                    <hr>
+                    <div class="mb-3">
+                        <h2 class="text-center h5 mb-3">Sejarah Daerah</h2>
+                        <hr>
+
+                        <?= formatDeskripsiToggle($record['deskripsi']) ?>
+                    </div>
+
+                    <!-- <a href="index.php" class="btn btn-primary mt-3">Kembali</a> -->
+                </div>
             </div>
         </div>
-        ";
-        }
-        $output .= '</div>';
-        return $output;
-    }
-    ?>
+        <!-- Bagian Virtual Tour 360 Derajat -->
+        <div class="col-md-12 vertical-images p-3">
+            <h3 class="text-center">Virtual Tour 360</h3>
+            <hr>
+            <div class="bg-success" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px;">
+                <?php if (!empty($sceneList)): ?>
+                    <?php foreach ($sceneList as $scene): ?>
+                        <div class="card image-card mb-3" onclick="window.location.href='pengguna/view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>';" style="cursor: pointer; border: 1px solid grey">
+                            <img src="admin/<?= htmlspecialchars($scene['panorama']) ?>" alt="<?= htmlspecialchars($scene['name']) ?>" class="card-img-top">
+                            <div class="card-body">
+                                <h6 class="text-center"><?= htmlspecialchars($scene['name']) ?></h6>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="card text-center text-muted">
+                        <i class="bi bi-exclamation-circle"></i> Tidak ada scene tersedia.
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </main>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        function toggleDeskripsi(index) {
+            const content = document.getElementById('content-' + index);
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
+        }
+
+        // Make images clickable to open in new tab
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll(".deskripsi-container img").forEach(img => {
                 const src = img.getAttribute("src");
@@ -244,62 +234,7 @@ try {
         });
     </script>
 
-
-    <div class="deskripsi">
-        <?= formatDeskripsiToggle($record['deskripsi']) ?>
-    </div>
-
-    <!-- Bagian Virtual Tour 360 Derajat -->
-    <div class="col-md-4 vertical-images p-3">
-        <h3 class="text-center">Virtual Tour 360</h3>
-        <hr>
-        <div class="" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px; background: linear-gradient(135deg, #16C47F , #001A6E);">
-            <?php if (!empty($sceneList)): ?>
-                <?php foreach ($sceneList as $scene): ?>
-                    <div class="card image-card mb-3" onclick="window.location.href='pengguna/view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene['id'] ?>';" style="cursor: pointer; border: 1px solid grey">
-                        <img src="admin/<?= htmlspecialchars($scene['panorama']) ?>" alt="<?= htmlspecialchars($scene['name']) ?>" class="card-img-top">
-                        <div class="card-body">
-                            <h6 style="display: none;"><?= htmlspecialchars($scene['name']) ?></h6>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="card text-center text-muted">
-                    <i class="bi bi-exclamation-circle"></i> Tidak ada scene tersedia.
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
-
-
-    <!-- <div class="detail-row">
-        <span class="label">Created At:</span>
-        <span class="value"><?= htmlspecialchars($record['created_at']) ?></span>
-    </div>
-
-    <div class="detail-row">
-        <span class="label">Left Position:</span>
-        <span class="value"><?= htmlspecialchars($record['left_position'] ?? 'N/A') ?></span>
-    </div>
-
-    <div class="detail-row">
-        <span class="label">Top Position:</span>
-        <span class="value"><?= htmlspecialchars($record['top_position'] ?? 'N/A') ?></span>
-    </div> -->
-
-    <a href="read.php" class="back-link">Kembali Ke List</a>
-    <!-- </div> -->
-
-    <script>
-        function toggleDeskripsi(index) {
-            const content = document.getElementById('content-' + index);
-            if (content.style.display === 'none') {
-                content.style.display = 'block';
-            } else {
-                content.style.display = 'none';
-            }
-        }
-    </script>
+    <?php include 'pengguna_footer.php'; ?>
 
 </body>
 

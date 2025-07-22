@@ -15,8 +15,8 @@ if (!$wisata) {
 
 // Konfigurasi paginasi
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$itemsPerPage = 5; // Jumlah item per halaman
-$offset = ($page - 1) * $itemsPerPage; // Hitung offset
+$itemsPerPage = 6; // Jumlah item per halaman
+$offset = $itemsPerPage; // Hitung offset
 
 // Get filter parameters from URL
 $search = isset($_GET['search']) ? $_GET['search'] : '';

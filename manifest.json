@@ -1,7 +1,7 @@
 {
-    "name": "DEMO SKRIPSI ERIN",
-    "short_name": "DEMO SKRIPSI ERIN",
-    "description": "Ini adalah sistem virtual tour objek wisata alam di Tasikmalaya yang dibuat oleh Erin Fajrin Nugraha",
+    "name": "Riwayat Bencana",
+    "short_name": "Riwayat Bencana",
+    "description": "Ini adalah sistem virtual tour riwayat bencana yang menyediakan informasi tentang bencana alam di Tasikmalaya.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",

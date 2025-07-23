@@ -49,7 +49,7 @@ unset($_SESSION['message'], $_SESSION['message_type']);
 
 </head>
 
-<body class="bg-light">
+<body style="font-family: 'Poppins', sans-serif;">
 
     <?php include 'admin_header.php'; ?>
     <main class="container mt-4 p-3 mb-3 rounded">

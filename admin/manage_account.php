@@ -45,7 +45,7 @@ unset($_SESSION['message']);
 
 </head>
 
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
 
     <?php include 'admin_header.php'; ?>
 

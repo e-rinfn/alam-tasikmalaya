@@ -2,6 +2,13 @@
 session_start();
 include '../config.php';
 
+// Cek apakah user login dan memiliki role admin ATAU user
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'user'])) {
+    header("Location: no_access.php");
+    exit;
+}
+
+
 // Ambil wisata_id dari parameter URL
 $wisata_id = $_GET['wisata_id'] ?? null;
 $errors = []; // Array untuk menyimpan error

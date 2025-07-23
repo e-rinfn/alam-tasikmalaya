@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../config.php';
+require_once '../config.php';
 
 // Cek apakah user memiliki hak akses admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
@@ -8,24 +8,53 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $role = $_POST['role'];
+// Inisialisasi variabel
+$name = '';
+$email = '';
+$role = '';
 
-    $sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $role = $_POST['role'] ?? '';
+
+    // Cek apakah email sudah digunakan
+    $check = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $check->bind_param("s", $email);
+    $check->execute();
+    $check->store_result();
+
+    if ($check->num_rows > 0) {
+        // Email sudah digunakan
+        $_SESSION['error'] = "Email <strong>$email</strong> sudah digunakan. Silakan gunakan email lain.";
+        // Simpan data ke session agar tidak hilang
+        $_SESSION['old'] = ['name' => $name, 'email' => $email, 'role' => $role];
+        header("Location: add_account.php");
+        exit;
+    }
+
+    // Email belum digunakan, insert user baru
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $name, $email, $password, $role);
 
     if ($stmt->execute()) {
-        header("Location: manage_account.php");
-        exit;
+        $_SESSION['success'] = "Akun berhasil ditambahkan.";
+        unset($_SESSION['old']);
     } else {
-        echo "Gagal menambahkan akun.";
+        $_SESSION['error'] = "Terjadi kesalahan. Gagal menambahkan akun.";
+        $_SESSION['old'] = ['name' => $name, 'email' => $email, 'role' => $role];
     }
+
+    header("Location: manage_account.php");
+    exit;
 }
+
+// Ambil data lama jika ada
+$old = $_SESSION['old'] ?? ['name' => '', 'email' => '', 'role' => 'user'];
+unset($_SESSION['old']);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="id">
@@ -64,15 +93,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <hr>
 
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= $_SESSION['success'];
+                unset($_SESSION['success']); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= $_SESSION['error'];
+                unset($_SESSION['error']); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+
+
         <form method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">Nama</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan nama" required>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan nama"
+                    value="<?= htmlspecialchars($old['name']) ?>" required>
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="Masukkan email" required>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Masukkan email"
+                    value="<?= htmlspecialchars($old['email']) ?>" required>
             </div>
 
             <div class="mb-3">
@@ -83,8 +132,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="mb-4">
                 <label for="role" class="form-label">Role</label>
                 <select name="role" id="role" class="form-select">
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    <option value="user" <?= $old['role'] === 'user' ? 'selected' : '' ?>>User</option>
+                    <option value="admin" <?= $old['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
                 </select>
             </div>
 

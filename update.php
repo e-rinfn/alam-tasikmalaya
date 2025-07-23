@@ -10,8 +10,8 @@ if (!$id) {
 
 session_start();
 
-// Cek apakah user memiliki hak akses admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+// Cek apakah user login dan memiliki role admin ATAU user
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'user'])) {
     header("Location: no_access.php");
     exit;
 }

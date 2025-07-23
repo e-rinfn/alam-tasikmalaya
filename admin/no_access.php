@@ -14,7 +14,7 @@
         <div class="text-center">
             <h1 class="text-danger">403 - Akses Ditolak</h1>
             <p class="lead">Anda tidak memiliki izin untuk mengakses halaman ini.</p>
-            <a href="index.php" class="btn btn-primary">Kembali ke Dashboard</a>
+            <a href="../index.php" class="btn btn-primary">Kembali ke Dashboard</a>
         </div>
     </div>
 </body>

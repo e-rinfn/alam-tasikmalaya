@@ -2,9 +2,9 @@
 session_start();
 include '../config.php';
 
-// Pastikan admin sudah login
-if (!isset($_SESSION['user_id'])) {
-    echo "<script>alert('Anda harus login terlebih dahulu!'); window.location.href='login.php';</script>";
+// Cek apakah user login dan memiliki role admin ATAU user
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'user'])) {
+    header("Location: no_access.php");
     exit;
 }
 

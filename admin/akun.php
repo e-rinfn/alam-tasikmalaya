@@ -2,8 +2,9 @@
 session_start();
 require '../config.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+// Cek apakah user login dan memiliki role admin ATAU user
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'user'])) {
+    header("Location: no_access.php");
     exit;
 }
 

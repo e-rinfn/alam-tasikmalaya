@@ -5,8 +5,8 @@ session_start();
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 
-// Cek apakah user memiliki hak akses admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+// Cek apakah user login dan memiliki role admin ATAU user
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'user'])) {
     header("Location: no_access.php");
     exit;
 }
@@ -100,16 +100,16 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <form method="GET" class="mb-4">
             <div class="row g-2 align-items-center">
                 <!-- Kolom kiri: input + tombol Terapkan & Reset -->
-                <div class="col-md-6 d-flex gap-2">
+                <div class="col-md-8 d-flex gap-2">
                     <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan judul, deskripsi, atau wisata..." value="<?= htmlspecialchars($search) ?>">
                     <button type="submit" class="btn btn-success">Terapkan</button>
                     <a href="read.php" class="btn btn-secondary">Reset</a>
                 </div>
 
                 <!-- Kolom kanan: tombol Tambah & Kembali -->
-                <div class="col-md-6 text-end">
-                    <a href="create.php" class="btn btn-success">Tambah Riwayat</a>
-                    <a href="index_admin.php" class="btn btn-secondary">Kembali</a>
+                <div class="col-md-4 text-end">
+                    <a href="create.php" class="btn btn-success"> <i class="bi bi-plus-circle"></i> Tambah Riwayat</a>
+                    <a href="index_admin.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
                 </div>
             </div>
         </form>

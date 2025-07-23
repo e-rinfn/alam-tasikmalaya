@@ -24,15 +24,17 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
 
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="manage_account.php">
-                                <i class="bi bi-person me-2"></i> Pengguna
-                            </a>
-                        </li>
+                        <?php if ($_SESSION['role'] == 'admin'): ?>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="admin/manage_account.php">
+                                    <i class="bi bi-person me-2"></i> Pengguna
+                                </a>
+                            </li>
+                        <?php endif; ?>
 
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="akun.php">
-                                <i class="bi bi-person me-2"></i> Password
+                                <i class="bi bi-gear me-2"></i> Password
                             </a>
                         </li>
 

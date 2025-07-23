@@ -2,9 +2,9 @@
 session_start();
 include '../config.php';
 
-// Periksa apakah parameter id tersedia
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header('Location: scenes.php');
+// Cek apakah user login dan memiliki role admin ATAU user
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'user'])) {
+    header("Location: no_access.php");
     exit;
 }
 

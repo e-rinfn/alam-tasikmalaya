@@ -1,6 +1,12 @@
 <?php
 include '../config.php';
 
+// Cek apakah user login dan memiliki role admin ATAU user
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'user'])) {
+    header("Location: no_access.php");
+    exit;
+}
+
 $wisata_id = isset($_GET['wisata_id']) ? intval($_GET['wisata_id']) : 0;
 if ($wisata_id === 0) {
     die("Wisata tidak ditemukan.");

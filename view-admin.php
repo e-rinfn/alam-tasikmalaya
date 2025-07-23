@@ -112,7 +112,10 @@ try {
     <?php include 'admin_header.php'; ?>
     <main class="container mt-4">
         <div class="card-body">
-            <h1 class="mb-0 fs-3">Riwayat <?= htmlspecialchars($row['name']) ?></h1>
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="mb-0 fs-3">Riwayat <?= htmlspecialchars($row['name']) ?></h1>
+                <a href="javascript:history.go(-1)" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+            </div>
             <hr>
             <div class="row mb-3">
                 <div class="col-md-4 fw-bold">Judul:</div>
@@ -186,7 +189,7 @@ try {
         </div>
         <!-- Bagian Virtual Tour 360 Derajat -->
         <div class="col-md-12 vertical-images p-3">
-            <h3 class="text-center">Virtual Tour 360</h3>
+            <h2 class="text-center h5 mb-3">Virtual Tour 360</h2>
             <hr>
             <div class="bg-success" style="max-height: 1000px; overflow-y: auto; border: 2px solid #ddd; border-radius: 8px; padding: 10px;">
                 <?php if (!empty($sceneList)): ?>

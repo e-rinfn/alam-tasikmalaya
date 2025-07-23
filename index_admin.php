@@ -209,90 +209,94 @@ if ($pointerQuery->num_rows > 0) {
                 </div>
             </div>
 
-            <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border bg-success mt-2">
-                <!-- Card Tambah Riwayat Bencana -->
-                <div class="col mt-0 p-2">
-                    <a href="admin/add_wisata.php">
-                        <div class="card h-100 shadow-sm border-0 text-center d-flex align-items-center justify-content-center;"
-                            data-name="<?= htmlspecialchars($row['name']) ?>"
-                            style="cursor: pointer;">
-                            <div class="card-body" style="margin-top: 13rem; margin-bottom: 10rem;">
-                                <i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
-                                <p class="mt-2 text-muted">Tambah Data Riwayat Bencana</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+            <div class="container-fluid mt-3">
+                <div class="row row-cols-1 row-cols-md-3 g-4 p-3 bg-success">
 
-                <!-- Card Daftar Wisata -->
-                <?php while ($row = $wisata->fetch_assoc()) { ?>
-                    <div class="col mt-0 p-2">
-                        <div class="card h-100 shadow-sm border-0" data-name="<?= htmlspecialchars($row['name']) ?>">
-                            <img src="<?= htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 350px; object-fit: cover;">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
-                                <hr>
-                                <p class="card-text">
-                                    <?= strlen($row['description']) > 300 ? substr($row['description'], 0, 300) . '...' : $row['description']; ?>
-                                </p>
-                            </div>
-                            <hr>
-                            <div class="card-footer bg-white border-0 d-flex justify-content-center">
-                                <div class="btn-group w-100" role="group" aria-label="Aksi Wisata">
-                                    <!-- Kelola Scene -->
-                                    <a href="admin/scenes.php?wisata_id=<?= $row['id'] ?>" class="btn btn-success btn-sm text-center">
-                                        <i class="bi bi-signpost-2"></i><br>Kelola Scene
-                                    </a>
-
-                                    <!-- Edit -->
-                                    <a href="admin/edit_wisata.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm text-center">
-                                        <i class="bi bi-pencil-square"></i><br>Edit
-                                    </a>
-
-                                    <!-- Hapus -->
-                                    <a href="#" class="btn btn-danger btn-sm text-center delete-btn"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal"
-                                        data-id="<?= $row['id'] ?>"
-                                        data-name="<?= htmlspecialchars($row['name']) ?>">
-                                        <i class="bi bi-trash"></i><br>Hapus
-                                    </a>
+                    <!-- Card Tambah Riwayat Bencana -->
+                    <div class="col">
+                        <a href="admin/add_wisata.php" class="text-decoration-none text-dark">
+                            <div class="card h-100 shadow-sm border-0 d-flex align-items-center justify-content-center text-center"
+                                style="cursor: pointer;">
+                                <div class="card-body mt-5 py-5">
+                                    <br><br><br><br><br>
+                                    <i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
+                                    <p class="mt-2 text-muted fw-semibold">Tambah Data Riwayat Bencana</p>
                                 </div>
                             </div>
-
-                        </div>
-
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.2/purify.min.js"></script>
-                        <script>
-                            // Tampilkan deskripsi wisata
-                            document.addEventListener("DOMContentLoaded", function() {
-                                let descriptionElement = document.getElementById("description-<?= $row['id'] ?>");
-                                let descriptionText = `<?= nl2br($row['description']) ?>`;
-
-                                // Gunakan DOMPurify untuk mengamankan HTML
-                                descriptionElement.innerHTML = DOMPurify.sanitize(descriptionText);
-                            });
-                        </script>
+                        </a>
                     </div>
-                <?php } ?>
 
-                <!-- Modal Konfirmasi Hapus -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered"> <!-- Tambahan: membuat modal di tengah -->
-                        <div class="modal-content">
-                            <div class="modal-header bg-danger text-white">
-                                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                            </div>
-                            <div class="modal-body">
-                                Apakah Anda yakin ingin menghapus <strong id="deleteWisataName">data ini</strong>?
-                                <br><span class="text-danger">Tindakan ini tidak bisa dibatalkan!</span>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Hapus</a>
+                    <!-- Card Daftar Wisata -->
+                    <?php while ($row = $wisata->fetch_assoc()) { ?>
+                        <div class="col">
+                            <div class="card h-100 shadow-sm border-0" data-name="<?= htmlspecialchars($row['name']) ?>">
+
+                                <!-- Gambar -->
+                                <img src="<?= htmlspecialchars($row['image_url']) ?>" class="card-img-top"
+                                    alt="<?= htmlspecialchars($row['name']) ?>"
+                                    style="height: 250px; object-fit: cover;">
+
+                                <!-- Konten -->
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
+                                    <hr class="my-2">
+                                    <p class="card-text" style="text-align: justify;">
+                                        <?= strlen($row['description']) > 300
+                                            ? htmlspecialchars(substr($row['description'], 0, 300)) . '...'
+                                            : htmlspecialchars($row['description']); ?>
+                                    </p>
+                                </div>
+
+                                <!-- Footer Tombol Aksi -->
+                                <div class="card-footer bg-white border-0 d-flex justify-content-center">
+                                    <div class="btn-group w-100" role="group" aria-label="Aksi Wisata">
+
+                                        <!-- Kelola Scene -->
+                                        <a href="admin/scenes.php?wisata_id=<?= $row['id'] ?>"
+                                            class="btn btn-success btn-sm text-center">
+                                            <i class="bi bi-signpost-2"></i><br>Scene
+                                        </a>
+
+                                        <!-- Edit -->
+                                        <a href="admin/edit_wisata.php?id=<?= $row['id'] ?>"
+                                            class="btn btn-warning btn-sm text-center">
+                                            <i class="bi bi-pencil-square"></i><br>Edit
+                                        </a>
+
+                                        <!-- Hapus -->
+                                        <a href="#"
+                                            class="btn btn-danger btn-sm text-center delete-btn"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-id="<?= $row['id'] ?>"
+                                            data-name="<?= htmlspecialchars($row['name']) ?>">
+                                            <i class="bi bi-trash"></i><br>Hapus
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    <?php } ?>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Modal Konfirmasi Hapus -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered"> <!-- Tambahan: membuat modal di tengah -->
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin menghapus <strong id="deleteWisataName">data ini</strong>?
+                        <br><span class="text-danger">Tindakan ini tidak bisa dibatalkan!</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Hapus</a>
                     </div>
                 </div>
             </div>

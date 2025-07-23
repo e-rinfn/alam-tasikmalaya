@@ -112,7 +112,10 @@ try {
     <?php include 'pengguna_header.php'; ?>
     <main class="container mt-4">
         <div class="card-body">
-            <h1 class="mb-0 fs-3">Riwayat <?= htmlspecialchars($row['name']) ?></h1>
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="mb-0 fs-3">Riwayat <?= htmlspecialchars($row['name']) ?></h1>
+                <a href="javascript:history.go(-1)" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+            </div>
             <hr>
             <div class="row mb-3">
                 <div class="col-md-3 fw-bold">Judul:</div>

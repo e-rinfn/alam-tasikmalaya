@@ -15,7 +15,7 @@ if (!$wisata) {
 
 // Konfigurasi paginasi
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$itemsPerPage = 5; // Jumlah item per halaman
+$itemsPerPage = 6; // Jumlah item per halaman
 $offset = ($page - 1) * $itemsPerPage; // Hitung offset
 
 // Get filter parameters from URL
@@ -241,24 +241,35 @@ if ($pointerQuery->num_rows > 0) {
         </div>
 
         <!-- Cards Section -->
-        <div class="container-fluid mt-3" style="min-height: 100vh;">
-            <div class="row row-cols-1 row-cols-md-3 g-4 p-3 border bg-success mt-2">
+        <div class="container-fluid bg-success mt-3" style="min-height: 100vh;">
+            <div class="row row-cols-1 row-cols-md-3 g-4 p-3">
                 <?php while ($row = $wisata->fetch_assoc()) { ?>
-                    <div class="col mt-0 p-2">
-                        <div class="card h-100 shadow-sm" style="border: 1px solid grey" data-name="<?= htmlspecialchars($row['name']) ?>" data-kategori="<?= htmlspecialchars($row['kategori']) ?>">
-                            <img src="<?= htmlspecialchars($row['image_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['name']) ?>" style="height: 350px; object-fit: cover;">
-                            <div class="card-body">
+                    <div class="col">
+                        <div class="card h-100 shadow border border-secondary"
+                            data-name="<?= htmlspecialchars($row['name']) ?>"
+                            data-kategori="<?= htmlspecialchars($row['kategori']) ?>">
+
+                            <!-- Gambar Wisata -->
+                            <img src="<?= htmlspecialchars($row['image_url']) ?>"
+                                class="card-img-top"
+                                alt="<?= htmlspecialchars($row['name']) ?>"
+                                style="height: 250px; object-fit: cover;">
+
+                            <!-- Isi Card -->
+                            <div class="card-body d-flex flex-column">
                                 <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
-                                <hr>
-                                <p style="text-align: justify;">
+                                <hr class="my-2">
+
+                                <p class="card-text text-justify" style="flex-grow: 1;">
                                     <?php
-                                    $max_length = 300;
+                                    $max_length = 200;
                                     $caption = $row['description'];
-                                    echo strlen($caption) > $max_length ? substr($caption, 0, $max_length) . '....' : $caption;
+                                    echo strlen($caption) > $max_length ? substr($caption, 0, $max_length) . '…' : $caption;
                                     ?>
                                 </p>
                             </div>
-                            <hr>
+
+                            <!-- Tombol Aksi -->
                             <div class="text-end p-3">
 
                                 <a href="https://www.google.com/maps?q=<?= urlencode($row['location']) ?>" target="_blank" class="btn btn-warning text-dark">
@@ -271,11 +282,13 @@ if ($pointerQuery->num_rows > 0) {
                                 </a>
 
                             </div>
+
                         </div>
                     </div>
                 <?php } ?>
             </div>
         </div>
+
 
         <!-- Pagination -->
         <nav aria-label="Page navigation" class="mt-4">

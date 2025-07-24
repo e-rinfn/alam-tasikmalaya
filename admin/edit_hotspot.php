@@ -203,6 +203,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <br>
     </div>
 
+    <?php include 'admin_header.php'; ?>
+
 </body>
 
 </html>

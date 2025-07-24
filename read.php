@@ -79,9 +79,6 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="col-md-6">
                 <h1 class="mb-0 fs-3">Daftar Riwayat Bencana</h1>
             </div>
-            <div class="col-md-6 text-md-end text-start mt-3 mt-md-0">
-
-            </div>
         </div>
 
         <hr>
@@ -99,17 +96,17 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <form method="GET" class="mb-4">
             <div class="row g-2 align-items-center">
-                <!-- Kolom kiri: input + tombol Terapkan & Reset -->
+                <!-- Kolom kiri: tombol Tambah & Kembali -->
+                <div class="col-md-4">
+                    <a href="index_admin.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+                    <a href="create.php" class="btn btn-success"> <i class="bi bi-plus-circle"></i> Tambah Riwayat</a>
+                </div>
+
+                <!-- Kolom kanan: input + tombol Terapkan & Reset -->
                 <div class="col-md-8 d-flex gap-2">
                     <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan judul, deskripsi, atau wisata..." value="<?= htmlspecialchars($search) ?>">
                     <button type="submit" class="btn btn-success">Terapkan</button>
                     <a href="read.php" class="btn btn-secondary">Reset</a>
-                </div>
-
-                <!-- Kolom kanan: tombol Tambah & Kembali -->
-                <div class="col-md-4 text-end">
-                    <a href="create.php" class="btn btn-success"> <i class="bi bi-plus-circle"></i> Tambah Riwayat</a>
-                    <a href="index_admin.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
                 </div>
             </div>
         </form>
@@ -138,7 +135,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?= htmlspecialchars($record['judul']) ?></td>
                             <td>
                                 <span title="<?= htmlspecialchars($record['deskripsi']) ?>">
-                                    <?= htmlspecialchars(mb_strimwidth($record['deskripsi'], 0, 50, '...')) ?>
+                                    <?= (mb_strimwidth($record['deskripsi'], 0, 50, '...')) ?>
                                 </span>
                             </td>
                             <td class="text-center"><?= htmlspecialchars($record['longitude']) ?></td>

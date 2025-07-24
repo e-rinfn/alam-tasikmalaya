@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../config.php';
 
 // Cek apakah user login dan memiliki role admin ATAU user

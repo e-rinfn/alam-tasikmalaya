@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'admin_header.php'; ?>
 
     <main class="container mt-4 p-3 mb-3 rounded">
-        <h3>Tambah Scene Wisata - <?= htmlspecialchars($wisata_name) ?></h3>
+        <h3>Tambah Scene Riwayat Bencana - <?= htmlspecialchars($wisata_name) ?></h3>
         <hr>
         <form action="" method="POST" enctype="multipart/form-data">
 
@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="name" class="form-label">Nama Scene</label>
                     <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($name ?? '') ?>" required>
                     <hr>
-                    <label for="wisata_name" class="form-label">Wisata</label>
+                    <label for="wisata_name" class="form-label">Riwayat Bencana</label>
                     <input type="text" class="form-control" id="wisata_name" value="<?= htmlspecialchars($wisata_name) ?>" readonly>
                     <input type="hidden" name="wisata_id" value="<?= htmlspecialchars($wisata_id) ?>">
                 </div>
@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <hr>
             <a href="scenes.php?wisata_id=<?= $wisata_id ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
-            <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> - Simpan Scene</button>
+            <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan Scene</button>
             <br>
         </form>
     </main>

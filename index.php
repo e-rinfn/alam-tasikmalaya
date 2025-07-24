@@ -166,6 +166,9 @@ if ($pointerQuery->num_rows > 0) {
         <?php
         if (!empty($pointerData)) {
             foreach ($pointerData as $m) {
+                // Encode ID ke base64 (jika diperlukan)
+                $encoded_id = base64_encode($m['wisata_id']);
+
                 // Tambahkan class img-fluid untuk gambar agar responsive
                 $text_peta = preg_replace(
                     '/<img(?![^>]*class=["\'][^"\']*img-fluid[^"\']*["\'])/i',
@@ -179,13 +182,20 @@ if ($pointerQuery->num_rows > 0) {
                 <div class="modal-content">
                     <div class="modal-header bg-success text-white">
                         <h5 class="modal-title text-white" id="modalLabel' . $m['id'] . '">' . htmlspecialchars($m['judul']) . '</h5>
-                        <button type="button " class="btn-close text-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                        <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>
                     <div class="modal-body text-start" style="text-align: justify;">
-                        <div class="modal-image-content">
+                        <div class="modal-image-content mb-3">
                             ' . htmlspecialchars_decode($text_peta) . '
                         </div>
-                        <a href="view.php?id=' . $m['id'] . '&wisata_id=' . $m['wisata_id'] . '" class="btn btn-success mt-3">Lihat</a>
+                        <div class="text-center">
+                            <a href="informasi_wisata.php?wisata_id=' . urlencode($encoded_id) . '" class="btn btn-outline-success me-2">
+                                <i class="bi bi-info-circle"></i> Lihat Informasi
+                            </a>
+                            <a href="view.php?id=' . $m['id'] . '&wisata_id=' . urlencode($encoded_id) . '" class="btn btn-outline-success">
+                                <i class="bi bi-eye"></i> Lihat Riwayat
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -193,6 +203,7 @@ if ($pointerQuery->num_rows > 0) {
             }
         }
         ?>
+
 
 
         <!-- Filter Section -->
@@ -277,9 +288,16 @@ if ($pointerQuery->num_rows > 0) {
                                 </a>
 
 
-                                <a href="informasi_wisata.php?wisata_id=<?= $row['id'] ?>" class="btn text-white bg-success">
+                                <!-- <a href="informasi_wisata.php?wisata_id=<?= $row['id'] ?>" class="btn text-white bg-success">
                                     <i class="bi bi-eye"></i> Lihat
-                                </a>
+                                </a> -->
+
+                                <?php
+                                $id = $row['id'];
+                                $encoded_id = base64_encode($id);
+                                ?>
+
+                                <a href="informasi_wisata.php?wisata_id=<?= urlencode($encoded_id) ?>" class="btn text-white bg-success">Lihat Wisata</a>
 
                             </div>
 
@@ -327,7 +345,7 @@ if ($pointerQuery->num_rows > 0) {
     <script>
         // Initialize map
         // const map = L.map('leafletMap').setView([-7.3505, 108.2200], 12);
-        const map = L.map('leafletMap').setView([-7.4082, 108.3608], 12);
+        const map = L.map('leafletMap').setView([-7.4215, 108.3431], 14);
 
 
         // Add OpenStreetMap layer

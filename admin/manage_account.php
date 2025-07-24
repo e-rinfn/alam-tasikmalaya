@@ -23,7 +23,7 @@ unset($_SESSION['message']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Riwayat Benjana</title>
+    <title>Admin - Riwayat Bencana</title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
     <!-- Bootstrap CSS -->

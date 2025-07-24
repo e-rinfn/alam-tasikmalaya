@@ -68,16 +68,16 @@ $stmt->close();
     <!-- Bootstrap JS & Popper.js (Wajib untuk Dropdown) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-
 </head>
 
 <body style="font-family: 'Poppins', sans-serif;">
 
     <?php include 'admin_header.php'; ?>
 
-    <div class="container mt-3 p-3 mb-3 rounded" style="min-height: 80vh;">
+    <div class="container mt-5 mb-4 rounded" style="min-height: 80vh;">
 
         <!-- Tampilkan nama wisata yang dipilih -->
         <h3>Kelola Scene Riwayat Bencana - <?= htmlspecialchars($wisata_name) ?></h3>
@@ -110,8 +110,6 @@ $stmt->close();
         $stmt->execute();
         $scenes = $stmt->get_result();
         ?>
-
-
 
         <!-- Tampilkan daftar scene -->
         <div class="table-responsive mt-3 bg-white">

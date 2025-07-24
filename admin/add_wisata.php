@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include 'admin_header.php'; ?>
 
-    <div class="container mt-4 p-3 mb-3 rounded">
+    <main class="container mt-4 p-3 mb-3 rounded">
         <h3>Tambah Wisata</h3>
         <hr>
         <form action="" method="POST" enctype="multipart/form-data">
@@ -117,11 +117,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <hr>
                     <label for="location" class="form-label mt-5">Lokasi</label>
                     <input type="text" class="form-control" id="location" name="location" value="<?= htmlspecialchars($location) ?>" required>
-                    <small class="form-text">
+                    <!-- <small class="form-text">
                         <a href="https://www.google.com/maps" target="_blank" class="d-block mt-2">
                             <i class="bi bi-geo-alt"></i> Lihat di Google Maps
                         </a>
-                    </small>
+                    </small> -->
                 </div>
 
                 <div class="mb-3 p-3">
@@ -153,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan</button>
         </form>
         <br>
-    </div>
+    </main>
 
     <!-- Bootstrap Modal untuk Error -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">

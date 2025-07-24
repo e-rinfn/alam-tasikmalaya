@@ -240,8 +240,8 @@ if ($pointerQuery->num_rows > 0) {
                                     <hr class="my-2">
                                     <p class="card-text" style="text-align: justify;">
                                         <?= strlen($row['description']) > 300
-                                            ? htmlspecialchars(substr($row['description'], 0, 300)) . '...'
-                                            : htmlspecialchars($row['description']); ?>
+                                            ? (substr($row['description'], 0, 300)) . '...'
+                                            : ($row['description']); ?>
                                     </p>
                                 </div>
 
@@ -251,19 +251,19 @@ if ($pointerQuery->num_rows > 0) {
 
                                         <!-- Kelola Scene -->
                                         <a href="admin/scenes.php?wisata_id=<?= $row['id'] ?>"
-                                            class="btn btn-success btn-sm text-center">
+                                            class="btn btn-success btn-sm text-center border-0">
                                             <i class="bi bi-signpost-2"></i><br>Scene
                                         </a>
 
                                         <!-- Edit -->
                                         <a href="admin/edit_wisata.php?id=<?= $row['id'] ?>"
-                                            class="btn btn-warning btn-sm text-center">
+                                            class="btn btn-warning btn-sm text-center border-0">
                                             <i class="bi bi-pencil-square"></i><br>Edit
                                         </a>
 
                                         <!-- Hapus -->
                                         <a href="#"
-                                            class="btn btn-danger btn-sm text-center delete-btn"
+                                            class="btn btn-danger btn-sm text-center border-0 delete-btn"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteModal"
                                             data-id="<?= $row['id'] ?>"
@@ -372,7 +372,7 @@ if ($pointerQuery->num_rows > 0) {
     <script>
         // Initialize map
         // const map = L.map('leafletMap').setView([-7.3505, 108.2200], 12);
-        const map = L.map('leafletMap').setView([-7.4082, 108.3608], 12);
+        const map = L.map('leafletMap').setView([-7.4215, 108.3431], 14);
 
         // Add OpenStreetMap layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

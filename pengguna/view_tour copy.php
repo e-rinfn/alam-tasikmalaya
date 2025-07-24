@@ -1,7 +1,6 @@
 <?php
 include '../config.php';
 
-
 // Ambil dan decode wisata_id dari parameter URL (base64)
 if (isset($_GET['wisata_id'])) {
     $encoded_id = $_GET['wisata_id'];
@@ -18,12 +17,12 @@ if (isset($_GET['wisata_id'])) {
     exit;
 }
 
-// $wisata_id = isset($_GET['wisata_id']) ? intval($_GET['wisata_id']) : 0;
-// if ($wisata_id === 0) {
-//     die("Wisata tidak ditemukan.");
-// }
+$wisata_id = isset($_GET['wisata_id']) ? intval($_GET['wisata_id']) : 0;
+if ($wisata_id === 0) {
+    die("Wisata tidak ditemukan.");
+}
 
-// // Ambil data wisata
+// Ambil data wisata
 $wisata = $conn->query("SELECT * FROM wisata WHERE id = $wisata_id")->fetch_assoc();
 if (!$wisata) {
     die("Wisata tidak valid.");

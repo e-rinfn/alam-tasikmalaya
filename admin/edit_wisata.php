@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include 'admin_header.php'; ?>
 
-    <div class="container mt-4 p-3 mb-3 rounded">
+    <main class="container mt-4 p-3 mb-3 rounded">
         <h3>Edit Wisata - <?= htmlspecialchars($wisata['name']) ?></h3>
         <hr>
         <form action="" method="POST" enctype="multipart/form-data">
@@ -204,12 +204,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </script>
 
 
-            <hr>
             <a href="../index_admin.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
-            <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> - Simpan</button>
+            <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan</button>
         </form>
         <br>
-    </div>
+    </main>
 
     <!-- Bootstrap Modal untuk Error -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">

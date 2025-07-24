@@ -2,13 +2,29 @@
 require_once 'db.php';
 include 'config.php';
 
+// Ambil dan decode wisata_id dari parameter URL (base64)
+if (isset($_GET['wisata_id'])) {
+    $encoded_id = $_GET['wisata_id'];
+    $decoded_id = base64_decode($encoded_id);
+
+    if (is_numeric($decoded_id)) {
+        $wisata_id = (int)$decoded_id;
+    } else {
+        echo "ID wisata tidak valid.";
+        exit;
+    }
+} else {
+    echo "ID wisata tidak ditemukan.";
+    exit;
+}
+
 if (!isset($_GET['id'])) {
-    header("Location: read.php");
+    header("Location: index.php");
     exit();
 }
 
-// Ambil wisata_id dari parameter URL atau sesuaikan dengan kebutuhan
-$wisata_id = isset($_GET['wisata_id']) ? intval($_GET['wisata_id']) : 0;
+// Gunakan hasil decode sebagai wisata_id
+$wisata_id = (int)$decoded_id;
 
 // Ambil data wisata berdasarkan wisata_id
 $wisata = $conn->query("SELECT * FROM wisata WHERE id = $wisata_id");

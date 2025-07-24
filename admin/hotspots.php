@@ -281,9 +281,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <hr>
                     <div class="d-flex justify-content-around">
                         <a href="scenes.php?wisata_id=<?= $wisata_id ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
-                        <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> - Simpan Hotspot</button>
+                        <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan Hotspot</button>
                         <a href="view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene_id ?>" class="btn btn-primary">
-                            <i class="bi bi-eye"></i> - Lihat Scene
+                            <i class="bi bi-eye"></i> Lihat Scene
                         </a>
                     </div>
                 </form>
@@ -346,12 +346,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </td>
                             <td><?= $hotspot['type'] ?></td>
                             <td><?= strip_tags($hotspot['description'], '<p><br><b><i><u><strong><em>') ?></td>
-                            <td class="text-center">
+                            <td class="text-center align-middle">
 
                                 <!-- Tombol Edit hanya muncul jika tipe adalah "info" -->
                                 <?php if ($hotspot['type'] === 'info'): ?>
                                     <a href="edit_hotspot.php?id=<?= $hotspot['id'] ?>&scene_id=<?= $scene_id ?>" class="btn btn-warning btn-sm m-2">
-                                        <i class="bi bi-pencil-square"></i> - Edit
+                                        <i class="bi bi-pencil-square"></i> Edit
                                     </a>
                                 <?php endif; ?>
 
@@ -361,8 +361,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     data-bs-target="#confirmDeleteModal"
                                     data-id="<?= $hotspot['id'] ?>"
                                     data-scene="<?= $scene_id ?>">
-                                    <i class="bi bi-trash"></i> -
-                                    Hapus
+                                    <i class="bi bi-trash"></i> Hapus
                                 </a>
                             </td>
                         </tr>

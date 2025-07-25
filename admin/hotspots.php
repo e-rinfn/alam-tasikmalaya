@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+$flash_message = $_SESSION['flash_message'] ?? null;
+unset($_SESSION['flash_message']);
+
+
 include '../config.php';
 
 // Cek apakah user login dan memiliki role admin ATAU user
@@ -65,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<script>alert('Gagal menambahkan hotspot: " . $conn->error . "');</script>";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -96,6 +102,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     <style>
@@ -280,7 +288,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <hr>
                     <div class="d-flex justify-content-around">
-                        <a href="scenes.php?wisata_id=<?= $wisata_id ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+                        <a href="scenes.php?wisata_id=<?= $wisata_id ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Scenes</a>
                         <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan Hotspot</button>
                         <a href="view_tour.php?wisata_id=<?= $wisata_id ?>&scene_id=<?= $scene_id ?>" class="btn btn-primary">
                             <i class="bi bi-eye"></i> Lihat Scene
@@ -491,6 +499,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </footer>
+
+    <?php if ($flash_message): ?>
+        <script>
+            Swal.fire({
+                icon: '<?= $flash_message['type'] ?>',
+                title: <?= json_encode($flash_message['text']) ?>,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
+    <?php endif; ?>
+
 </body>
 
 </html>

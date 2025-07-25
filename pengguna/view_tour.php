@@ -88,6 +88,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 
     <!-- Bootstrap Icons -->
@@ -139,7 +140,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
 
 </head>
 
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
 
     <div id="panorama-container">
         <div id="panorama"></div>
@@ -167,7 +168,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <!-- Sticky Header -->
-                        <div class="modal-header text-white bg-secondary">
+                        <div class="modal-header text-white bg-success">
                             <h5 class="modal-title" id="sceneModalLabel"><i class="bi bi-card-image"></i> - Pilih Lokasi Scene</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -240,7 +241,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
         <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header text-white" style="background: linear-gradient(100deg, #001A6E, #16C47F );">
+                    <div class="modal-header text-white bg-success">
                         <h5 class="modal-title" id="modalTitle">Informasi</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>

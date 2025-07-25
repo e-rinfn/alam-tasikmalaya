@@ -55,7 +55,7 @@ unset($_SESSION['message']);
 
         </div>
         <hr>
-        <a href="javascript:history.go(-1)" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+        <a href="../index_admin.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Beranda</a>
         <a href="add_account.php" class="btn btn-success">
             <i class="bi bi-plus-circle me-1"></i> Tambah Akun
         </a>
@@ -86,11 +86,9 @@ unset($_SESSION['message']);
                                     <a href="edit_account.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-warning">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <?php if ($row['id'] != $_SESSION['user_id']): ?>
-                                        <button class="btn btn-sm btn-danger" onclick="confirmDelete(<?= $row['id']; ?>)">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    <?php endif; ?>
+                                    <button class="btn btn-sm btn-danger" onclick="confirmDelete(<?= $row['id']; ?>)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>

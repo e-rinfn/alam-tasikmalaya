@@ -149,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     });
             </script>
 
-            <a href="../index_admin.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+            <a href="../index_admin.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Beranda</a>
             <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan</button>
         </form>
         <br>

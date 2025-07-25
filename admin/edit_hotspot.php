@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+$flash_message = $_SESSION['flash_message'] ?? null;
+unset($_SESSION['flash_message']);
+
+
 include '../config.php';
 
 // Cek apakah user login dan memiliki role admin ATAU user
@@ -43,15 +48,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ddsssi", $pitch, $yaw, $type, $text, $description, $hotspot_id);
 
+    // if ($stmt->execute()) {
+    //     echo "<script>alert('Hotspot berhasil diperbarui!'); window.location.href='hotspots.php?scene_id=$scene_id';</script>";
+    // } else {
+    //     echo "<script>alert('Gagal memperbarui hotspot!');</script>";
+    // }
+
     if ($stmt->execute()) {
-        echo "<script>alert('Hotspot berhasil diperbarui!'); window.location.href='hotspots.php?scene_id=$scene_id';</script>";
+        $_SESSION['flash_message'] = ['type' => 'success', 'text' => 'Hotspot berhasil diperbarui!'];
+        header("Location: hotspots.php?scene_id=$scene_id");
+        exit;
     } else {
-        echo "<script>alert('Gagal memperbarui hotspot!');</script>";
+        $_SESSION['flash_message'] = ['type' => 'error', 'text' => 'Gagal memperbarui hotspot!'];
     }
+
 
     $stmt->close();
 }
 ?>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 <!DOCTYPE html>
 <html lang="id">
@@ -88,9 +106,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'admin_header.php'; ?>
 
 
-    <div class="container mt-4 p-3 mb-3 rounded">
-        <h2>Edit Hotspot</h2>
-
+    <main class="container mt-4 p-3 mb-3 rounded">
+        <h2>Edit Hotspot Informasi</h2>
+        <hr>
         <form method="POST">
             <div class="mb-3" hidden>
                 <label class="form-label">Pitch</label>
@@ -201,9 +219,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> - Simpan Perubahan Hotspot</button>
         </form>
         <br>
-    </div>
+    </main>
 
-    <?php include 'admin_header.php'; ?>
+    <?php if ($flash_message): ?>
+        <script>
+            Swal.fire({
+                icon: '<?= $flash_message['type'] ?>',
+                title: <?= json_encode($flash_message['text']) ?>,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
+    <?php endif; ?>
+
+
+    <?php include 'admin_footer.php'; ?>
 
 </body>
 

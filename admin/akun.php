@@ -53,15 +53,17 @@ unset($_SESSION['message'], $_SESSION['message_type']);
 <body style="font-family: 'Poppins', sans-serif;">
 
     <?php include 'admin_header.php'; ?>
-    <main class="container mt-4 p-3 mb-3 rounded">
-        <h3>Ubah Password</h3>
+    <main class="container mt-5 mb-4">
+        <h1 class="mb-0 fs-3">Ubah Password</h1>
         <hr>
-        <div class="container mt-5">
+        <a href="javascript:history.go(-1)" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+
+        <div class="container-fluid mt-4">
             <div class="row justify-content-center">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <!-- Card Ubah Password -->
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header bg-success text-white">
+                    <div class="shadow-sm border-0">
+                        <div class="card-header bg-success text-white p-3">
                             <h5 class="mb-0"><i class="bi bi-key me-2"></i>Ubah Password - <b><?= htmlspecialchars($admin['name']); ?></b></h5>
                         </div>
                         <div class="card-body">
@@ -87,7 +89,7 @@ unset($_SESSION['message'], $_SESSION['message_type']);
                                         <input type="password" name="confirm_password" class="form-control" placeholder="Ulangi password baru" required>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-success w-100">
+                                <button type="submit" class="btn btn-success w-25">
                                     <i class="bi bi-arrow-repeat"></i> Ubah Password
                                 </button>
                             </form>

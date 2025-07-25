@@ -49,15 +49,17 @@ unset($_SESSION['message']);
 
     <?php include 'admin_header.php'; ?>
 
-    <main class="container mt-4 p-4 rounded bg-white shadow-sm">
+    <main class="container mt-4 p-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="mb-0">Kelola Pengguna</h3>
-            <a href="add_account.php" class="btn btn-success">
-                <i class="bi bi-plus-circle me-1"></i> Tambah Akun
-            </a>
-        </div>
 
-        <div class="table-responsive">
+        </div>
+        <hr>
+        <a href="javascript:history.go(-1)" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+        <a href="add_account.php" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> Tambah Akun
+        </a>
+        <div class="table-responsive mt-3">
             <table class="table table-hover align-middle">
                 <thead class="table-light text-center">
                     <tr>
@@ -84,9 +86,11 @@ unset($_SESSION['message']);
                                     <a href="edit_account.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-warning">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button class="btn btn-sm btn-danger" onclick="confirmDelete(<?= $row['id']; ?>)">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
+                                    <?php if ($row['id'] != $_SESSION['user_id']): ?>
+                                        <button class="btn btn-sm btn-danger" onclick="confirmDelete(<?= $row['id']; ?>)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>

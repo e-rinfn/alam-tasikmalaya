@@ -1,6 +1,7 @@
 <?php
 require_once 'db.php';
 include 'config.php';
+session_start();
 
 if (!isset($_GET['id'])) {
     header("Location: read.php");

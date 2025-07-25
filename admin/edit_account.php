@@ -75,15 +75,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include 'admin_header.php'; ?>
 
-    <main class="container mt-4 p-4 rounded shadow-sm bg-white">
+    <main class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="mb-0">Tambah Pengguna</h3>
-            <a href="manage_account.php" class="btn btn-secondary">Kembali</a>
+            <h1 class="mb-0 fs-3">Ubah Pengguna</h1>
         </div>
 
         <hr>
+        <a href="manage_account.php" class="btn btn-secondary">Kembali</a>
 
-        <form method="post">
+        <form method="post" class="mt-4 p-3 rounded shadow-sm bg-light">
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Nama</label>
@@ -106,8 +106,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <hr>
 
-        <h4 class="text-center">Ubah Password</h4>
-        <form method="post">
+        <h4 class="text-center ">Ubah Password</h4>
+        <form method="post" class="mt-4 p-3 rounded shadow-sm bg-light">
             <div class="mb-3">
                 <label class="form-label">Password Baru</label>
                 <input type="password" name="new_password" class="form-control" required>

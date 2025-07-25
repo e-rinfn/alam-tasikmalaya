@@ -98,7 +98,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="row g-2 align-items-center">
                 <!-- Kolom kiri: tombol Tambah & Kembali -->
                 <div class="col-md-4">
-                    <a href="index_admin.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+                    <a href="javascript:history.go(-1)" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
                     <a href="create.php" class="btn btn-success"> <i class="bi bi-plus-circle"></i> Tambah Riwayat</a>
                 </div>
 

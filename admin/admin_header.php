@@ -26,7 +26,7 @@
 
                         <?php if ($_SESSION['role'] == 'admin'): ?>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="admin/manage_account.php">
+                                <a class="dropdown-item d-flex align-items-center" href="manage_account.php">
                                     <i class="bi bi-person me-2"></i> Pengguna
                                 </a>
                             </li>

@@ -107,12 +107,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'admin_header.php'; ?>
 
     <main class="container mt-4 p-3 mb-3 rounded">
-        <h3>Tambah Wisata</h3>
+        <h3>Tambah Data Daerah</h3>
         <hr>
         <form action="" method="POST" enctype="multipart/form-data">
             <div class="d-flex justify-content-around">
                 <div class="mb-3 p-3 w-50">
-                    <label for="name" class="form-label">Nama Wisata</label>
+                    <label for="name" class="form-label">Nama Daerah</label>
                     <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
                     <hr>
                     <label for="location" class="form-label mt-5">Lokasi</label>
@@ -132,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <hr>
             <div class="mb-3 text-center">
-                <label for="description" class="form-label">Deskripsi Wisata</label>
+                <label for="description" class="form-label">Deskripsi Daerah</label>
                 <textarea class="form-control" id="description" name="description" style="height: 200px;"><?= htmlspecialchars($description) ?></textarea>
             </div>
 

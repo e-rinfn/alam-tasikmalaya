@@ -173,8 +173,8 @@ try {
                     <textarea id="deskripsi" name="deskripsi" class="form-control" style="height: 200px;"><?= htmlspecialchars($history['deskripsi']) ?></textarea>
                 </div>
                 <div class="d-flex align-items-center">
-                    <button type="button" class="btn btn-success" id="btnSubmit">Simpan Perubahan</button>
-                    <a href="#" class="btn btn-secondary ms-3" id="btnBack">Kembali ke Daftar</a>
+                    <a href="#" class="btn btn-secondary" id="btnBack"><i class="bi bi-arrow-left"></i> Kembali</a>
+                    <button type="button" class="btn btn-success ms-3" id="btnSubmit"><i class="bi bi-floppy"></i> Simpan Perubahan</button>
                 </div>
 
 

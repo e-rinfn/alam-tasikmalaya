@@ -104,7 +104,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <!-- Kolom kanan: input + tombol Terapkan & Reset -->
                 <div class="col-md-8 d-flex gap-2">
-                    <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan judul, deskripsi, atau wisata..." value="<?= htmlspecialchars($search) ?>">
+                    <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan judul, deskripsi, atau daerah..." value="<?= htmlspecialchars($search) ?>">
                     <button type="submit" class="btn btn-success">Terapkan</button>
                     <a href="read.php" class="btn btn-secondary">Reset</a>
                 </div>

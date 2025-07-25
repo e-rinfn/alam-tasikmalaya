@@ -218,7 +218,7 @@ if ($pointerQuery->num_rows > 0) {
                             <div class="card h-100 shadow-sm border-0 text-center" style="cursor: pointer;">
                                 <div class="card-body d-flex flex-column justify-content-center align-items-center" style="height: 250px;">
                                     <i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
-                                    <p class="mt-2 text-muted fw-semibold">Tambah Data Riwayat Bencana</p>
+                                    <p class="mt-2 text-muted fw-semibold">Tambah Data Daerah</p>
                                 </div>
                             </div>
                         </a>

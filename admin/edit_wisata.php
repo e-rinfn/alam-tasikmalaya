@@ -143,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'admin_header.php'; ?>
 
     <main class="container mt-4 p-3 mb-3 rounded">
-        <h3>Edit Wisata - <?= htmlspecialchars($wisata['name']) ?></h3>
+        <h3>Edit Data Daerah - <?= htmlspecialchars($wisata['name']) ?></h3>
         <hr>
         <form action="" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= htmlspecialchars($wisata['id']) ?>">
@@ -155,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div> -->
 
                 <div class="mb-3 p-3 w-50">
-                    <label for="name" class="form-label">Nama Wisata</label>
+                    <label for="name" class="form-label">Nama Daerah</label>
                     <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($wisata['name']) ?>" required>
                     <hr>
 
@@ -186,7 +186,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <hr>
             <div class="mb-3 text-center">
-                <label for="description" class="form-label">Deskripsi Wisata</label>
+                <label for="description" class="form-label">Deskripsi Daerah</label>
                 <textarea class="form-control" id="description" name="description" style="height: 200px;" required><?= htmlspecialchars($wisata['description']) ?></textarea>
             </div>
 

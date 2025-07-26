@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <hr>
-        <a href="manage_account.php" class="btn btn-secondary">Kembali</a>
+        <a href="manage_account.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
 
         <form method="post" class="mt-4 p-3 rounded shadow-sm bg-light">
             <div class="row">
@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <option value="admin" <?= $user['role'] == 'admin' ? 'selected' : ''; ?>>Admin</option>
                 </select>
             </div>
-            <button type="submit" name="update_info" class="btn btn-primary">Simpan Perubahan</button>
+            <button type="submit" name="update_info" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan Perubahan</button>
         </form>
 
         <hr>
@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label class="form-label">Password Baru</label>
                 <input type="password" name="new_password" class="form-control" required>
             </div>
-            <button type="submit" name="update_password" class="btn btn-warning">Update Password</button>
+            <button type="submit" name="update_password" class="btn btn-warning"><i class="bi bi-arrow-up"></i> Update Password</button>
         </form>
 
     </main>

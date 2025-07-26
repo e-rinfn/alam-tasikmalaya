@@ -88,7 +88,7 @@ unset($_SESSION['old']);
     <main class="container mt-4 p-4 rounded shadow-sm bg-white">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="mb-0">Tambah Pengguna</h3>
-            <a href="manage_account.php" class="btn btn-secondary">Kembali</a>
+            <a href="manage_account.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
         </div>
 
         <hr>
@@ -138,7 +138,7 @@ unset($_SESSION['old']);
             </div>
 
             <div class="col-md-4">
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-success"><i class="bi bi-floppy"></i> Simpan</button>
             </div>
         </form>
 

@@ -82,7 +82,7 @@ $scene_id = isset($_GET['scene_id']) ? intval($_GET['scene_id']) : null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Bencana - <?= htmlspecialchars($wisata['name']) ?></title>
+    <title>Virtual Tour - <?= htmlspecialchars($wisata['name']) ?></title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
     <!-- Bootstrap CSS -->

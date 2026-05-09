@@ -6,5 +6,6 @@
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand text-white" href="index.php">Alam Tasikmalaya 360</a>
+        <img src="img/Logo-Putih.png" alt="Logo" width="50" height="50" class="me-2">
     </div>
 </nav>

@@ -59,7 +59,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Riwayat Bencana</title>
+    <title>Admin - Alam Tasikmalaya 360</title>
     <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -87,7 +87,7 @@ try {
 
     <main class="container mt-4">
         <div class="card-body">
-            <h1 class="mb-0 fs-3">Tambah Riwayat Bencana</h1>
+            <h1 class="mb-0 fs-3">Tambah Objek Wisata</h1>
             <hr>
             <?php if (isset($wisataError)): ?>
                 <div class="alert alert-danger"><?= htmlspecialchars($wisataError) ?></div>
@@ -132,7 +132,7 @@ try {
                 </div>
 
                 <div class="mb-3">
-                    <label for="deskripsi" class="form-label">Deskripsi Riwayat Bencana</label>
+                    <label for="deskripsi" class="form-label">Deskripsi Objek Wisata</label>
                     <small class="d-block text-muted mb-2">
                         Tambahkan tahun dalam kurung, contoh: <code>[10 Oktober 2002]</code> diikuti deskripsinya.
                     </small>

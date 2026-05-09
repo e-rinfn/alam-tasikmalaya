@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Riwayat Bencana</title>
+    <title>Admin - Alam Tasikmalaya 360</title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
     <!-- Bootstrap CSS -->
@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'admin_header.php'; ?>
 
     <main class="container mt-4 p-3 mb-3 rounded">
-        <h3>Tambah Scene Riwayat Bencana - <?= htmlspecialchars($wisata_name) ?></h3>
+        <h3>Tambah Scene Objek Wisata - <?= htmlspecialchars($wisata_name) ?></h3>
         <hr>
         <form action="" method="POST" enctype="multipart/form-data">
 
@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="name" class="form-label">Nama Scene</label>
                     <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($name ?? '') ?>" required>
                     <hr>
-                    <label for="wisata_name" class="form-label">Riwayat Bencana</label>
+                    <label for="wisata_name" class="form-label">Objek Wisata</label>
                     <input type="text" class="form-control" id="wisata_name" value="<?= htmlspecialchars($wisata_name) ?>" readonly>
                     <input type="hidden" name="wisata_id" value="<?= htmlspecialchars($wisata_id) ?>">
                 </div>

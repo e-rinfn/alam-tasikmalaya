@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Riwayat Bencana - <?= htmlspecialchars($scene['name']) ?></title>
+    <title>Admin - Alam Tasikmalaya 360 - <?= htmlspecialchars($scene['name']) ?></title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
 
@@ -494,7 +494,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="mb-0">&copy; 2025 Riwayat Bencana</p>
+                    <p class="mb-0">&copy; 2025 Alam Tasikmalaya 360</p>
                 </div>
             </div>
         </div>

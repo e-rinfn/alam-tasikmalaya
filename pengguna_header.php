@@ -5,6 +5,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-success" style="font-family: 'Poppins', sans-serif;">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand text-white" href="index.php">Riwayat Bencana</a>
+        <a class="navbar-brand text-white" href="index.php">Alam Tasikmalaya 360</a>
     </div>
 </nav>

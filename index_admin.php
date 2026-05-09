@@ -92,7 +92,7 @@ if ($pointerQuery->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Riwayat Bencana</title>
+    <title>Admin - Alam Tasikmalaya 360</title>
     <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -181,7 +181,7 @@ if ($pointerQuery->num_rows > 0) {
                 <div class="row">
                     <!-- Input Pencarian -->
                     <div class="col-md-6 mb-3">
-                        <input type="text" id="searchBar" class="form-control" placeholder="Cari riwayat bencana..."
+                        <input type="text" id="searchBar" class="form-control" placeholder="Cari objek wisata ..."
                             value="<?= htmlspecialchars($search ?? '') ?>" onkeyup="filterCards()">
                     </div>
 
@@ -212,13 +212,13 @@ if ($pointerQuery->num_rows > 0) {
             <div class="container-fluid mt-3">
                 <div class="row row-cols-1 row-cols-md-3 g-4 p-3 bg-success">
 
-                    <!-- Card Tambah Riwayat Bencana -->
+                    <!-- Card Tambah Objek Wisata -->
                     <div class="col">
                         <a href="admin/add_wisata.php" class="text-decoration-none text-dark">
                             <div class="card h-100 shadow-sm border-0 text-center" style="cursor: pointer;">
                                 <div class="card-body d-flex flex-column justify-content-center align-items-center" style="height: 250px;">
                                     <i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
-                                    <p class="mt-2 text-muted fw-semibold">Tambah Data Daerah</p>
+                                    <p class="mt-2 text-muted fw-semibold">Tambah Objek Wisata</p>
                                 </div>
                             </div>
                         </a>
@@ -234,14 +234,17 @@ if ($pointerQuery->num_rows > 0) {
                                     alt="<?= htmlspecialchars($row['name']) ?>"
                                     style="height: 250px; object-fit: cover;">
 
-                                <!-- Konten -->
-                                <div class="card-body">
+                                <!-- Isi Card -->
+                                <div class="card-body d-flex flex-column">
                                     <h5 class="card-title fw-bold"><?= htmlspecialchars($row['name']) ?></h5>
                                     <hr class="my-2">
-                                    <p class="card-text" style="text-align: justify;">
-                                        <?= strlen($row['description']) > 300
-                                            ? (substr($row['description'], 0, 300)) . '...'
-                                            : ($row['description']); ?>
+
+                                    <p class="card-text text-justify" style="flex-grow: 1;">
+                                        <?php
+                                        $max_length = 200;
+                                        $caption = $row['description'];
+                                        echo strlen($caption) > $max_length ? substr($caption, 0, $max_length) . '…' : $caption;
+                                        ?>
                                     </p>
                                 </div>
 
@@ -330,23 +333,6 @@ if ($pointerQuery->num_rows > 0) {
         </nav>
     </main>
 
-    <!-- Modal Bootstrap -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi</h5>
-                </div>
-                <div class="modal-body">
-                    <?= $delete_message; ?>
-                </div>
-                <div class="modal-footer">
-                    <a href="index.php" class="btn btn-primary">OK</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         // Modal Hapus
         document.addEventListener("DOMContentLoaded", function() {
@@ -372,7 +358,7 @@ if ($pointerQuery->num_rows > 0) {
     <script>
         // Initialize map
         // const map = L.map('leafletMap').setView([-7.3505, 108.2200], 12);
-        const map = L.map('leafletMap').setView([-7.4215, 108.3431], 14);
+        const map = L.map('leafletMap').setView([-7.340474, 108.213637], 10);
 
         // Add OpenStreetMap layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

@@ -92,7 +92,7 @@ if ($pointerQuery->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Bencana</title>
+    <title>Alam Tasikmalaya 360</title>
     <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -211,7 +211,7 @@ if ($pointerQuery->num_rows > 0) {
             <div class="row">
                 <!-- Input Pencarian -->
                 <div class="col-md-6 mb-3">
-                    <input type="text" id="searchBar" class="form-control" placeholder="Cari riwayat bencana..."
+                    <input type="text" id="searchBar" class="form-control" placeholder="Cari objek wisata ..."
                         value="<?= htmlspecialchars($search ?? '') ?>" onkeyup="filterCards()">
                 </div>
 
@@ -239,13 +239,13 @@ if ($pointerQuery->num_rows > 0) {
             </div>
         </form>
 
-        <!-- Card Tambah Riwayat Bencana Namun Untuk User Di Hide -->
+        <!-- Card Tambah Objek Wisata Namun Untuk User Di Hide -->
         <div class="col mt-0 p-2" hidden>
             <a href="admin/add_wisata.php">
                 <div class="card h-100 shadow-sm border-0 text-center d-flex align-items-center justify-content-center;">
                     <div class="card-body" style="margin-top: 13rem; margin-bottom: 10rem;">
                         <i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
-                        <p class="mt-2 text-muted">Tambah Data Riwayat Bencana</p>
+                        <p class="mt-2 text-muted">Tambah Data Objek Wisata</p>
                     </div>
                 </div>
             </a>
@@ -345,7 +345,7 @@ if ($pointerQuery->num_rows > 0) {
     <script>
         // Initialize map
         // const map = L.map('leafletMap').setView([-7.3505, 108.2200], 12);
-        const map = L.map('leafletMap').setView([-7.4215, 108.3431], 14);
+        const map = L.map('leafletMap').setView([-7.340474, 108.213637], 10);
 
 
         // Add OpenStreetMap layer

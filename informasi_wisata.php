@@ -53,7 +53,7 @@ $stmtHistory->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Bencana</title>
+    <title>Alam Tasikmalaya 360</title>
     <link rel="icon" type="image/png" href="img/Logo-Putih.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -148,7 +148,7 @@ $stmtHistory->close();
     <!-- Footer -->
     <footer class="bg-success text-white py-4 mt-5">
         <div class="container-fluid text-center">
-            <p class="mb-0">&copy; 2025 Riwayat Bencana</p>
+            <p class="mb-0">&copy; 2025 Alam Tasikmalaya 360</p>
         </div>
     </footer>
 </body>

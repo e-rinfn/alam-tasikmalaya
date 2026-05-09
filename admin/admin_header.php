@@ -5,11 +5,11 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-success" style="font-family: 'Poppins', sans-serif;">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand text-white" href="../index_admin.php">Riwayat Bencana</a>
+        <a class="navbar-brand text-white" href="../index_admin.php">Objek Wisata</a>
         <!-- Menu Navbar -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center gap-2">
-                <!-- Tombol Kelola Riwayat Bencana -->
+                <!-- Tombol Kelola Objek Wisata -->
                 <li class="nav-item">
                     <a href="../read.php" class="btn btn-sm btn-outline-light d-flex align-items-center">
                         <i class="bi bi-house me-2"></i> Kelola Riwayat

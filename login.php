@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <h2 class="text-center mb-4">Login Admin</h2>
-        <p class="text-center text-muted mb-4">Virtual Tour Riwayat Bencana</p>
+        <p class="text-center text-muted mb-4">Virtual Tour Alam Tasikmalaya 360</p>
 
         <?php if (isset($error)): ?>
             <div class="alert alert-danger"><?= $error; ?></div>

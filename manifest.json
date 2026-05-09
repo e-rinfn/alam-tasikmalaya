@@ -1,7 +1,7 @@
 {
-    "name": "Riwayat Bencana",
-    "short_name": "Riwayat Bencana",
-    "description": "Ini adalah sistem virtual tour riwayat bencana yang menyediakan informasi tentang bencana alam di Tasikmalaya.",
+    "name": "Alam Tasikmalaya 360",
+    "short_name": "Alam Tasikmalaya 360",
+    "description": "Ini adalah sistem virtual tour objek wisata yang menyediakan informasi tentang tempat wisata di Tasikmalaya.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",

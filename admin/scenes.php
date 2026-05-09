@@ -46,7 +46,7 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Riwayat Bencana</title>
+    <title>Admin - Alam Tasikmalaya 360</title>
     <link rel="icon" type="image/png" href="../img/Logo-Putih.png">
 
 
@@ -80,7 +80,7 @@ $stmt->close();
     <div class="container mt-5 mb-4 rounded" style="min-height: 80vh;">
 
         <!-- Tampilkan nama wisata yang dipilih -->
-        <h3>Kelola Scene Riwayat Bencana - <?= htmlspecialchars($wisata_name) ?></h3>
+        <h3>Kelola Scene Objek Wisata - <?= htmlspecialchars($wisata_name) ?></h3>
         <hr>
         <!-- Container untuk tombol Tambah Scene dan Kembali -->
         <div class="button-container">
@@ -225,7 +225,7 @@ $stmt->close();
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="mb-0">&copy; 2025 Riwayat Bencana</p>
+                    <p class="mb-0">&copy; 2025 Alam Tasikmalaya 360</p>
                 </div>
             </div>
         </div>

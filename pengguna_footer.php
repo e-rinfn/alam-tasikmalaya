@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 text-center">
-                <p class="mb-0">&copy; 2025 Riwayat Bencana</p>
+                <p class="mb-0">&copy; 2025 Alam Tasikmalaya 360</p>
             </div>
         </div>
     </div>

@@ -46,7 +46,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Riwayat Bencana</title>
+    <title>Admin - Alam Tasikmalaya 360</title>
     <link rel="icon" type="image/png" href="img/Logo-Putih.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -77,7 +77,7 @@ $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="row align-items-center mt-5 mb-4">
             <div class="col-md-6">
-                <h1 class="mb-0 fs-3">Daftar Riwayat Bencana</h1>
+                <h1 class="mb-0 fs-3">Daftar Objek Wisata</h1>
             </div>
         </div>
 

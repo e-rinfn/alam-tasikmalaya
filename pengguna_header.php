@@ -22,10 +22,6 @@
                 <span class="fw-semibold text-white fs-5">
                     Alam Tasikmalaya 360
                 </span>
-
-                <small class="text-white-50 fs-6">
-                    Jelajahi Keindahan Alam Tasikmalaya
-                </small>
             </div>
 
         </a>

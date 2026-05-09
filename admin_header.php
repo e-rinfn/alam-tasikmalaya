@@ -6,18 +6,7 @@
     <div class="container">
         <!-- Logo -->
         <img src="img/Logo-Putih.png" alt="Logo" width="50" height="50" class="me-2">
-        <a class="navbar-brand text-white" href="index_admin.php">
-            <!-- Text -->
-            <div class="d-flex flex-column lh-sm">
-                <span class="fw-semibold text-white fs-5">
-                    Alam Tasikmalaya 360
-                </span>
-
-                <small class="text-white-50 fs-6">
-                    Jelajahi Keindahan Alam Tasikmalaya
-                </small>
-            </div>
-        </a>
+        <a class="navbar-brand text-white" href="index_admin.php">Alam Tasikmalaya 360</a>
         <!-- Menu Navbar -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center gap-2">

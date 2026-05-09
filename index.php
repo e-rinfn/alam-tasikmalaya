@@ -210,13 +210,13 @@ if ($pointerQuery->num_rows > 0) {
         <form class="container mt-3" onsubmit="event.preventDefault(); applyFilters();">
             <div class="row">
                 <!-- Input Pencarian -->
-                <div class="col-md-6">
+                <div class="col-md-6 mb-3">
                     <input type="text" id="searchBar" class="form-control" placeholder="Cari objek wisata ..."
                         value="<?= htmlspecialchars($search ?? '') ?>" onkeyup="filterCards()">
                 </div>
 
                 <!-- Urutan -->
-                <div class="col-md-2">
+                <div class="col-md-2 mb-3">
                     <select id="sortOrder" class="form-select">
                         <option value="newest" <?= ($sortOrder ?? '') === 'newest' ? 'selected' : '' ?>>Terbaru</option>
                         <option value="oldest" <?= ($sortOrder ?? '') === 'oldest' ? 'selected' : '' ?>>Terlama</option>
@@ -226,12 +226,12 @@ if ($pointerQuery->num_rows > 0) {
                 </div>
 
                 <!-- Tombol Terapkan -->
-                <div class="col-md-2">
+                <div class="col-md-2 mb-3">
                     <button class="btn btn-success w-100" onclick="applyFilters()"><i class="bi bi-filter"></i> Terapkan</button>
                 </div>
 
                 <!-- Tombol Reset -->
-                <div class="col-md-2">
+                <div class="col-md-2 mb-3">
                     <button class="btn btn-secondary w-100" onclick="resetFilters()">
                         <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
                     </button>

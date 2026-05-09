@@ -197,7 +197,7 @@ if ($pointerQuery->num_rows > 0) {
 
                     <!-- Tombol Terapkan -->
                     <div class="col-md-2 mb-3">
-                        <button class="btn btn-success w-100" onclick="applyFilters()">Terapkan</button>
+                        <button class="btn btn-success w-100" onclick="applyFilters()"><i class="bi bi-filter"></i> Terapkan</button>
                     </div>
 
                     <!-- Tombol Reset -->
@@ -210,12 +210,26 @@ if ($pointerQuery->num_rows > 0) {
             </div>
 
             <div class="container-fluid mt-3">
-                <div class="row row-cols-1 row-cols-md-3 g-4 p-3 bg-success">
+
+                <!-- Section Title -->
+                <div class="p-3">
+
+                    <h3 class="fw-bold text-success mb-2 d-flex align-items-center gap-2"
+                        style="font-family: 'Poppins', sans-serif;">
+
+                        <i class="bi bi-geo-fill"></i>
+
+                        <span>Destinasi Wisata</span>
+                    </h3>
+
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4 p-3 bg-light">
 
                     <!-- Card Tambah Objek Wisata -->
                     <div class="col">
                         <a href="admin/add_wisata.php" class="text-decoration-none text-dark">
-                            <div class="card h-100 shadow-sm border-0 text-center" style="cursor: pointer;">
+                            <div class="card h-100 shadow-sm border border-dark text-center" style="cursor: pointer;">
                                 <div class="card-body d-flex flex-column justify-content-center align-items-center" style="height: 250px;">
                                     <i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
                                     <p class="mt-2 text-muted fw-semibold">Tambah Objek Wisata</p>

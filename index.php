@@ -210,13 +210,13 @@ if ($pointerQuery->num_rows > 0) {
         <form class="container mt-3" onsubmit="event.preventDefault(); applyFilters();">
             <div class="row">
                 <!-- Input Pencarian -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6">
                     <input type="text" id="searchBar" class="form-control" placeholder="Cari objek wisata ..."
                         value="<?= htmlspecialchars($search ?? '') ?>" onkeyup="filterCards()">
                 </div>
 
                 <!-- Urutan -->
-                <div class="col-md-2 mb-3">
+                <div class="col-md-2">
                     <select id="sortOrder" class="form-select">
                         <option value="newest" <?= ($sortOrder ?? '') === 'newest' ? 'selected' : '' ?>>Terbaru</option>
                         <option value="oldest" <?= ($sortOrder ?? '') === 'oldest' ? 'selected' : '' ?>>Terlama</option>
@@ -226,12 +226,12 @@ if ($pointerQuery->num_rows > 0) {
                 </div>
 
                 <!-- Tombol Terapkan -->
-                <div class="col-md-2 mb-3">
-                    <button class="btn btn-success w-100" onclick="applyFilters()">Terapkan</button>
+                <div class="col-md-2">
+                    <button class="btn btn-success w-100" onclick="applyFilters()"><i class="bi bi-filter"></i> Terapkan</button>
                 </div>
 
                 <!-- Tombol Reset -->
-                <div class="col-md-2 mb-3">
+                <div class="col-md-2">
                     <button class="btn btn-secondary w-100" onclick="resetFilters()">
                         <i class="bi bi-arrow-counterclockwise"></i> Reset Filter
                     </button>
@@ -239,20 +239,28 @@ if ($pointerQuery->num_rows > 0) {
             </div>
         </form>
 
-        <!-- Card Tambah Objek Wisata Namun Untuk User Di Hide -->
-        <div class="col mt-0 p-2" hidden>
-            <a href="admin/add_wisata.php">
-                <div class="card h-100 shadow-sm border-0 text-center d-flex align-items-center justify-content-center;">
-                    <div class="card-body" style="margin-top: 13rem; margin-bottom: 10rem;">
-                        <i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
-                        <p class="mt-2 text-muted">Tambah Data Objek Wisata</p>
-                    </div>
-                </div>
-            </a>
-        </div>
+
 
         <!-- Cards Section -->
-        <div class="container-fluid bg-success mt-3" style="min-height: 100vh;">
+        <div class="container-fluid bg-light mt-3" style="min-height: 100vh;">
+            <!-- Section Title -->
+            <div class="p-3">
+
+                <h3 class="fw-bold text-success mb-2 d-flex align-items-center gap-2"
+                    style="font-family: 'Poppins', sans-serif;">
+
+                    <i class="bi bi-geo-fill"></i>
+
+                    <span>Destinasi Wisata</span>
+                </h3>
+
+                <p class="text-muted fs-6 mb-0"
+                    style="font-family: 'Poppins', sans-serif;">
+                    Temukan tempat wisata menarik dan terbaik di Tasikmalaya
+                </p>
+
+            </div>
+
             <div class="row row-cols-1 row-cols-md-3 g-4 p-3">
                 <?php while ($row = $wisata->fetch_assoc()) { ?>
                     <div class="col">
@@ -297,7 +305,7 @@ if ($pointerQuery->num_rows > 0) {
                                 $encoded_id = base64_encode($id);
                                 ?>
 
-                                <a href="informasi_wisata.php?wisata_id=<?= urlencode($encoded_id) ?>" class="btn text-white bg-success">Lihat Wisata</a>
+                                <a href="informasi_wisata.php?wisata_id=<?= urlencode($encoded_id) ?>" class="btn text-white bg-success">Lihat Wisata <i class="bi bi-chevron-right"></i></a>
 
                             </div>
 

@@ -2,3 +2,5 @@
 /img/thumbnail/
 /img/panorama360/
 /uploads
+config.php
+db.php
